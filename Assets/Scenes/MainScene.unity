@@ -1152,6 +1152,7 @@ MonoBehaviour:
   OtherPlayerPrefab: {fileID: 4664053812698889927, guid: c776bbd146ab00748b44e89f4c2bcd8f, type: 3}
   ItemSpawnerPrefab: {fileID: 394259377705562903, guid: de891978e842ad04d9d97f63e56db6b7, type: 3}
   ProjectilePrefab: {fileID: 7624398102363614902, guid: f9b8ed65c077d3246af7711d7ba2eaeb, type: 3}
+  WeaponFactory: {fileID: 5544789969151950111, guid: dcdfd34a81085f04480debcb8d965a43, type: 3}
 --- !u!4 &795680961
 Transform:
   m_ObjectHideFlags: 0
@@ -1924,11 +1925,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1955357792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5ac755cc58dc734db42180f9a9faa3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d9b5881b982518419c290ff39805007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Ip: 127.0.0.1
-  Port: 26950
+  Port: 26952
   MyId: 0
 --- !u!4 &1955357794
 Transform:
@@ -1953,7 +1954,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1955357792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abee1c2690a12a24ca54690a198abafd, type: 3}
+  m_Script: {fileID: 11500000, guid: d6bc2f6459b525c4cac69f9544cb1f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2065882209

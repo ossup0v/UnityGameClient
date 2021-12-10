@@ -5,6 +5,7 @@ public class NetworkClientHandler : MonoBehaviour
 {
     public static void Welcome(Packet packet)
     {
+        Debug.Log("Welcome received");
         var message = packet.ReadString();
         var myId = packet.ReadInt();
 
@@ -17,12 +18,15 @@ public class NetworkClientHandler : MonoBehaviour
 
     public static void SpawnPlayer(Packet packet)
     {
+        Debug.Log("Spawn player called");
+
         var id = packet.ReadInt();
         var username = packet.ReadString();
         var position = packet.ReadVector3();
         var rotation = packet.ReadQuaternion();
+        var currentWeaponKind = packet.ReadInt();
 
-        GameManager.Instance.SpawnPlayer(id, username, position, rotation);
+        GameManager.Instance.SpawnPlayer(id, username, (WeaponKind)currentWeaponKind, position, rotation);
     }
 
     public static void PlayerPosition(Packet packet)
@@ -113,5 +117,13 @@ public class NetworkClientHandler : MonoBehaviour
         var position = packet.ReadVector3();
 
         GameManager.Proectiles[projectieId].Explode(position);
+    }
+
+    public static void PlayerChooseWeapon(Packet packet)
+    {
+        var playerId = packet.ReadInt();
+        var weaponKind = packet.ReadInt();
+
+        GameManager.Players[playerId].ChooseWeapon((WeaponKind) weaponKind);
     }
 }

@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae710bbf59b2951429fdb6beac612809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 7526076641454864923}
+  Player: {fileID: 7518830107741771826}
   Sensitivity: 100
   ClampAngle: 65
   VerticalRotation: 0
@@ -206,8 +206,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7664235132307041852}
-  - component: {fileID: 7526076641454864923}
-  - component: {fileID: 1829453620808584717}
+  - component: {fileID: 7518830107741771826}
+  - component: {fileID: 783367698813862737}
   m_Layer: 0
   m_Name: LocalPlayer
   m_TagString: Untagged
@@ -232,7 +232,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7526076641454864923
+--- !u!114 &7518830107741771826
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4664053812698889927}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dd0f9dc050cc624a9a156ae3a7a1bb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 009576e34eb98a04ba1f3f8460de4ec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Id: 0
@@ -251,7 +251,8 @@ MonoBehaviour:
   model: {fileID: 8725546136457947171}
   HealthbarPrefab: {fileID: 3051731407102039577, guid: 4e85b6c00eb36a145a5081d63b5c124b, type: 3}
   Healthbar: {fileID: 3051731407102039578, guid: 4e85b6c00eb36a145a5081d63b5c124b, type: 3}
---- !u!114 &1829453620808584717
+  ItemAmount: 0
+--- !u!114 &783367698813862737
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,7 +261,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4664053812698889927}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8bfb37cbcc55b34daf5065c3f6bb552, type: 3}
+  m_Script: {fileID: 11500000, guid: e038341e889b62f48b04ca23ac46917b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   camTransform: {fileID: 8120247783220985897}

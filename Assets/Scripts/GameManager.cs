@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject OtherPlayerPrefab;
     public GameObject ItemSpawnerPrefab;
     public GameObject ProjectilePrefab;
+    public WeaponFactory WeaponFactory;
 
     private void Awake()
     {
@@ -27,14 +29,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SpawnPlayer(int id, string username, Vector3 position, Quaternion rotation)
+    public void SpawnPlayer(int id, string username, WeaponKind currentWeapon, Vector3 position, Quaternion rotation)
     {
+        Debug.Log("SpawnPlayer called");
+
         var player = NetworkClient.Instance.MyId == id ?
             Instantiate(LocalPlayerPrefab, position, rotation) :
             Instantiate(OtherPlayerPrefab, position, rotation);
 
+        Debug.Log("SpawnPlayer called player manager not created");
+
         var playerManager = player.GetComponent<PlayerManager>();
-        playerManager.Initialize(id, username);
+        
+        Debug.Log("SpawnPlayer called player manager created");
+        
+        playerManager.Initialize(id, username, currentWeapon, WeaponFactory.AvailableWeapons.Select(x => x.GetComponent<WeaponBase>()).ToList());
+
+        Debug.Log("SpawnPlayer called playermanager intialized");
 
         Players.Add(id, playerManager);
     }

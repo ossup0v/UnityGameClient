@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour
         {
             NetworkClientSend.PlayerThrowItem(camTransform.forward);
         }
+
+        if (Input.mouseScrollDelta == Vector2.down || Input.mouseScrollDelta == Vector2.up)
+        {
+            Debug.Log($"Mouse! {Input.mouseScrollDelta}");
+            NetworkClientSend.PlayerChangeWeapon((int)Input.mouseScrollDelta.x);
+        }
     }
     private void FixedUpdate()
     {

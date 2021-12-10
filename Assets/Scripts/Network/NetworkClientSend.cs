@@ -29,6 +29,16 @@ public class NetworkClientSend
         }
     }
 
+    internal static void PlayerChangeWeapon(int leftOrRight)
+    {
+        using (var packet = new Packet((int)ClientPackets.playerChangeWeapon))
+        {
+            packet.Write(leftOrRight);
+
+            SendTCPData(packet);
+        }
+    }
+
     public static void PlayerMovement(bool[] input)
     {
         using (var packet = new Packet((int)ClientPackets.playerMovement))
