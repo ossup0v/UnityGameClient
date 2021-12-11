@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -19,7 +18,8 @@ public enum ServerPackets
     spawnProjectile,
     projectilePosition,
     projectileExploded,
-    playerChooseWeapon
+    playerChooseWeapon,
+    playerShooting
 }
 
 /// <summary>Sent from client to server.</summary>

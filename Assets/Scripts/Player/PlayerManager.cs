@@ -1,14 +1,14 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public WeaponBase CurrentWeapon { get; private set; }
-    private List<WeaponBase> AvailavleWeapons;
-
-
+    public Action<float> OnHealthChange = delegate { };
+    
+    private WeaponsController weaponsController;
+    public Transform WeaponPosition;
+    
     public int Id;
     public string Username;
     public float CurrentHealth;
@@ -18,28 +18,26 @@ public class PlayerManager : MonoBehaviour
     public HealthbarScript Healthbar;
     public int ItemAmount = 0;
 
-    public void Initialize(int id, string username, WeaponKind currentWeapon, List<WeaponBase> availableWeapons)
+    public void Initialize(int id, string username, WeaponKind currentWeapon, Dictionary<WeaponKind, WeaponBase> availableWeapons)
     {
         Id = id;
         Username = username;
         CurrentHealth = MaxHealth;
         Healthbar.SetMaxHealth(MaxHealth);
-        AvailavleWeapons = availableWeapons;
+        weaponsController = new WeaponsController(availableWeapons, currentWeapon);
+
         ChooseWeapon(currentWeapon);
     }
 
     public void ChooseWeapon(WeaponKind kind)
     {
-        CurrentWeapon?.BulletPrefab?.SetActive(false);
-        CurrentWeapon?.WeaponPrefab?.SetActive(false);
-        CurrentWeapon = AvailavleWeapons.First(x => x.Kind == kind);
-        CurrentWeapon.BulletPrefab.SetActive(true);
-        CurrentWeapon.WeaponPrefab.SetActive(true);
+        weaponsController.ChangeSelectedWeapon(kind, WeaponPosition);
     }
 
     public void SetHealth(float health)
     {
         CurrentHealth = health;
+        OnHealthChange(health);
         Healthbar.SetHealth(CurrentHealth);
 
         if (CurrentHealth <= 0)
@@ -59,5 +57,10 @@ public class PlayerManager : MonoBehaviour
         model.enabled = true;
         HealthbarPrefab.SetActive(true);
         SetHealth(MaxHealth);
+    }
+
+    public void Shoot()
+    {
+        weaponsController.GetSelectedWeapon().Shoot();
     }
 }

@@ -293,6 +293,7 @@ public class NetworkClient : MonoBehaviour
             [(int)ServerPackets.projectilePosition] = NetworkClientHandler.ProjectilePosition,
             [(int)ServerPackets.projectileExploded] = NetworkClientHandler.ProjectileExploded,
             [(int)ServerPackets.playerChooseWeapon] = NetworkClientHandler.PlayerChooseWeapon,
+            [(int)ServerPackets.playerShooting] = NetworkClientHandler.PlayerShoot,
         };
         Debug.Log($"{nameof(InitializeClientData)} was called");
     }

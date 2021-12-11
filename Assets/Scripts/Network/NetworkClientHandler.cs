@@ -126,4 +126,11 @@ public class NetworkClientHandler : MonoBehaviour
 
         GameManager.Players[playerId].ChooseWeapon((WeaponKind) weaponKind);
     }
+
+    public static void PlayerShoot(Packet packet)
+    {
+        var playerId = packet.ReadInt();
+
+        GameManager.GetPlayer(playerId).Shoot();
+    }
 }

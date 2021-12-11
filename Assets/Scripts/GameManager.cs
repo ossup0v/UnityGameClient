@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public static Dictionary<int, ItemSpawner> ItemSpawners = new Dictionary<int, ItemSpawner>();
     public static Dictionary<int, ProjectileManager> Proectiles = new Dictionary<int, ProjectileManager>();
 
+    public PlayerManager CurrentPlayer => Players[NetworkClient.Instance.MyId];
+
     public GameObject LocalPlayerPrefab;
     public GameObject OtherPlayerPrefab;
     public GameObject ItemSpawnerPrefab;
@@ -29,6 +31,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static PlayerManager GetPlayer(int playerId)
+    {
+        return Players[playerId];
+    }
+
     public void SpawnPlayer(int id, string username, WeaponKind currentWeapon, Vector3 position, Quaternion rotation)
     {
         Debug.Log("SpawnPlayer called");
@@ -43,7 +50,8 @@ public class GameManager : MonoBehaviour
         
         Debug.Log("SpawnPlayer called player manager created");
         
-        playerManager.Initialize(id, username, currentWeapon, WeaponFactory.AvailableWeapons.Select(x => x.GetComponent<WeaponBase>()).ToList());
+        playerManager.Initialize(id, username, currentWeapon, 
+            WeaponFactory.AvailableWeapons.ToDictionary(x => x.GetComponent<WeaponBase>().Kind, x => x.GetComponent<WeaponBase>()));
 
         Debug.Log("SpawnPlayer called playermanager intialized");
 

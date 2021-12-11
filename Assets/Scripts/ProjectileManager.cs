@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileManager : MonoBehaviour
@@ -15,7 +13,9 @@ public class ProjectileManager : MonoBehaviour
     public void Explode(Vector3 position)
     {
         transform.position = position;
-        Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+        var explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+        Destroy(explosion, 1f);
+
         GameManager.Proectiles.Remove(Id);
         Destroy(gameObject);
     }

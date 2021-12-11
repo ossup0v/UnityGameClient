@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8270926834080363724
+--- !u!1 &2142785352452134160
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,41 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5778132280558557162}
-  - component: {fileID: 5544789969151950111}
+  - component: {fileID: 3400359649631819549}
+  - component: {fileID: 1782223955816252524}
   m_Layer: 0
-  m_Name: WeaponFactory
+  m_Name: RocketLauncherWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5778132280558557162
+--- !u!4 &3400359649631819549
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8270926834080363724}
+  m_GameObject: {fileID: 2142785352452134160}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9383259, y: 6.9226074, z: -3.9074879}
+  m_LocalPosition: {x: -1.6805887, y: 2.9260542, z: -0.36763668}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5544789969151950111
+--- !u!114 &1782223955816252524
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8270926834080363724}
+  m_GameObject: {fileID: 2142785352452134160}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7588cd8897f696549bf8fed83a000908, type: 3}
+  m_Script: {fileID: 11500000, guid: 3963ea698270aab4d88cc3d53c2096e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultWeapon: {fileID: 2689655412428772729, guid: c2f5da8cdff268d4d8d0d58f281a5844, type: 3}
-  AvailableWeapons:
-  - {fileID: 2689655412428772729, guid: c2f5da8cdff268d4d8d0d58f281a5844, type: 3}
+  WeaponPrefab: {fileID: 7453164453196052582, guid: 1981faa1116ccf74abe57da68b3a4a2a, type: 3}
+  BulletPrefab: {fileID: 2326563818809484716, guid: ac8637083a4e9fc4886e8bc20fa0714a, type: 3}
