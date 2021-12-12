@@ -30,6 +30,5 @@ public abstract class WeaponBase : MonoBehaviour
     {
         if (InstantiatedWeapon != null && InstantiatedWeapon.activeSelf == true)
             InstantiatedWeapon.SetActive(false);
-    
     }
 }

@@ -24,9 +24,9 @@ internal class LocalPlayerManager : PlayerManager
         foreach (var item in RatingManager.Rating.Values)
         {
             if (item.Id == NetworkClient.Instance.MyId)
-                text.Append($"<color=red>{item.Id}:Username:{item.Username}:K:{item.Killed}:D:{item.Died}</color>");
+                text.Append($"<color=red>{item.Id}:{item.Username}:K:{item.Killed}:D:{item.Died}</color>");
             else
-                text.Append($"{item.Id}:Username:{item.Username}:K:{item.Killed}:D:{item.Died}");
+                text.Append($"{item.Id}:{item.Username}:K:{item.Killed}:D:{item.Died}");
 
             text.AppendLine();
         }

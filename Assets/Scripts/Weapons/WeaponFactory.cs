@@ -41,4 +41,17 @@ public class WeaponFactory : MonoBehaviour
 
         return DefaultWeapon;
     }
+
+    public Dictionary<WeaponKind, WeaponBase> GetWeapons(Transform tranform)
+    { 
+        var weapons = new Dictionary<WeaponKind, WeaponBase>();
+
+        foreach (var weaponObj in AvailableWeapons)
+        {
+            var weapon = weaponObj.GetComponent<WeaponBase>();
+            weapons.Add(weapon.Kind, weapon);
+        }
+
+        return weapons;
+    }
 }

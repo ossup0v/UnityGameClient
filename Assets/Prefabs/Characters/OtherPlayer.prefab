@@ -143,6 +143,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponPosition: {fileID: 91428909693685273}
+  Weapons:
+  - {fileID: 2689655412428772729, guid: c2f5da8cdff268d4d8d0d58f281a5844, type: 3}
+  - {fileID: 2142785352452134160, guid: 56c1dbd29bbb8ad41bdf124b94c67663, type: 3}
   Id: 0
   Username: 
   CurrentHealth: 100

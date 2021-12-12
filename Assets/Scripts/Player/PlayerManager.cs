@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -10,7 +11,8 @@ public class PlayerManager : MonoBehaviour
 
     private WeaponsController weaponsController;
     public Transform WeaponPosition;
-    
+    public List<GameObject> Weapons;
+
     public int Id;
     public string Username;
     public float CurrentHealth;
@@ -18,12 +20,12 @@ public class PlayerManager : MonoBehaviour
     public MeshRenderer model;
     public int ItemAmount = 0;
 
-    public virtual void Initialize(int id, string username, WeaponKind currentWeapon, Dictionary<WeaponKind, WeaponBase> availableWeapons)
+    public virtual void Initialize(int id, string username, WeaponKind currentWeapon)
     {
         Id = id;
         Username = username;
         CurrentHealth = MaxHealth;
-        weaponsController = new WeaponsController(availableWeapons, currentWeapon);
+        weaponsController = new WeaponsController(Weapons.ToDictionary(x => x.GetComponent<WeaponBase>().Kind, x => x.GetComponent<WeaponBase>()), currentWeapon);
 
         ChooseWeapon(currentWeapon);
     }
