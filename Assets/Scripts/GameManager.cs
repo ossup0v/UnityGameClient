@@ -49,8 +49,8 @@ public class GameManager : MonoBehaviour
         var playerManager = player.GetComponent<PlayerManager>();
         
         Debug.Log("SpawnPlayer called player manager created");
-        
-        playerManager.Initialize(id, username, currentWeapon, 
+
+        playerManager.Initialize(id, username, currentWeapon,
             WeaponFactory.AvailableWeapons.ToDictionary(x => x.GetComponent<WeaponBase>().Kind, x => x.GetComponent<WeaponBase>()));
 
         Debug.Log("SpawnPlayer called playermanager intialized");

@@ -105,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7664235132307041852}
-  - component: {fileID: 3473480375988804618}
+  - component: {fileID: 6214590877369200991}
   m_Layer: 0
   m_Name: OtherPlayer
   m_TagString: Untagged
@@ -130,7 +130,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3473480375988804618
+--- !u!114 &6214590877369200991
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,18 +139,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4664053812698889927}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 009576e34eb98a04ba1f3f8460de4ec9, type: 3}
+  m_Script: {fileID: 11500000, guid: 71e38d885b3e11c48aa70add2a57a907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponPosition: {fileID: 91428909693685273}
   Id: 0
   Username: 
-  CurrentHealth: 0
+  CurrentHealth: 100
   MaxHealth: 100
   model: {fileID: 8725546136457947171}
+  ItemAmount: 0
   HealthbarPrefab: {fileID: 6976212469573840303}
   Healthbar: {fileID: 6976212469573840300}
-  ItemAmount: 0
 --- !u!1 &6498572062109169666
 GameObject:
   m_ObjectHideFlags: 0

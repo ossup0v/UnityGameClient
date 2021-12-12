@@ -15,6 +15,7 @@ public abstract class WeaponBase : MonoBehaviour
     public abstract WeaponKind Kind { get; }
 
     public abstract void Shoot();
+    public abstract void Hit(Vector3 at);
 
     public void MakeActive(Transform parent)
     {

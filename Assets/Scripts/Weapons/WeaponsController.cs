@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WeaponsController
 {
-    private Dictionary<WeaponKind ,WeaponBase> availableWeapons = new Dictionary<WeaponKind, WeaponBase>();
+    private Dictionary<WeaponKind, WeaponBase> availableWeapons = new Dictionary<WeaponKind, WeaponBase>();
     private WeaponKind selectedWeaponKind;
 
     public WeaponsController(Dictionary<WeaponKind, WeaponBase> availableWeapons, WeaponKind selectedWeapon)

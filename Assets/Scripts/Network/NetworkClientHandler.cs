@@ -133,4 +133,47 @@ public class NetworkClientHandler : MonoBehaviour
 
         GameManager.GetPlayer(playerId).Shoot();
     }
+
+    public static void PlayerHit(Packet packet)
+    {
+        var playerId = packet.ReadInt();
+        var weaponKind = (WeaponKind)packet.ReadInt();
+        var position = packet.ReadVector3();
+
+        GameManager.GetPlayer(playerId).Hit(weaponKind, position);
+    }
+
+    public static void RatingTableInit(Packet packet)
+    {
+        var entities = new RatingEntity[packet.ReadInt()];
+
+        for (int i = 0; i < entities.Length; i++)
+        {
+            entities[i] = new RatingEntity();
+            entities[i].Id = packet.ReadInt();
+            entities[i].Username = packet.ReadString();
+            entities[i].Killed = packet.ReadInt();
+            entities[i].Died = packet.ReadInt();
+        }
+
+        RatingManager.Init(entities);
+    }
+
+    public static void RatingTableUpdate(Packet packet)
+    {
+        var killerId = packet.ReadInt();
+        var diedId = packet.ReadInt();
+
+        RatingManager.Update(killerId, diedId);
+    }
+
+    public static void RatingTableNewPlayer(Packet packet)
+    {
+        var entity = new RatingEntity();
+
+        entity.Id = packet.ReadInt();
+        entity.Username = packet.ReadString();
+
+        RatingManager.Update(entity);
+    }
 }

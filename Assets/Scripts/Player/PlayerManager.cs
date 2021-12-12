@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public Action<float> OnHealthChange = delegate { };
-    
+    public Action OnDie = delegate { };
+    public Action OnRespawn = delegate { };
+
     private WeaponsController weaponsController;
     public Transform WeaponPosition;
     
@@ -14,16 +16,13 @@ public class PlayerManager : MonoBehaviour
     public float CurrentHealth;
     public float MaxHealth;
     public MeshRenderer model;
-    public GameObject HealthbarPrefab;
-    public HealthbarScript Healthbar;
     public int ItemAmount = 0;
 
-    public void Initialize(int id, string username, WeaponKind currentWeapon, Dictionary<WeaponKind, WeaponBase> availableWeapons)
+    public virtual void Initialize(int id, string username, WeaponKind currentWeapon, Dictionary<WeaponKind, WeaponBase> availableWeapons)
     {
         Id = id;
         Username = username;
         CurrentHealth = MaxHealth;
-        Healthbar.SetMaxHealth(MaxHealth);
         weaponsController = new WeaponsController(availableWeapons, currentWeapon);
 
         ChooseWeapon(currentWeapon);
@@ -38,7 +37,6 @@ public class PlayerManager : MonoBehaviour
     {
         CurrentHealth = health;
         OnHealthChange(health);
-        Healthbar.SetHealth(CurrentHealth);
 
         if (CurrentHealth <= 0)
         {
@@ -49,18 +47,23 @@ public class PlayerManager : MonoBehaviour
     private void Die()
     {
         model.enabled = false;
-        HealthbarPrefab.SetActive(false);
+        OnDie();
     }
 
     public void Respawn()
     {
         model.enabled = true;
-        HealthbarPrefab.SetActive(true);
+        OnRespawn();
         SetHealth(MaxHealth);
     }
 
     public void Shoot()
     {
         weaponsController.GetSelectedWeapon().Shoot();
+    }
+
+    public void Hit(WeaponKind weapon, Vector3 position)
+    {
+        weaponsController.GetSelectedWeapon().Hit(position);
     }
 }

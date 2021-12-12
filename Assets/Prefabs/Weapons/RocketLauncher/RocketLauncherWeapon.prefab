@@ -45,3 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponPrefab: {fileID: 7453164453196052582, guid: 1981faa1116ccf74abe57da68b3a4a2a, type: 3}
   BulletPrefab: {fileID: 2326563818809484716, guid: ac8637083a4e9fc4886e8bc20fa0714a, type: 3}
+  MuzzleFlash: {fileID: 0}
+  ImpactEffect: {fileID: 1424203395459653870, guid: 8076c78056120ef45a273f3d64507a4b, type: 3}
