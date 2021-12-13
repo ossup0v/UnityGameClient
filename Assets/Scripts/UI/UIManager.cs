@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject StartMenu;
     public InputField UsernameFiled;
+    public InputField Localhost;
+    public InputField RemoteServer;
 
     private void Awake()
     {
@@ -21,12 +23,28 @@ public class UIManager : MonoBehaviour
             Debug.LogError($"{nameof(NetworkClient)} singletone error!");
             Destroy(this);
         }
+
+        Instance.Localhost.text = "127.0.0.1";
+        Instance.RemoteServer.text = "3.66.29.169";
     }
 
     public void ConnectToServer()
     {
         StartMenu.SetActive(false);
+        SetUnActive();
+        NetworkClient.Instance.ConnectToServer(RemoteServer.text);
+    }
+    public void ConnectToLocalServer()
+    {
+        StartMenu.SetActive(false);
+        SetUnActive();
+        NetworkClient.Instance.ConnectToServer(Localhost.text);
+    }
+
+    private void SetUnActive()
+    { 
         UsernameFiled.interactable = false;
-        NetworkClient.Instance.ConnectToServer();
+        Localhost.interactable = false;
+        RemoteServer.interactable = false;
     }
 }

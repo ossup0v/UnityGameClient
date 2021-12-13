@@ -3,6 +3,11 @@ using UnityEngine;
 public class RocketLauncherWeapon : WeaponBase
 {
     public override WeaponKind Kind => WeaponKind.RocketLauncher;
+    public GunfireController controller; 
+
+    private void Awake()
+    {
+    }
 
     public override void Hit(Vector3 at)
     {
@@ -11,6 +16,7 @@ public class RocketLauncherWeapon : WeaponBase
 
     public override void Shoot()
     {
+        controller.FireWeapon();
         Debug.Log("Rocket launcher make DAM BABAM !!!!");
     }
 }

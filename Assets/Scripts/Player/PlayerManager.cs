@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
 
     private WeaponsController weaponsController;
     public Transform WeaponPosition;
-    public List<GameObject> Weapons;
+    public List<GameObject> WeaponPrefabs;
 
     public int Id;
     public string Username;
@@ -25,7 +25,15 @@ public class PlayerManager : MonoBehaviour
         Id = id;
         Username = username;
         CurrentHealth = MaxHealth;
-        weaponsController = new WeaponsController(Weapons.ToDictionary(x => x.GetComponent<WeaponBase>().Kind, x => x.GetComponent<WeaponBase>()), currentWeapon);
+
+        var weapons = WeaponPrefabs.Select(x => Instantiate(x, transform)).ToDictionary(x => x.GetComponent<WeaponBase>().Kind, x => x.GetComponent<WeaponBase>());
+
+        foreach (var weapon in weapons.Values)
+        {
+            weapon.WeaponPrefab.enabled = false;
+        }
+
+        weaponsController = new WeaponsController(weapons, currentWeapon);
 
         ChooseWeapon(currentWeapon);
     }

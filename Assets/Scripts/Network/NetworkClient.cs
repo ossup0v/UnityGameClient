@@ -38,8 +38,9 @@ public class NetworkClient : MonoBehaviour
         Disconnect();
     }
 
-    public void ConnectToServer()
+    public void ConnectToServer(string serverIp)
     {
+        Ip = serverIp;
         Tcp = new TCP();
         Udp = new UDP();
         

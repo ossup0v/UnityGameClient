@@ -33,8 +33,14 @@ public class NetworkClientHandler : MonoBehaviour
     {
         var id = packet.ReadInt();
         var position = packet.ReadVector3();
-
-        GameManager.Players[id].transform.position = position;
+        try
+        {
+            GameManager.Players[id].transform.position = position;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError(ex.Message);
+        }
     }
 
     public static void PlayerRotation(Packet packet)
