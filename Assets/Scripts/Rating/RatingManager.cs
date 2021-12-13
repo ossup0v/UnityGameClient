@@ -21,9 +21,16 @@ public static class RatingManager
         OnRatingChaneged();
     }
 
-    public static void Update(int killer, int died)
+    public static void UpdateKillAndDeath(int killer, int died)
     {
         Rating[killer].Killed++;
+        Rating[died].Died++;
+
+        OnRatingChaneged();
+    }
+
+    public static void UpdateDeath(int died)
+    {
         Rating[died].Died++;
 
         OnRatingChaneged();

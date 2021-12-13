@@ -298,7 +298,8 @@ public class NetworkClient : MonoBehaviour
             [(int)ServerPackets.playerHit] = NetworkClientHandler.PlayerHit,
             [(int)ServerPackets.ratingTableInit] = NetworkClientHandler.RatingTableInit,
             [(int)ServerPackets.ratingTableNewPlayer] = NetworkClientHandler.RatingTableNewPlayer,
-            [(int)ServerPackets.ratingTableUpdate] = NetworkClientHandler.RatingTableUpdate,
+            [(int)ServerPackets.ratingTableUpdateKillAndDeath] = NetworkClientHandler.RatingTableUpdateKillAndDeath,
+            [(int)ServerPackets.ratingTableUpdateDeath] = NetworkClientHandler.RatingTableUpdateDeath,
         };
         Debug.Log($"{nameof(InitializeClientData)} was called");
     }
