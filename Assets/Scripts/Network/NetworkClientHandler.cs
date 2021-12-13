@@ -121,8 +121,14 @@ public class NetworkClientHandler : MonoBehaviour
     {
         var projectieId = packet.ReadInt();
         var position = packet.ReadVector3();
-
-        GameManager.Proectiles[projectieId].Explode(position);
+        try
+        {
+            GameManager.Proectiles[projectieId].Explode(position);
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError(ex.Message);
+        }
     }
 
     public static void PlayerChooseWeapon(Packet packet)
@@ -165,12 +171,19 @@ public class NetworkClientHandler : MonoBehaviour
         RatingManager.Init(entities);
     }
 
-    public static void RatingTableUpdate(Packet packet)
+    public static void RatingTableUpdateKillAndDeath(Packet packet)
     {
         var killerId = packet.ReadInt();
         var diedId = packet.ReadInt();
 
-        RatingManager.Update(killerId, diedId);
+        RatingManager.UpdateKillAndDeath(killerId, diedId);
+    }
+
+    public static void RatingTableUpdateDeath(Packet packet)
+    {
+        var diedId = packet.ReadInt();
+
+        RatingManager.UpdateDeath(diedId);
     }
 
     public static void RatingTableNewPlayer(Packet packet)
