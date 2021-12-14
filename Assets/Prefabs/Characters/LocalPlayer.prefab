@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 6971242927300935494}
   - component: {fileID: 5226987444084806670}
   m_Layer: 0
-  m_Name: ItemCount
+  m_Name: GrenadeCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,7 +532,7 @@ MonoBehaviour:
   model: {fileID: 8725546136457947171}
   HPText: {fileID: 1761579708379991358}
   RatingText: {fileID: 4094985967934689112}
-  ItemCountText: {fileID: 5226987444084806670}
+  GrenadeText: {fileID: 5226987444084806670}
 --- !u!1 &7588000930288926102
 GameObject:
   m_ObjectHideFlags: 0

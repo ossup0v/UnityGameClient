@@ -10,7 +10,7 @@ public class OtherPlayerManager : PlayerManager
     {
         OnDie += OnPlayerDie;
         OnRespawn += OnPlayerRespawn;
-        OnHealthChange += OnHealthChanged;
+        HealthChanged += OnHealthChanged;
 
         Healthbar.SetMaxHealth(MaxHealth);
         base.Initialize(id, username, currentWeapon);
@@ -35,6 +35,6 @@ public class OtherPlayerManager : PlayerManager
     {
         OnDie -= OnPlayerDie;
         OnRespawn -= OnPlayerRespawn;
-        OnHealthChange -= OnHealthChanged;
+        HealthChanged -= OnHealthChanged;
     }
 }
