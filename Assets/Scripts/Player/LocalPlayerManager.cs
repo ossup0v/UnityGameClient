@@ -5,12 +5,11 @@ internal class LocalPlayerManager : PlayerManager
 {
     public Text HPText;
     public Text RatingText;
+    public Text ItemCountText;
 
     private void Awake()
     {
-        OnHealthChange += UpdateHPText;
-
-        RatingManager.OnRatingChaneged += UpdateRatingTable;
+        Subscribe();
     }
 
     private void UpdateHPText(float hp)
@@ -31,5 +30,29 @@ internal class LocalPlayerManager : PlayerManager
             text.AppendLine();
         }
         RatingText.text = text.ToString();
+    }
+
+    private void UpdateItemCountText(int count)
+    {
+        ItemCountText.text = $"G: {count}";
+    }
+
+    private void Subscribe()
+    {
+        OnHealthChange += UpdateHPText;
+        OnItemCountChange += UpdateItemCountText;
+        RatingManager.OnRatingChaneged += UpdateRatingTable;
+    }
+
+    private void Unsubcribe()
+    {
+        OnHealthChange -= UpdateHPText;
+        OnItemCountChange -= UpdateItemCountText;
+        RatingManager.OnRatingChaneged -= UpdateRatingTable;
+    }
+
+    private void OnDestroy()
+    {
+        Unsubcribe();
     }
 }

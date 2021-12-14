@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public Action<float> OnHealthChange = delegate { };
+    public Action<int> OnItemCountChange = delegate { };
     public Action OnDie = delegate { };
     public Action OnRespawn = delegate { };
 
@@ -18,7 +19,22 @@ public class PlayerManager : MonoBehaviour
     public float CurrentHealth;
     public float MaxHealth;
     public MeshRenderer model;
-    public int ItemAmount = 0;
+    private int _itemCount = 0;
+    public int ItemAmount 
+    {   
+        get 
+        {
+            return _itemCount;
+        }
+        set 
+        { 
+            if (value != _itemCount)
+            {
+                OnItemCountChange(value);
+                _itemCount = value;
+            }
+        } 
+    }
 
     public virtual void Initialize(int id, string username, WeaponKind currentWeapon)
     {
