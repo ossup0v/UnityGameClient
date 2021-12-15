@@ -12,12 +12,12 @@ internal class LocalPlayerManager : PlayerManager
         Subscribe();
     }
 
-    private void UpdateHPText(float hp)
+    private void OnHealthChanged(float hp)
     {
         HPText.text = $" HP: {hp}";
     }
 
-    private void UpdateRatingTable()
+    private void OnRatingChanged()
     {
         var text = new StringBuilder();
         foreach (var item in RatingManager.Rating.Values)
@@ -32,23 +32,23 @@ internal class LocalPlayerManager : PlayerManager
         RatingText.text = text.ToString();
     }
 
-    private void UpdateItemCountText(int count)
+    private void OnGrenadeCountChanged(int count)
     {
         ItemCountText.text = $"G: {count}";
     }
 
     private void Subscribe()
     {
-        OnHealthChange += UpdateHPText;
-        OnItemCountChange += UpdateItemCountText;
-        RatingManager.OnRatingChaneged += UpdateRatingTable;
+        HealthChanged += OnHealthChanged;
+        GrenadeCountChanged += OnGrenadeCountChanged;
+        RatingManager.OnRatingChanged += OnRatingChanged;
     }
 
     private void Unsubcribe()
     {
-        OnHealthChange -= UpdateHPText;
-        OnItemCountChange -= UpdateItemCountText;
-        RatingManager.OnRatingChaneged -= UpdateRatingTable;
+        HealthChanged -= OnHealthChanged;
+        GrenadeCountChanged -= OnGrenadeCountChanged;
+        RatingManager.OnRatingChanged -= OnRatingChanged;
     }
 
     private void OnDestroy()

@@ -10,8 +10,6 @@ public class ProjectileManager : MonoBehaviour
         Id = id;
     }
 
-
-
     public void Explode(Vector3 position)
     {
         transform.position = position;
