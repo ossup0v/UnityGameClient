@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour
@@ -26,6 +27,8 @@ public class MapManager : MonoBehaviour
     public void InitializeMap(string rawData)
     { 
         rawData = rawData.Replace('.', ',');
+        var ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+        ci.NumberFormat.NumberDecimalSeparator = ",";
         var objects = rawData.Split(';');
         try
         {
@@ -40,15 +43,15 @@ public class MapManager : MonoBehaviour
 
                     var positionText = obj.Substring(indexOfPosition + 2, indexOfRotation - indexOfPosition - 2).Split('!');
 
-                    var position = new Vector3(float.Parse(positionText[0]), float.Parse(positionText[1]), float.Parse(positionText[2]));
+                    var position = new Vector3(float.Parse(positionText[0], ci), float.Parse(positionText[1], ci), float.Parse(positionText[2], ci));
 
                     var rotationText = obj.Substring(indexOfRotation + 2, indexOfScale - indexOfRotation - 2).Split('!');
 
-                    var rotation = new Quaternion(float.Parse(rotationText[0]), float.Parse(rotationText[1]), float.Parse(rotationText[2]), float.Parse(rotationText[3]));
+                    var rotation = new Quaternion(float.Parse(rotationText[0], ci), float.Parse(rotationText[1], ci), float.Parse(rotationText[2], ci), float.Parse(rotationText[3], ci));
 
                     var scaleText = obj.Substring(indexOfScale + 2, indexOfMatirealId - indexOfScale - 2).Split('!');
 
-                    var scale = new Vector3(float.Parse(scaleText[0]), float.Parse(scaleText[1]), float.Parse(scaleText[2]));
+                    var scale = new Vector3(float.Parse(scaleText[0], ci), float.Parse(scaleText[1], ci), float.Parse(scaleText[2], ci));
 
                     var @object = Instantiate(MapEntityPrefab, position, rotation);
                     @object.transform.localScale = scale;
