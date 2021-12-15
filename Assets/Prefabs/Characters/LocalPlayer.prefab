@@ -283,7 +283,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: ' G: 0/3'
 --- !u!1 &4086442604007186350
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,8 +527,6 @@ MonoBehaviour:
   - {fileID: 4490302565791019165, guid: f26add0b8561051438426890f3bd0f19, type: 3}
   Id: 0
   Username: 
-  CurrentHealth: 100
-  MaxHealth: 100
   model: {fileID: 8725546136457947171}
   HPText: {fileID: 1761579708379991358}
   RatingText: {fileID: 4094985967934689112}
