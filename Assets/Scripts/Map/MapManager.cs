@@ -25,8 +25,7 @@ public class MapManager : MonoBehaviour
 
     public void InitializeMap(string rawData)
     { 
-        List<Transform> transforms = new List<Transform>();
-
+        rawData = rawData.Replace('.', ',');
         var objects = rawData.Split(';');
         try
         {
