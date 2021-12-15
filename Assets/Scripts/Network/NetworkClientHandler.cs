@@ -95,7 +95,6 @@ public class NetworkClientHandler : MonoBehaviour
         var spawnerId = packet.ReadInt();
         var playerId = packet.ReadInt();
 
-        GameManager.Players[playerId].GrenadeCount++;
         GameManager.ItemSpawners[spawnerId].ItemPickup();
     }
 
@@ -106,7 +105,6 @@ public class NetworkClientHandler : MonoBehaviour
         var playerThrowedId = packet.ReadInt();
 
         GameManager.Instance.SpawnProjectile(projectileId, position);
-        GameManager.Players[playerThrowedId].GrenadeCount--;
     }
 
     public static void ProjectilePosition(Packet packet)

@@ -5,42 +5,45 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public Action<float> HealthChanged = delegate { };
     public Action<int> GrenadeCountChanged = delegate { };
-    public Action OnDie = delegate { };
-    public Action OnRespawn = delegate { };
+    public Action PlayerDie = delegate { };
+    public Action PlayerRespawn = delegate { };
 
+    //Weapons
     private WeaponsController weaponsController;
     public Transform WeaponPosition;
     public List<GameObject> WeaponPrefabs;
-
-    public int Id;
-    public string Username;
-    public float CurrentHealth;
-    public float MaxHealth;
-    public MeshRenderer model;
     private int _grenadeCount = 0;
-    public int GrenadeCount 
-    {   
-        get 
+    public int GrenadeCount
+    {
+        get
         {
             return _grenadeCount;
         }
-        set 
-        { 
+        set
+        {
             if (value != _grenadeCount)
             {
-                GrenadeCountChanged(value);
                 _grenadeCount = value;
+                GrenadeCountChanged(value);
             }
-        } 
+        }
     }
+
+    //Network
+    public int Id;
+    public string Username;
+
+    //health
+    protected HealthManager healthManager = new HealthManager();
+    
+    //model
+    public MeshRenderer model;
 
     public virtual void Initialize(int id, string username, WeaponKind currentWeapon)
     {
         Id = id;
         Username = username;
-        CurrentHealth = MaxHealth;
 
         var weapons = WeaponPrefabs.Select(x => Instantiate(x, transform)).ToDictionary(x => x.GetComponent<WeaponBase>().Kind, x => x.GetComponent<WeaponBase>());
 
@@ -61,10 +64,9 @@ public class PlayerManager : MonoBehaviour
 
     public void SetHealth(float health)
     {
-        CurrentHealth = health;
-        HealthChanged(health);
+        healthManager.SetPureHealth(health);
 
-        if (CurrentHealth <= 0)
+        if (healthManager.IsLessOrEqualZero)
         {
             Die();
         }
@@ -73,16 +75,17 @@ public class PlayerManager : MonoBehaviour
     private void Die()
     {
         model.enabled = false;
+        SetHealth(healthManager.MinPlayerHealth);
         weaponsController.GetSelectedWeapon().Disable();
-        OnDie();
+        PlayerDie();
     }
 
     public void Respawn()
     {
         model.enabled = true;
         weaponsController.GetSelectedWeapon().MakeActive(WeaponPosition);
-        OnRespawn();
-        SetHealth(MaxHealth);
+        PlayerRespawn();
+        SetHealth(healthManager.MaxPlayerHealth);
     }
 
     public void Shoot()

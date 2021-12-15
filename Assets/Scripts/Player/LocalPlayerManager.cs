@@ -34,21 +34,21 @@ internal class LocalPlayerManager : PlayerManager
 
     private void OnGrenadeCountChanged(int count)
     {
-        ItemCountText.text = $"G: {count}";
+        ItemCountText.text = $" G: {count}/3";
     }
 
     private void Subscribe()
     {
-        HealthChanged += OnHealthChanged;
+        healthManager.HealthChanged += OnHealthChanged;
         GrenadeCountChanged += OnGrenadeCountChanged;
-        RatingManager.OnRatingChanged += OnRatingChanged;
+        RatingManager.RatingChanged += OnRatingChanged;
     }
 
     private void Unsubcribe()
     {
-        HealthChanged -= OnHealthChanged;
+        healthManager.HealthChanged -= OnHealthChanged;
         GrenadeCountChanged -= OnGrenadeCountChanged;
-        RatingManager.OnRatingChanged -= OnRatingChanged;
+        RatingManager.RatingChanged -= OnRatingChanged;
     }
 
     private void OnDestroy()

@@ -4,21 +4,21 @@ using System.Linq;
 
 public static class RatingManager
 {
-    public static Action OnRatingChanged = delegate { };
+    public static Action RatingChanged = delegate { };
     public static Dictionary<int, RatingEntity> Rating = new Dictionary<int, RatingEntity>();
 
     public static void Init(RatingEntity[] ratingEntities)
     {
         Rating = ratingEntities.ToDictionary(x => x.Id, x => x);
      
-        OnRatingChanged();
+        RatingChanged();
     }
 
     public static void Update(RatingEntity entity)
     {
         Rating[entity.Id] = entity;
 
-        OnRatingChanged();
+        RatingChanged();
     }
 
     public static void UpdateKillAndDeath(int killer, int died)
@@ -26,13 +26,13 @@ public static class RatingManager
         Rating[killer].Killed++;
         Rating[died].Died++;
 
-        OnRatingChanged();
+        RatingChanged();
     }
 
     public static void UpdateDeath(int died)
     {
         Rating[died].Died++;
 
-        OnRatingChanged();
+        RatingChanged();
     }
 }

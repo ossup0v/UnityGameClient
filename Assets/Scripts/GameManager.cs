@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static Dictionary<int, PlayerManager> Players = new Dictionary<int, PlayerManager>();
     public static Dictionary<int, ItemSpawner> ItemSpawners = new Dictionary<int, ItemSpawner>();
     public static Dictionary<int, ProjectileManager> Proectiles = new Dictionary<int, ProjectileManager>();
-
+    
     public PlayerManager CurrentPlayer => Players[NetworkClient.Instance.MyId];
 
     public GameObject LocalPlayerPrefab;
@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("SpawnPlayer called player manager created");
 
         playerManager.Initialize(id, username, currentWeapon);
-        //WeaponFactory.AvailableWeapons.ToDictionary(x => x.GetComponent<WeaponBase>().Kind, x => x.GetComponent<WeaponBase>()));
 
         Debug.Log("SpawnPlayer called playermanager intialized");
 
