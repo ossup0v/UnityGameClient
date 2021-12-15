@@ -40,6 +40,9 @@ public class PlayerManager : MonoBehaviour
     //model
     public MeshRenderer model;
 
+    //player bools
+    private bool _isAlive = true;
+
     public virtual void Initialize(int id, string username, WeaponKind currentWeapon)
     {
         Id = id;
@@ -74,8 +77,12 @@ public class PlayerManager : MonoBehaviour
 
     private void Die()
     {
+        if (_isAlive == false)
+            return;
+
         model.enabled = false;
-        SetHealth(healthManager.MinPlayerHealth);
+        _isAlive = false;
+        healthManager.SetPureHealth(healthManager.MinPlayerHealth);
         weaponsController.GetSelectedWeapon().Disable();
         PlayerDie();
     }
@@ -83,6 +90,7 @@ public class PlayerManager : MonoBehaviour
     public void Respawn()
     {
         model.enabled = true;
+        _isAlive = true;
         weaponsController.GetSelectedWeapon().MakeActive(WeaponPosition);
         PlayerRespawn();
         SetHealth(healthManager.MaxPlayerHealth);
