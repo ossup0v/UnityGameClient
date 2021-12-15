@@ -8,33 +8,33 @@ public class OtherPlayerManager : PlayerManager
 
     public override void Initialize(int id, string username, WeaponKind currentWeapon)
     {
-        OnDie += OnPlayerDie;
-        OnRespawn += OnPlayerRespawn;
-        OnHealthChange += OnHealthChanged;
+        OnDie += PlayerDie;
+        OnRespawn += PlayerRespawn;
+        base.HealthChanged += HealthChanged;
 
         Healthbar.SetMaxHealth(MaxHealth);
         base.Initialize(id, username, currentWeapon);
     }
 
-    private void OnHealthChanged(float hp)
+    private void HealthChanged(float hp)
     { 
         Healthbar.SetHealth(hp);
     }
 
-    private void OnPlayerDie()
+    private void PlayerDie()
     {
         HealthbarPrefab.SetActive(false);
     }
 
-    private void OnPlayerRespawn()
+    private void PlayerRespawn()
     {
         HealthbarPrefab.SetActive(true);
     }
 
     private void OnDestroy()
     {
-        OnDie -= OnPlayerDie;
-        OnRespawn -= OnPlayerRespawn;
-        OnHealthChange -= OnHealthChanged;
+        OnDie -= PlayerDie;
+        OnRespawn -= PlayerRespawn;
+        base.HealthChanged -= HealthChanged;
     }
 }

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public Action<float> OnHealthChange = delegate { };
-    public Action<int> OnItemCountChange = delegate { };
+    public Action<float> HealthChanged = delegate { };
+    public Action<int> GrenadeCountChanged = delegate { };
     public Action OnDie = delegate { };
     public Action OnRespawn = delegate { };
 
@@ -19,19 +19,19 @@ public class PlayerManager : MonoBehaviour
     public float CurrentHealth;
     public float MaxHealth;
     public MeshRenderer model;
-    private int _itemCount = 0;
-    public int ItemAmount 
+    private int _grenadeCount = 0;
+    public int GrenadeCount 
     {   
         get 
         {
-            return _itemCount;
+            return _grenadeCount;
         }
         set 
         { 
-            if (value != _itemCount)
+            if (value != _grenadeCount)
             {
-                OnItemCountChange(value);
-                _itemCount = value;
+                GrenadeCountChanged(value);
+                _grenadeCount = value;
             }
         } 
     }
@@ -62,7 +62,7 @@ public class PlayerManager : MonoBehaviour
     public void SetHealth(float health)
     {
         CurrentHealth = health;
-        OnHealthChange(health);
+        HealthChanged(health);
 
         if (CurrentHealth <= 0)
         {
@@ -73,12 +73,14 @@ public class PlayerManager : MonoBehaviour
     private void Die()
     {
         model.enabled = false;
+        weaponsController.GetSelectedWeapon().Disable();
         OnDie();
     }
 
     public void Respawn()
     {
         model.enabled = true;
+        weaponsController.GetSelectedWeapon().MakeActive(WeaponPosition);
         OnRespawn();
         SetHealth(MaxHealth);
     }

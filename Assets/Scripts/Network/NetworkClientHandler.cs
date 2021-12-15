@@ -95,7 +95,7 @@ public class NetworkClientHandler : MonoBehaviour
         var spawnerId = packet.ReadInt();
         var playerId = packet.ReadInt();
 
-        GameManager.Players[playerId].ItemAmount++;
+        GameManager.Players[playerId].GrenadeCount++;
         GameManager.ItemSpawners[spawnerId].ItemPickup();
     }
 
@@ -106,7 +106,7 @@ public class NetworkClientHandler : MonoBehaviour
         var playerThrowedId = packet.ReadInt();
 
         GameManager.Instance.SpawnProjectile(projectileId, position);
-        GameManager.Players[playerThrowedId].ItemAmount--;
+        GameManager.Players[playerThrowedId].GrenadeCount--;
     }
 
     public static void ProjectilePosition(Packet packet)
@@ -194,5 +194,18 @@ public class NetworkClientHandler : MonoBehaviour
         entity.Username = packet.ReadString();
 
         RatingManager.Update(entity);
+    }
+
+    public static void PlayerGrenadeCount(Packet packet)
+    {
+        var playerId = packet.ReadInt();
+        var grenadeCount = packet.ReadInt();
+
+        GameManager.GetPlayer(playerId).GrenadeCount = grenadeCount;
+    }
+
+    public static void InitMap(Packet packet)
+    {
+        MapManager.Instance.InitializeMap(packet.ReadString());
     }
 }
