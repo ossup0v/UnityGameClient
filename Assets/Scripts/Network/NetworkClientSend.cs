@@ -74,5 +74,13 @@ public class NetworkClientSend
             SendTCPData(packet);
         }
     }
+
+    public static void PlayerRespawn()
+    {
+        using (var packet = new Packet(ClientPackets.playerRespawn))
+        {
+            SendTCPData(packet);
+        }
+    }
     #endregion
 }

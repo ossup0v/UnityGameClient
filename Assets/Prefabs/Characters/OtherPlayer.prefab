@@ -147,10 +147,9 @@ MonoBehaviour:
   WeaponPrefabs:
   - {fileID: 2689655412428772729, guid: c2f5da8cdff268d4d8d0d58f281a5844, type: 3}
   - {fileID: 4490302565791019165, guid: f26add0b8561051438426890f3bd0f19, type: 3}
+  - {fileID: 4243822520434059602, guid: 2a7b99d5c09f3b64a90570b193865576, type: 3}
   Id: 0
   Username: 
-  CurrentHealth: 100
-  MaxHealth: 100
   model: {fileID: 8725546136457947171}
   HealthbarPrefab: {fileID: 6976212469573840303}
   Healthbar: {fileID: 6976212469573840300}
