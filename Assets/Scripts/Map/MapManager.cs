@@ -8,6 +8,13 @@ public class MapManager : MonoBehaviour
     public GameObject MapEntityPrefab;
     public Material material1;
     public Material material2;
+    public Material material3;
+    public Material material4;
+    public Material material5;
+    public Material material6;
+    public Material material7;
+    public Material material8;
+    public Material material9;
 
     public static MapManager Instance;
 
@@ -69,6 +76,27 @@ public class MapManager : MonoBehaviour
                                 @object.GetComponent<MeshRenderer>().material = material1;
                                 break;
                             case 2:
+                                @object.GetComponent<MeshRenderer>().material = material2;
+                                break;
+                            case 3:
+                                @object.GetComponent<MeshRenderer>().material = material2;
+                                break;
+                            case 4:
+                                @object.GetComponent<MeshRenderer>().material = material2;
+                                break;
+                            case 5:
+                                @object.GetComponent<MeshRenderer>().material = material2;
+                                break;
+                            case 6:
+                                @object.GetComponent<MeshRenderer>().material = material2;
+                                break;
+                            case 7:
+                                @object.GetComponent<MeshRenderer>().material = material2;
+                                break;
+                            case 8:
+                                @object.GetComponent<MeshRenderer>().material = material2;
+                                break;
+                            case 9:
                                 @object.GetComponent<MeshRenderer>().material = material2;
                                 break;
                             default:
