@@ -79,25 +79,25 @@ public class MapManager : MonoBehaviour
                                 @object.GetComponent<MeshRenderer>().material = material2;
                                 break;
                             case 3:
-                                @object.GetComponent<MeshRenderer>().material = material2;
+                                @object.GetComponent<MeshRenderer>().material = material3;
                                 break;
                             case 4:
-                                @object.GetComponent<MeshRenderer>().material = material2;
+                                @object.GetComponent<MeshRenderer>().material = material4;
                                 break;
                             case 5:
-                                @object.GetComponent<MeshRenderer>().material = material2;
+                                @object.GetComponent<MeshRenderer>().material = material5;
                                 break;
                             case 6:
-                                @object.GetComponent<MeshRenderer>().material = material2;
+                                @object.GetComponent<MeshRenderer>().material = material6;
                                 break;
                             case 7:
-                                @object.GetComponent<MeshRenderer>().material = material2;
+                                @object.GetComponent<MeshRenderer>().material = material7;
                                 break;
                             case 8:
-                                @object.GetComponent<MeshRenderer>().material = material2;
+                                @object.GetComponent<MeshRenderer>().material = material8;
                                 break;
                             case 9:
-                                @object.GetComponent<MeshRenderer>().material = material2;
+                                @object.GetComponent<MeshRenderer>().material = material9;
                                 break;
                             default:
                                 Debug.LogError($"Unckow material with id {materialId}");
