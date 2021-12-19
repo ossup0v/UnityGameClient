@@ -69,7 +69,7 @@ public class PlayerManager : MonoBehaviour
     {
         healthManager.SetPureHealth(health);
 
-        if (healthManager.IsLessOrEqualZero)
+        if (healthManager.IsDie)
         {
             Die();
         }

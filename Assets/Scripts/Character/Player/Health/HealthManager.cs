@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HealthManager
 {
-    public bool IsLessOrEqualZero => CurrentPlayerHealth <= 0;
+    public bool IsDie => CurrentPlayerHealth <= MinPlayerHealth;
 
     public event Action<float> HealthChanged = delegate { };
 
