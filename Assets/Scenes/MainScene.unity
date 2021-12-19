@@ -1801,15 +1801,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MapEntityPrefab: {fileID: 4679720757527259604, guid: 72d7bbcd69c10b949b04a5983f9cbe8f, type: 3}
-  material1: {fileID: 2100000, guid: 6d1141ef31e562449adb973f7a75a6f2, type: 2}
-  material2: {fileID: 2100000, guid: afe3e5e8db34cd343964c67c06ee46ea, type: 2}
-  material3: {fileID: 2100000, guid: 00c5663df8d777b43a8be4c0a31b548a, type: 2}
-  material4: {fileID: 2100000, guid: bf6bbaafbfab2d34ebeffbc29fd251cf, type: 2}
-  material5: {fileID: 2100000, guid: 43f8f08b27217ed488f8fdfedaa34756, type: 2}
-  material6: {fileID: 2100000, guid: f58e15add09f0f04d9a880a2cf2f98ab, type: 2}
-  material7: {fileID: 2100000, guid: fdc847658e645554cb6bf9db29c9ba31, type: 2}
-  material8: {fileID: 2100000, guid: 8fd63dced291ea54f93dd958050f6e7a, type: 2}
-  material9: {fileID: 0}
+  Materials:
+  - {fileID: 2100000, guid: 116ab6bc9a877944496fb5d3d3d569bd, type: 2}
+  - {fileID: 2100000, guid: 6d1141ef31e562449adb973f7a75a6f2, type: 2}
+  - {fileID: 2100000, guid: afe3e5e8db34cd343964c67c06ee46ea, type: 2}
+  - {fileID: 2100000, guid: 00c5663df8d777b43a8be4c0a31b548a, type: 2}
+  - {fileID: 2100000, guid: bf6bbaafbfab2d34ebeffbc29fd251cf, type: 2}
+  - {fileID: 2100000, guid: 43f8f08b27217ed488f8fdfedaa34756, type: 2}
+  - {fileID: 2100000, guid: f58e15add09f0f04d9a880a2cf2f98ab, type: 2}
+  - {fileID: 2100000, guid: fdc847658e645554cb6bf9db29c9ba31, type: 2}
+  - {fileID: 2100000, guid: 8fd63dced291ea54f93dd958050f6e7a, type: 2}
+  - {fileID: 2100000, guid: 2ad70b64d0568bd4087c76c78622a9f3, type: 2}
+  - {fileID: 2100000, guid: 255e19843129e5c48b8669a37fc3094e, type: 2}
 --- !u!4 &1831153101
 Transform:
   m_ObjectHideFlags: 0
