@@ -206,4 +206,10 @@ public class NetworkClientHandler : MonoBehaviour
     {
         MapManager.Instance.InitializeMap(packet.ReadString());
     }
+    public static void PlayerScale(Packet packet)
+    {
+        Vector3 scale = packet.ReadVector3();
+        int playerID = packet.ReadInt();
+        GameManager.GetPlayer(playerID).transform.lossyScale.Set(scale.x, scale.y, scale.z);
+    }
 }
