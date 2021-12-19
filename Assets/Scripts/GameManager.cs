@@ -6,12 +6,14 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public static Dictionary<int, BotManager> Bots = new Dictionary<int, BotManager>();
     public static Dictionary<int, PlayerManager> Players = new Dictionary<int, PlayerManager>();
     public static Dictionary<int, ItemSpawner> ItemSpawners = new Dictionary<int, ItemSpawner>();
     public static Dictionary<int, ProjectileManager> Proectiles = new Dictionary<int, ProjectileManager>();
-    
+
     public PlayerManager CurrentPlayer => Players[NetworkClient.Instance.MyId];
 
+    public GameObject BotPrefab;
     public GameObject LocalPlayerPrefab;
     public GameObject OtherPlayerPrefab;
     public GameObject ItemSpawnerPrefab;
@@ -36,25 +38,33 @@ public class GameManager : MonoBehaviour
         return Players[playerId];
     }
 
+    public static BotManager GetBot(int botId)
+    {
+        return Bots[botId];
+    }
+
     public void SpawnPlayer(int id, string username, WeaponKind currentWeapon, Vector3 position, Quaternion rotation)
     {
-        Debug.Log("SpawnPlayer called");
-
         var player = NetworkClient.Instance.MyId == id ?
             Instantiate(LocalPlayerPrefab, position, rotation) :
             Instantiate(OtherPlayerPrefab, position, rotation);
 
-        Debug.Log("SpawnPlayer called player manager not created");
-
         var playerManager = player.GetComponent<PlayerManager>();
-        
-        Debug.Log("SpawnPlayer called player manager created");
 
         playerManager.Initialize(id, username, currentWeapon);
 
-        Debug.Log("SpawnPlayer called playermanager intialized");
-
         Players.Add(id, playerManager);
+    }
+
+    public void SpawnBot(int id, WeaponKind currentWeapon, Vector3 position)
+    {
+        var bot = Instantiate(BotPrefab, position, Quaternion.identity);
+
+        var botManager = bot.GetComponent<BotManager>();
+
+        botManager.Initialize(id, currentWeapon);
+
+        Bots.Add(id, botManager);
     }
 
     public void CreateItemSpawner(int spawnerId, bool hasItem, Vector3 position)

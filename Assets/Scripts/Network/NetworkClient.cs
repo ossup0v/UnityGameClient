@@ -302,7 +302,15 @@ public class NetworkClient : MonoBehaviour
             [(int)ServerPackets.ratingTableUpdateDeath] = NetworkClientHandler.RatingTableUpdateDeath,
             [(int)ServerPackets.playerGrenadeCount] = NetworkClientHandler.PlayerGrenadeCount,
             [(int)ServerPackets.initMap] = NetworkClientHandler.InitMap,
-            [(int)ServerPackets.playerScale] = NetworkClientHandler.PlayerScale,
+
+            [(int)ServerPackets.playerScale] = NetworkClientHandler.PlayerScale,            [(int)ServerPackets.spawnBot] = NetworkClientHandler.SpawnBot,
+            [(int)ServerPackets.botPosition] = NetworkClientHandler.BotPosition,
+            [(int)ServerPackets.botRotation] = NetworkClientHandler.BotRotation,
+            [(int)ServerPackets.botHealth] = NetworkClientHandler.BotHealth,
+            [(int)ServerPackets.botShoot] = NetworkClientHandler.BotShoot,
+            [(int)ServerPackets.botChooseWeapon] = NetworkClientHandler.BotChooseWeapon,
+            [(int)ServerPackets.botHit] = NetworkClientHandler.BotHit,
+            [(int)ServerPackets.ratingTableUpdateKilledBots] = NetworkClientHandler.RatingTableKilledBots,
         };
         Debug.Log($"{nameof(InitializeClientData)} was called");
     }

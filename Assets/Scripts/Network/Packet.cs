@@ -27,6 +27,14 @@ public enum ServerPackets
     ratingTableUpdateDeath,
     playerGrenadeCount,
     initMap,
+    spawnBot,
+    botPosition,
+    botRotation,
+    botHealth,
+    botShoot,
+    botChooseWeapon,
+    botHit,
+    ratingTableUpdateKilledBots,
     playerScale
 }
 

@@ -134,7 +134,7 @@ public class NetworkClientHandler : MonoBehaviour
         var playerId = packet.ReadInt();
         var weaponKind = packet.ReadInt();
 
-        GameManager.Players[playerId].ChooseWeapon((WeaponKind) weaponKind);
+        GameManager.GetPlayer(playerId).ChooseWeapon((WeaponKind)weaponKind);
     }
 
     public static void PlayerShoot(Packet packet)
@@ -151,6 +151,30 @@ public class NetworkClientHandler : MonoBehaviour
         var position = packet.ReadVector3();
 
         GameManager.GetPlayer(playerId).Hit(weaponKind, position);
+    }
+
+    public static void BotChooseWeapon(Packet packet)
+    {
+        var botId = packet.ReadInt();
+        var weaponKind = packet.ReadInt();
+
+        GameManager.GetBot(botId).ChooseWeapon((WeaponKind)weaponKind);
+    }
+
+    public static void BotShoot(Packet packet)
+    {
+        var botId = packet.ReadInt();
+
+        GameManager.GetBot(botId).Shoot();
+    }
+
+    public static void BotHit(Packet packet)
+    {
+        var botId = packet.ReadInt();
+        var weaponKind = (WeaponKind)packet.ReadInt();
+        var position = packet.ReadVector3();
+
+        GameManager.GetBot(botId).Hit(weaponKind, position);
     }
 
     public static void RatingTableInit(Packet packet)
@@ -206,6 +230,48 @@ public class NetworkClientHandler : MonoBehaviour
     {
         MapManager.Instance.InitializeMap(packet.ReadString());
     }
+
+    internal static void SpawnBot(Packet packet)
+    {
+        var botId = packet.ReadInt();
+        var botPosition = packet.ReadVector3();
+        var botWeaponKind = packet.ReadInt();
+
+        GameManager.Instance.SpawnBot(botId, (WeaponKind)botWeaponKind, botPosition);
+    }
+
+    internal static void BotPosition(Packet packet)
+    {
+        var botId = packet.ReadInt();
+        var botPosition = packet.ReadVector3();
+
+        GameManager.Bots[botId].transform.position = botPosition;
+    }
+
+    internal static void BotRotation(Packet packet)
+    {
+        var botId = packet.ReadInt();
+        var botRotation = packet.ReadQuaternion();
+
+        GameManager.Bots[botId].transform.rotation = botRotation;
+    }
+
+    internal static void BotHealth(Packet packet)
+    {
+        var botId = packet.ReadInt();
+        var botHealth = packet.ReadFloat();
+
+        GameManager.Bots[botId].SetHealth(botHealth);
+    }
+
+    public static void RatingTableKilledBots(Packet packet)
+    {
+        var killerId = packet.ReadInt();
+        var killCount = packet.ReadInt();
+
+        RatingManager.UpdateBotKills(killerId, killCount);
+    }
+
     public static void PlayerScale(Packet packet)
     {
         Vector3 scale = packet.ReadVector3();

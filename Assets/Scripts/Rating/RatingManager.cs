@@ -35,4 +35,11 @@ public static class RatingManager
 
         RatingChanged();
     }
+
+    public static void UpdateBotKills(int killerId, int killCount)
+    {
+        Rating[killerId].KilledBots = killCount;
+
+        RatingChanged();
+    }
 }
