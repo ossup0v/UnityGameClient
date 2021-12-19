@@ -34,7 +34,8 @@ public enum ServerPackets
     botShoot,
     botChooseWeapon,
     botHit,
-    ratingTableUpdateKilledBots
+    ratingTableUpdateKilledBots,
+    playerScale
 }
 
 /// <summary>Sent from client to server.</summary>

@@ -6,15 +6,8 @@ using UnityEngine;
 public class MapManager : MonoBehaviour
 {
     public GameObject MapEntityPrefab;
-    public Material material1;
-    public Material material2;
-    public Material material3;
-    public Material material4;
-    public Material material5;
-    public Material material6;
-    public Material material7;
-    public Material material8;
-    public Material material9;
+    public Material[] Materials;
+    
 
     public static MapManager Instance;
 
@@ -67,42 +60,7 @@ public class MapManager : MonoBehaviour
 
                     if (int.TryParse(materialText, out var materialId))
                     {
-
-                        switch (materialId)
-                        {
-                            case 1337:
-                                break;
-                            case 1:
-                                @object.GetComponent<MeshRenderer>().material = material1;
-                                break;
-                            case 2:
-                                @object.GetComponent<MeshRenderer>().material = material2;
-                                break;
-                            case 3:
-                                @object.GetComponent<MeshRenderer>().material = material3;
-                                break;
-                            case 4:
-                                @object.GetComponent<MeshRenderer>().material = material4;
-                                break;
-                            case 5:
-                                @object.GetComponent<MeshRenderer>().material = material5;
-                                break;
-                            case 6:
-                                @object.GetComponent<MeshRenderer>().material = material6;
-                                break;
-                            case 7:
-                                @object.GetComponent<MeshRenderer>().material = material7;
-                                break;
-                            case 8:
-                                @object.GetComponent<MeshRenderer>().material = material8;
-                                break;
-                            case 9:
-                                @object.GetComponent<MeshRenderer>().material = material9;
-                                break;
-                            default:
-                                Debug.LogError($"Unckow material with id {materialId}");
-                                break;
-                        }
+                               @object.GetComponent<MeshRenderer>().material = Materials[materialId];
                     }
                 }
                 catch (Exception ex)
