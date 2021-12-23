@@ -7,10 +7,9 @@ using System;
 
 public class NetworkClient : MonoBehaviour
 {
-    public static NetworkClient Instance;
     public static int dataBufferSize = 1024 * 4;
 
-    public string Ip = "127.0.0.1";
+    public string Ip;
     public int Port = 26950;
     public Guid MyId;
     public TCP Tcp;
@@ -20,29 +19,19 @@ public class NetworkClient : MonoBehaviour
     private delegate void PacketHandler(Packet packet);
     private static Dictionary<int, PacketHandler> PacketHandlers;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance != this)
-        {
-            Debug.LogError($"{nameof(NetworkClient)} singletone error!");
-            Destroy(this);
-        }
-    }
-
     private void OnApplicationQuit()
     {
         Disconnect();
     }
 
-    public void ConnectToServer(string serverIp)
+    public void ConnectToServer(string serverIp, int? port = null)
     {
+        if (port.HasValue)
+            Port = port.Value;
+
         Ip = serverIp;
-        Tcp = new TCP();
-        Udp = new UDP();
+        Tcp = new TCP(this);
+        Udp = new UDP(this);
         
         InitializeClientData();
 
@@ -52,10 +41,16 @@ public class NetworkClient : MonoBehaviour
 
     public class TCP
     {
+        public TCP(NetworkClient owner)
+        {
+            _owner = owner;
+        }
+
         public TcpClient Socket;
         private NetworkStream stream;
         private Packet receivedData;
         private byte[] receiveBuffer;
+        private NetworkClient _owner;
 
         internal void SendData(Packet packet)
         {
@@ -81,9 +76,8 @@ public class NetworkClient : MonoBehaviour
                 SendBufferSize = dataBufferSize
             };
 
-
             receiveBuffer = new byte[dataBufferSize];
-            Socket.BeginConnect(Instance.Ip, Instance.Port, ConnectCallback, null);
+            Socket.BeginConnect(_owner.Ip, _owner.Port, ConnectCallback, null);
         }
 
         private void ConnectCallback(IAsyncResult result)
@@ -109,7 +103,7 @@ public class NetworkClient : MonoBehaviour
                 var byteLength = stream.EndRead(result);
                 if (byteLength < 0)
                 {
-                    Instance.Disconnect();
+                    _owner.Disconnect();
                     return;
                 }
 
@@ -121,8 +115,8 @@ public class NetworkClient : MonoBehaviour
             }
             catch (Exception ex)
             {
-                Instance.Disconnect();
-                Debug.LogError($"Client with {Instance.MyId} get error with message {ex.Message}");
+                _owner.Disconnect();
+                Debug.LogError($"Client with {_owner.MyId} get error with message {ex.Message}");
             }
         }
 
@@ -174,7 +168,7 @@ public class NetworkClient : MonoBehaviour
         /// <summary>Disconnects from the server and cleans up the TCP connection.</summary>
         private void Disconnect()
         {
-            Instance.Disconnect();
+            _owner.Disconnect();
 
             stream = null;
             receivedData = null;
@@ -187,10 +181,12 @@ public class NetworkClient : MonoBehaviour
     {
         public UdpClient Socket;
         public IPEndPoint EndPoint;
+        private readonly NetworkClient _owner;
 
-        public UDP()
+        public UDP(NetworkClient owner)
         {
-            EndPoint = new IPEndPoint(IPAddress.Parse(Instance.Ip), Instance.Port);
+            _owner = owner;
+            EndPoint = new IPEndPoint(IPAddress.Parse(_owner.Ip), _owner.Port);
         }
 
         public void Connect(int localPort)
@@ -210,7 +206,7 @@ public class NetworkClient : MonoBehaviour
         {
             try
             {
-                packet.InsertGuid(Instance.MyId);
+                packet.InsertGuid(_owner.MyId);
                 if (Socket != null)
                 {
                     Socket.BeginSend(packet.ToArray(), packet.Length(), null, null);
@@ -269,7 +265,7 @@ public class NetworkClient : MonoBehaviour
         /// <summary>Disconnects from the server and cleans up the UDP connection.</summary>
         private void Disconnect()
         {
-            Instance.Disconnect();
+            _owner.Disconnect();
 
             EndPoint = null;
             Socket = null;
@@ -302,8 +298,8 @@ public class NetworkClient : MonoBehaviour
             [(int)ServerPackets.ratingTableUpdateDeath] = NetworkClientHandler.RatingTableUpdateDeath,
             [(int)ServerPackets.playerGrenadeCount] = NetworkClientHandler.PlayerGrenadeCount,
             [(int)ServerPackets.initMap] = NetworkClientHandler.InitMap,
-
-            [(int)ServerPackets.playerScale] = NetworkClientHandler.PlayerScale,            [(int)ServerPackets.spawnBot] = NetworkClientHandler.SpawnBot,
+            [(int)ServerPackets.playerScale] = NetworkClientHandler.PlayerScale,            
+            [(int)ServerPackets.spawnBot] = NetworkClientHandler.SpawnBot,
             [(int)ServerPackets.botPosition] = NetworkClientHandler.BotPosition,
             [(int)ServerPackets.botRotation] = NetworkClientHandler.BotRotation,
             [(int)ServerPackets.botHealth] = NetworkClientHandler.BotHealth,
@@ -311,6 +307,7 @@ public class NetworkClient : MonoBehaviour
             [(int)ServerPackets.botChooseWeapon] = NetworkClientHandler.BotChooseWeapon,
             [(int)ServerPackets.botHit] = NetworkClientHandler.BotHit,
             [(int)ServerPackets.ratingTableUpdateKilledBots] = NetworkClientHandler.RatingTableKilledBots,
+            [(int)ServerPackets.roomPortToConnect] = NetworkClientHandler.ConnectToRoom,
         };
         Debug.Log($"{nameof(InitializeClientData)} was called");
     }

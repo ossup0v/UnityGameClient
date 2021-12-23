@@ -10,18 +10,18 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            NetworkClientSend.PlayerShoot(camTransform.forward);
+            NetworkClientSendRoom.PlayerShoot(camTransform.forward);
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            NetworkClientSend.PlayerThrowItem(camTransform.forward);
+            NetworkClientSendRoom.PlayerThrowItem(camTransform.forward);
         }
 
         if (Input.mouseScrollDelta == Vector2.down || Input.mouseScrollDelta == Vector2.up)
         {
             Debug.Log($"Mouse! {Input.mouseScrollDelta}");
-            NetworkClientSend.PlayerChangeWeapon((int)Input.mouseScrollDelta.x);
+            NetworkClientSendRoom.PlayerChangeWeapon((int)Input.mouseScrollDelta.x);
         }
     }
     private void FixedUpdate()
@@ -42,6 +42,6 @@ public class PlayerController : MonoBehaviour
                 Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl),
             };
 
-        NetworkClientSend.PlayerMovement(input);
+        NetworkClientSendRoom.PlayerMovement(input);
     }
 }

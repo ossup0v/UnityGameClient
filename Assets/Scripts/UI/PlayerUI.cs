@@ -4,6 +4,6 @@ public class PlayerUI : MonoBehaviour
 {
     public void RespawnPlayer()
     {
-        NetworkClientSend.PlayerRespawn();
+        NetworkClientSendRoom.PlayerRespawn();
     }
 }

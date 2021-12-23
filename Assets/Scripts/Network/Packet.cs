@@ -35,11 +35,14 @@ public enum ServerPackets
     botChooseWeapon,
     botHit,
     ratingTableUpdateKilledBots,
-    playerScale
+    playerScale,
+
+
+    roomPortToConnect
 }
 
 /// <summary>Sent from client to server.</summary>
-public enum ClientPackets
+public enum ClientToGameRoom
 {
     welcomeReceived = 1,
     playerMovement,
@@ -47,7 +50,14 @@ public enum ClientPackets
     playerThrowItem,
     playerChangeWeapon,
     playerRespawn,
-    playerStartGame
+    playerStartGame,
+}
+
+public enum ClientToServer
+{
+    welcomeReceived = 1,
+    registerUser,
+    joinGameRoom
 }
 
 public class Packet : IDisposable
@@ -63,7 +73,8 @@ public class Packet : IDisposable
         readPos = 0; // Set readPos to 0
     }
 
-    public Packet(ClientPackets packet) : this((int)packet) { }
+    public Packet(ClientToServer packet) : this((int)packet) { }
+    public Packet(ClientToGameRoom packet) : this((int)packet) { }
     public Packet(ServerPackets packet) : this((int)packet) { }
     /// <summary>Creates a new packet with a given ID. Used for sending.</summary>
     /// <param name="_id">The packet ID.</param>

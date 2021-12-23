@@ -39,7 +39,7 @@ public class BotManager : MonoBehaviour
 
         if (_healthManager.IsDie)
         {
-            GameManager.Bots.Remove(Id);
+            GameManager.RemoveBot(Id);
             Destroy(gameObject);
         }
     }

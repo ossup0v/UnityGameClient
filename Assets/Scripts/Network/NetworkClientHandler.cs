@@ -8,12 +8,25 @@ public class NetworkClientHandler : MonoBehaviour
         Debug.Log("Welcome received");
         var message = packet.ReadString();
         var myId = packet.ReadGuid();
+        var from = packet.ReadInt();
 
         Debug.Log($"Message from server {message}");
-        NetworkClient.Instance.MyId = myId;
-        NetworkClientSend.WelcomeReceived();
+        NetworkManager.Instance.ServerClient.MyId = myId;
+        NetworkManager.Instance.RoomClient.MyId = myId;
+        Debug.Log($"Welcome received, in packet {myId}");
 
-        NetworkClient.Instance.Udp.Connect(((IPEndPoint)NetworkClient.Instance.Tcp.Socket.Client.LocalEndPoint).Port);
+        if (from == 1)
+        {
+            NetworkClientSendServer.WelcomeReceived();
+            NetworkManager.Instance.ServerClient.Udp.Connect(((IPEndPoint)NetworkManager.Instance.ServerClient.Tcp.Socket.Client.LocalEndPoint).Port);
+        }
+        else if (from == 2)
+        {
+            NetworkClientSendRoom.WelcomeReceived();
+            NetworkManager.Instance.RoomClient.Udp.Connect(((IPEndPoint)NetworkManager.Instance.RoomClient.Tcp.Socket.Client.LocalEndPoint).Port);
+        }
+        else
+            Debug.LogError($"unexcepected from - {from}, can't connect");
     }
 
     public static void SpawnPlayer(Packet packet)
@@ -245,7 +258,10 @@ public class NetworkClientHandler : MonoBehaviour
         var botId = packet.ReadGuid();
         var botPosition = packet.ReadVector3();
 
-        GameManager.Bots[botId].transform.position = botPosition;
+        var bot = GameManager.GetBot(botId);
+
+        if (bot != null)
+            bot.transform.position = botPosition;
     }
 
     internal static void BotRotation(Packet packet)
@@ -253,7 +269,10 @@ public class NetworkClientHandler : MonoBehaviour
         var botId = packet.ReadGuid();
         var botRotation = packet.ReadQuaternion();
 
-        GameManager.Bots[botId].transform.rotation = botRotation;
+        var bot = GameManager.GetBot(botId);
+
+        if (bot != null)
+            bot.transform.rotation = botRotation;
     }
 
     internal static void BotHealth(Packet packet)
@@ -261,7 +280,7 @@ public class NetworkClientHandler : MonoBehaviour
         var botId = packet.ReadGuid();
         var botHealth = packet.ReadFloat();
 
-        GameManager.Bots[botId].SetHealth(botHealth);
+        GameManager.GetBot(botId)?.SetHealth(botHealth);
     }
 
     public static void RatingTableKilledBots(Packet packet)
@@ -277,5 +296,13 @@ public class NetworkClientHandler : MonoBehaviour
         Vector3 scale = packet.ReadVector3();
         var playerId = packet.ReadGuid();
         GameManager.GetPlayer(playerId).transform.lossyScale.Set(scale.x, scale.y, scale.z);
+    }
+
+    internal static void ConnectToRoom(Packet packet)
+    {
+        string roomHost = packet.ReadString();
+        int roomPort = packet.ReadInt();
+
+        NetworkManager.Instance.RoomClient.ConnectToServer(roomHost, roomPort);
     }
 }
