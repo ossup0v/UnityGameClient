@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public static Dictionary<int, BotManager> Bots = new Dictionary<int, BotManager>();
-    public static Dictionary<int, PlayerManager> Players = new Dictionary<int, PlayerManager>();
+    public static Dictionary<Guid, BotManager> Bots = new Dictionary<Guid, BotManager>();
+    public static Dictionary<Guid, PlayerManager> Players = new Dictionary<Guid, PlayerManager>();
     public static Dictionary<int, ItemSpawner> ItemSpawners = new Dictionary<int, ItemSpawner>();
     public static Dictionary<int, ProjectileManager> Proectiles = new Dictionary<int, ProjectileManager>();
 
@@ -33,17 +34,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static PlayerManager GetPlayer(int playerId)
+    public static PlayerManager GetPlayer(Guid playerId)
     {
         return Players[playerId];
     }
 
-    public static BotManager GetBot(int botId)
+    public static BotManager GetBot(Guid botId)
     {
         return Bots[botId];
     }
 
-    public void SpawnPlayer(int id, string username, WeaponKind currentWeapon, Vector3 position, Quaternion rotation)
+    public void SpawnPlayer(Guid id, string username, WeaponKind currentWeapon, Vector3 position, Quaternion rotation)
     {
         var player = NetworkClient.Instance.MyId == id ?
             Instantiate(LocalPlayerPrefab, position, rotation) :
@@ -56,7 +57,7 @@ public class GameManager : MonoBehaviour
         Players.Add(id, playerManager);
     }
 
-    public void SpawnBot(int id, WeaponKind currentWeapon, Vector3 position)
+    public void SpawnBot(Guid id, WeaponKind currentWeapon, Vector3 position)
     {
         var bot = Instantiate(BotPrefab, position, Quaternion.identity);
 

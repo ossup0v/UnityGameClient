@@ -12,7 +12,7 @@ public class NetworkClient : MonoBehaviour
 
     public string Ip = "127.0.0.1";
     public int Port = 26950;
-    public int MyId = 0;
+    public Guid MyId;
     public TCP Tcp;
     public UDP Udp;
 
@@ -210,7 +210,7 @@ public class NetworkClient : MonoBehaviour
         {
             try
             {
-                packet.InsertInt(Instance.MyId);
+                packet.InsertGuid(Instance.MyId);
                 if (Socket != null)
                 {
                     Socket.BeginSend(packet.ToArray(), packet.Length(), null, null);

@@ -1,6 +1,8 @@
-﻿public class RatingEntity
+﻿using System;
+
+public class RatingEntity
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Username { get; set; }
     public int Killed { get; set; }
     public int KilledBots { get; set; }

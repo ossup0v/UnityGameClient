@@ -46,7 +46,8 @@ public enum ClientPackets
     playerShooting,
     playerThrowItem,
     playerChangeWeapon,
-    playerRespawn
+    playerRespawn,
+    playerStartGame
 }
 
 public class Packet : IDisposable
@@ -104,6 +105,13 @@ public class Packet : IDisposable
     public void InsertInt(int _value)
     {
         buffer.InsertRange(0, BitConverter.GetBytes(_value)); // Insert the int at the start of the buffer
+    } 
+
+    /// <summary>Inserts the given guid at the start of the buffer.</summary>
+    /// <param name="_value">The int to insert.</param>
+    public void InsertGuid(Guid _value)
+    {
+        buffer.InsertRange(0, _value.ToByteArray()); // Insert the int at the start of the buffer
     }
 
     /// <summary>Gets the packet's content in array form.</summary>
@@ -177,6 +185,26 @@ public class Packet : IDisposable
     {
         buffer.AddRange(BitConverter.GetBytes(_value));
         return this;
+    }
+
+    /// <summary>Adds a long to the packet.</summary>
+    /// <param name="_value">The long to add.</param>
+    public Packet Write(Guid _value)
+    {
+        foreach (var @int in Guid2Int(_value))
+            Write(@int);
+
+        return this;
+    }
+
+    public static int[] Guid2Int(Guid value)
+    {
+        byte[] b = value.ToByteArray();
+        int bint = BitConverter.ToInt32(b, 0);
+        var bint1 = BitConverter.ToInt32(b, 4);
+        var bint2 = BitConverter.ToInt32(b, 8);
+        var bint3 = BitConverter.ToInt32(b, 12);
+        return new[] { bint, bint1, bint2, bint3 };
     }
     /// <summary>Adds a float to the packet.</summary>
     /// <param name="_value">The float to add.</param>
@@ -305,6 +333,21 @@ public class Packet : IDisposable
         {
             throw new Exception("Could not read value of type 'int'!");
         }
+    }
+
+    public Guid ReadGuid(bool _moveReadPos = true)
+    {
+        return Int2Guid(ReadInt(_moveReadPos), ReadInt(_moveReadPos), ReadInt(_moveReadPos), ReadInt(_moveReadPos));
+    }
+
+    public static Guid Int2Guid(int value, int value1, int value2, int value3)
+    {
+        byte[] bytes = new byte[16];
+        BitConverter.GetBytes(value).CopyTo(bytes, 0);
+        BitConverter.GetBytes(value1).CopyTo(bytes, 4);
+        BitConverter.GetBytes(value2).CopyTo(bytes, 8);
+        BitConverter.GetBytes(value3).CopyTo(bytes, 12);
+        return new Guid(bytes);
     }
 
     /// <summary>Reads a long from the packet.</summary>

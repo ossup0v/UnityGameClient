@@ -20,12 +20,15 @@ internal class LocalPlayerManager : PlayerManager
     private void OnRatingChanged()
     {
         var text = new StringBuilder();
+        int index = 1;
         foreach (var item in RatingManager.Rating.Values)
         {
             if (item.Id == NetworkClient.Instance.MyId)
-                text.Append($"<color=red>{item.Id}:{item.Username}:K:{item.Killed}:M:{item.KilledBots}:D:{item.Died}</color>");
+                text.Append($"<color=red>{index}:{item.Username}:K:{item.Killed}:M:{item.KilledBots}:D:{item.Died}</color>");
             else
-                text.Append($"{item.Id}:{item.Username}:K:{item.Killed}:M:{item.KilledBots}:D:{item.Died}");
+                text.Append($"{index}:{item.Username}:K:{item.Killed}:M:{item.KilledBots}:D:{item.Died}");
+
+            index++;
 
             text.AppendLine();
         }
