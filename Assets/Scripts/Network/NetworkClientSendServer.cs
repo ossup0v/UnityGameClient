@@ -15,6 +15,7 @@ public class NetworkClientSendServer
         packet.WriteLength();
         NetworkManager.Instance.ServerClient.Udp.SendData(packet);
     }
+
     #endregion
 
     #region Packets
@@ -57,6 +58,18 @@ public class NetworkClientSendServer
         {
             packet.Write(login);
             packet.Write(password);
+
+            SendTCPData(packet);
+        }
+    }
+
+    public static void CreateGameRoom(string mode, string title, string maxPlayerCount)
+    {
+        using (var packet = new Packet((int)ClientToServer.createGameRoom))
+        {
+            packet.Write(mode);
+            packet.Write(title);
+            packet.Write(maxPlayerCount);
 
             SendTCPData(packet);
         }

@@ -59,7 +59,8 @@ public enum ClientToServer
     welcomeReceived = 1,
     registerUser,
     joinGameRoom,
-    loginUser
+    loginUser,
+    createGameRoom
 }
 
 public class Packet : IDisposable
