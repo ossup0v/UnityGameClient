@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoginUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject LoginMenu;
+    public InputField LoginField;
+    public InputField PasswordField;
 
-    // Update is called once per frame
-    void Update()
+    public void Login()
     {
-        
+        NetworkClientSendServer.Login(LoginField.text, PasswordField.text);
+
+        LoginMenu.SetActive(false);
     }
 }

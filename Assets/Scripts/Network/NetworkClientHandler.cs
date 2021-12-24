@@ -298,11 +298,33 @@ public class NetworkClientHandler : MonoBehaviour
         GameManager.GetPlayer(playerId).transform.lossyScale.Set(scale.x, scale.y, scale.z);
     }
 
-    internal static void ConnectToRoom(Packet packet)
+    public static void ConnectToRoom(Packet packet)
     {
         string roomHost = packet.ReadString();
         int roomPort = packet.ReadInt();
 
         NetworkManager.Instance.RoomClient.ConnectToServer(roomHost, roomPort);
+    }
+
+    public static void RoomList(Packet packet)
+    {
+        int roomsCount = packet.ReadInt();
+        RoomListEntity[] rooms = new RoomListEntity[roomsCount];
+
+        for (int i = 0; i < rooms.Length; i++)
+        {
+            rooms[i] = new RoomListEntity
+            {
+                RoomId              = packet.ReadGuid(),
+                Port                = packet.ReadInt(),
+                UserOwner           = packet.ReadString(),
+                Mode                = packet.ReadString(),
+                Title               = packet.ReadString(),
+                AvailableUserCount  = packet.ReadInt(),
+                UserInRoomCount     = packet.ReadInt(),
+            };
+        }
+
+        RoomManager.Instance.Fill(rooms);
     }
 }

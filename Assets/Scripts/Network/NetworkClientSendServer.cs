@@ -41,13 +41,25 @@ public class NetworkClientSendServer
         }
     }
 
-    internal static void JoinGameRoom()
+    internal static void JoinGameRoom(Guid roomId)
     {
         using (var packet = new Packet((int)ClientToServer.joinGameRoom))
         {
+            packet.Write(roomId);
+
             SendTCPData(packet);
         }
     }
-    
+
+    public static void Login(string login, string password)
+    {
+        using (var packet = new Packet((int)ClientToServer.loginUser))
+        {
+            packet.Write(login);
+            packet.Write(password);
+
+            SendTCPData(packet);
+        }
+    }
     #endregion
 }

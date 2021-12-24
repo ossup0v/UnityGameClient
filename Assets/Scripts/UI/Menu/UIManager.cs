@@ -4,8 +4,10 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
     public StartUI StartUI;
+    public LoginUI LoginUI;
     public RegisterUI RegisterUI;
-    public MetaGameMenuUI MetaGameMenuUI;
+    public InterRoomPanelUI InterRoomPanelUI;
+    public RoomListUI RoomListUI;
 
     private void Awake()
     {
@@ -35,13 +37,29 @@ public class UIManager : MonoBehaviour
     {
         RegisterUI.Register();
         RegisterUI.RegisterMenu.SetActive(false);
-        MetaGameMenuUI.MetaGameMenu.SetActive(true);
+
+        RoomListUI.Menu.SetActive(true);
+        RoomListUI.enabled = true;
     }
 
     public void JoinGameRoom()
     {
-        MetaGameMenuUI.JoinGameRoom();
-        MetaGameMenuUI.MetaGameMenu.SetActive(false);
+        InterRoomPanelUI.JoinGameRoom();
+        DisableAll();
+    }
+
+    public void Login()
+    {
+        LoginUI.Login();
+        LoginUI.LoginMenu.SetActive(false);
+    }
+
+    private void DisableAll()
+    {
+        StartUI.StartMenu.SetActive(false);
+        LoginUI.LoginMenu?.SetActive(false);
+        RegisterUI.RegisterMenu.SetActive(false);
+        RoomListUI.Menu?.SetActive(false);
     }
 }
 

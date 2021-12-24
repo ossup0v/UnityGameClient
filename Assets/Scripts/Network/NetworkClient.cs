@@ -308,6 +308,7 @@ public class NetworkClient : MonoBehaviour
             [(int)ServerPackets.botHit] = NetworkClientHandler.BotHit,
             [(int)ServerPackets.ratingTableUpdateKilledBots] = NetworkClientHandler.RatingTableKilledBots,
             [(int)ServerPackets.roomPortToConnect] = NetworkClientHandler.ConnectToRoom,
+            [(int)ServerPackets.roomList] = NetworkClientHandler.RoomList,
         };
         Debug.Log($"{nameof(InitializeClientData)} was called");
     }

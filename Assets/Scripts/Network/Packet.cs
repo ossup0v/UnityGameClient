@@ -38,7 +38,8 @@ public enum ServerPackets
     playerScale,
 
 
-    roomPortToConnect
+    roomPortToConnect,
+    roomList
 }
 
 /// <summary>Sent from client to server.</summary>
@@ -57,7 +58,8 @@ public enum ClientToServer
 {
     welcomeReceived = 1,
     registerUser,
-    joinGameRoom
+    joinGameRoom,
+    loginUser
 }
 
 public class Packet : IDisposable
