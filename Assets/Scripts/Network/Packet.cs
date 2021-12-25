@@ -39,7 +39,10 @@ public enum ServerPackets
 
 
     roomPortToConnect,
-    roomList
+    roomList,
+        
+    
+    response
 }
 
 /// <summary>Sent from client to server.</summary>
@@ -77,7 +80,7 @@ public class Packet : IDisposable
     }
 
     public Packet(ClientToServer packet) : this((int)packet) { }
-    public Packet(ClientToGameRoom packet) : this((int)packet) { }
+    public Packet(ClientToGameRoom packet) : this((int)packet) { }  
     public Packet(ServerPackets packet) : this((int)packet) { }
     /// <summary>Creates a new packet with a given ID. Used for sending.</summary>
     /// <param name="_id">The packet ID.</param>
@@ -97,6 +100,15 @@ public class Packet : IDisposable
         readPos = 0; // Set readPos to 0
 
         SetBytes(_data);
+    }
+
+    public byte[] GetReadbleBuffer() => readableBuffer;
+    public int GetReadPos() => readPos;
+
+    public void Reset()
+    {
+        readPos = 0;
+        buffer = new List<byte>();
     }
 
     #region Functions
@@ -201,7 +213,7 @@ public class Packet : IDisposable
         return this;
     }
 
-    /// <summary>Adds a long to the packet.</summary>
+    /// <summary>Adds a guid to the packet.</summary>
     /// <param name="_value">The long to add.</param>
     public Packet Write(Guid _value)
     {

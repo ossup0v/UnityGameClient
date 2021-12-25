@@ -19,8 +19,6 @@ public class CreateRoomPanelUI : MonoBehaviour
 
     public void Cancel()
     {
-        NetworkClientSendServer.CreateGameRoom(RoomMode.text, Title.text, MaxPlayerCount.text);
         CreateRoomPerfab.SetActive(false);
-        Destroy(this);
     }
 }

@@ -30,15 +30,27 @@ public class NetworkClientSendServer
         }
     }
 
-    internal static void Register(string login, string password, string username)
+    internal static void Register(string login, string password, string username, Action<bool> registerCallback)
     {
         using (var packet = new Packet((int)ClientToServer.registerUser))
         {
+            var packetId = Guid.NewGuid();
+            packet.Write(packetId);
             packet.Write(login);
             packet.Write(password);
             packet.Write(username);
 
             SendTCPData(packet);
+
+            NetworkResponseService<PacketResponse>.Instance.SubscribeCallback(packetId, (response) =>
+            {
+                var result = response.ReadBool();
+
+                Debug.Log(result);
+
+                registerCallback(result);
+
+            }, null, false);
         }
     }
 
@@ -52,14 +64,26 @@ public class NetworkClientSendServer
         }
     }
 
-    public static void Login(string login, string password)
+    public static void Login(string login, string password, Action<bool> loginCallback)
     {
         using (var packet = new Packet((int)ClientToServer.loginUser))
         {
+            var packetId = Guid.NewGuid();
+            packet.Write(packetId);
             packet.Write(login);
             packet.Write(password);
 
             SendTCPData(packet);
+
+            NetworkResponseService<PacketResponse>.Instance.SubscribeCallback(packetId, (response) =>
+            {
+                var result = response.ReadBool();
+                
+                Debug.Log(result);
+
+                loginCallback(result);
+
+            }, null, false);
         }
     }
 

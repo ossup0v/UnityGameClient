@@ -9,8 +9,16 @@ public class LoginUI : MonoBehaviour
 
     public void Login()
     {
-        NetworkClientSendServer.Login(LoginField.text, PasswordField.text);
+        NetworkClientSendServer.Login(LoginField.text, PasswordField.text, LoginCallback);
 
         LoginMenu.SetActive(false);
+    }
+
+    private void LoginCallback(bool result)
+    { 
+        if (!result)
+        {
+            //retry here
+        }
     }
 }

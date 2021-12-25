@@ -147,14 +147,14 @@ public class NetworkClientHandler : MonoBehaviour
         var playerId = packet.ReadGuid();
         var weaponKind = packet.ReadInt();
 
-        GameManager.GetPlayer(playerId).ChooseWeapon((WeaponKind)weaponKind);
+        GameManager.GetPlayer(playerId)?.ChooseWeapon((WeaponKind)weaponKind);
     }
 
     public static void PlayerShoot(Packet packet)
     {
         var playerId = packet.ReadGuid();
 
-        GameManager.GetPlayer(playerId).Shoot();
+        GameManager.GetPlayer(playerId)?.Shoot();
     }
 
     public static void PlayerHit(Packet packet)
@@ -163,7 +163,7 @@ public class NetworkClientHandler : MonoBehaviour
         var weaponKind = (WeaponKind)packet.ReadInt();
         var position = packet.ReadVector3();
 
-        GameManager.GetPlayer(playerId).Hit(weaponKind, position);
+        GameManager.GetPlayer(playerId)?.Hit(weaponKind, position);
     }
 
     public static void BotChooseWeapon(Packet packet)
@@ -236,7 +236,11 @@ public class NetworkClientHandler : MonoBehaviour
         var playerId = packet.ReadGuid();
         var grenadeCount = packet.ReadInt();
 
-        GameManager.GetPlayer(playerId).GrenadeCount = grenadeCount;
+        var player = GameManager.GetPlayer(playerId);
+
+        if (player != null)
+            player.GrenadeCount = grenadeCount;
+
     }
 
     public static void InitMap(Packet packet)
@@ -295,7 +299,7 @@ public class NetworkClientHandler : MonoBehaviour
     {
         Vector3 scale = packet.ReadVector3();
         var playerId = packet.ReadGuid();
-        GameManager.GetPlayer(playerId).transform.lossyScale.Set(scale.x, scale.y, scale.z);
+        GameManager.GetPlayer(playerId)?.transform.lossyScale.Set(scale.x, scale.y, scale.z);
     }
 
     public static void ConnectToRoom(Packet packet)
@@ -315,16 +319,24 @@ public class NetworkClientHandler : MonoBehaviour
         {
             rooms[i] = new RoomListEntity
             {
-                RoomId              = packet.ReadGuid(),
-                Port                = packet.ReadInt(),
-                UserOwner           = packet.ReadString(),
-                Mode                = packet.ReadString(),
-                Title               = packet.ReadString(),
-                AvailableUserCount  = packet.ReadInt(),
-                UserInRoomCount     = packet.ReadInt(),
+                RoomId = packet.ReadGuid(),
+                Port = packet.ReadInt(),
+                UserOwner = packet.ReadString(),
+                Mode = packet.ReadString(),
+                Title = packet.ReadString(),
+                AvailableUserCount = packet.ReadInt(),
+                UserInRoomCount = packet.ReadInt(),
             };
         }
 
         RoomManager.Instance.Fill(rooms);
+    }
+
+    public static void HandleResponce(Packet packet)
+    {
+        NetworkResponseService<PacketResponse>
+            .Instance
+            .OnReceivePacket(
+                PacketResponse.CreateFromPacket(packet));
     }
 }

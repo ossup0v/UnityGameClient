@@ -11,8 +11,16 @@ public class RegisterUI : MonoBehaviour
     public void Register()
     {
         NetworkManager.Instance.Username = UsernameField.text;
-        NetworkClientSendServer.Register(LoginField.text, PasswordField.text, UsernameField.text);
+        NetworkClientSendServer.Register(LoginField.text, PasswordField.text, UsernameField.text, RegisterCallback);
 
         RegisterMenu.SetActive(false);
+    }
+
+    private void RegisterCallback(bool result)
+    {
+        if (!result)
+        {
+            //retry here
+        }
     }
 }

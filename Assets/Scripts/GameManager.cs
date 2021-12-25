@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour
 
     public static PlayerManager GetPlayer(Guid playerId)
     {
-        return Players[playerId];
+        Players.TryGetValue(playerId, out var player);
+        return player;
     }
 
     public void SpawnPlayer(Guid id, string username, WeaponKind currentWeapon, Vector3 position, Quaternion rotation)

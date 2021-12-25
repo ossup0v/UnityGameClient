@@ -865,7 +865,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 799848250809719036, guid: dae934916e77df24d9ee23b9a99b85fe, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 799848250809719038, guid: dae934916e77df24d9ee23b9a99b85fe, type: 3}
       propertyPath: m_Color.a
@@ -1156,6 +1156,10 @@ PrefabInstance:
     - target: {fileID: 3601526507230373559, guid: 64cbe1a57e508d7408ef84fdc3c0c663, type: 3}
       propertyPath: m_Name
       value: Rgister
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601526507230373559, guid: 64cbe1a57e508d7408ef84fdc3c0c663, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3601526507230373560, guid: 64cbe1a57e508d7408ef84fdc3c0c663, type: 3}
       propertyPath: m_Pivot.x
