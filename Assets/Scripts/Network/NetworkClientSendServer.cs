@@ -64,7 +64,7 @@ public class NetworkClientSendServer
         }
     }
 
-    public static void Login(string login, string password, Action<bool> loginCallback)
+    public static void Login(string login, string password, Action<bool, string> loginCallback)
     {
         using (var packet = new Packet((int)ClientToServer.loginUser))
         {
@@ -78,10 +78,15 @@ public class NetworkClientSendServer
             NetworkResponseService<PacketResponse>.Instance.SubscribeCallback(packetId, (response) =>
             {
                 var result = response.ReadBool();
-                
+                var message = string.Empty;
+
+                if (!result)
+                {
+                    message = response.ReadString();
+                }
                 Debug.Log(result);
 
-                loginCallback(result);
+                loginCallback(result, message);
 
             }, null, false);
         }

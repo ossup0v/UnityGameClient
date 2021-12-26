@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public RegisterUI RegisterUI;
     public InterRoomPanelUI InterRoomPanelUI;
     public RoomListUI RoomListUI;
+    public FailureUI FailureUI;
 
     private void Awake()
     {
@@ -52,10 +53,6 @@ public class UIManager : MonoBehaviour
     public void Login()
     {
         LoginUI.Login();
-        LoginUI.LoginMenu.SetActive(false);
-
-        RoomListUI.Menu.SetActive(true);
-        RoomListUI.enabled = true;
     }
 
     private void DisableAll()

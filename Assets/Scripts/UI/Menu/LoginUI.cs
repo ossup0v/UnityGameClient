@@ -10,15 +10,19 @@ public class LoginUI : MonoBehaviour
     public void Login()
     {
         NetworkClientSendServer.Login(LoginField.text, PasswordField.text, LoginCallback);
-
-        LoginMenu.SetActive(false);
     }
 
-    private void LoginCallback(bool result)
+    private void LoginCallback(bool result, string message)
     { 
         if (!result)
         {
-            //retry here
+            UIManager.Instance.FailureUI.ShowMessage(message);
+        }
+        else
+        {
+            UIManager.Instance.RoomListUI.Menu.SetActive(true);
+            UIManager.Instance.RoomListUI.enabled = true;
+            LoginMenu.SetActive(false);
         }
     }
 }
