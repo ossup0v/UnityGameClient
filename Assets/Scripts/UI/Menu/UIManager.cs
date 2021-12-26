@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+#warning delete this shit please
     public static UIManager Instance;
     public StartUI StartUI;
     public LoginUI LoginUI;
@@ -52,6 +53,9 @@ public class UIManager : MonoBehaviour
     {
         LoginUI.Login();
         LoginUI.LoginMenu.SetActive(false);
+
+        RoomListUI.Menu.SetActive(true);
+        RoomListUI.enabled = true;
     }
 
     private void DisableAll()
