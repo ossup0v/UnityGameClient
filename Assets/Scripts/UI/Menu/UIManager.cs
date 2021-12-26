@@ -38,10 +38,6 @@ public class UIManager : MonoBehaviour
     public void Register()
     {
         RegisterUI.Register();
-        RegisterUI.RegisterMenu.SetActive(false);
-
-        RoomListUI.Menu.SetActive(true);
-        RoomListUI.enabled = true;
     }
 
     public void JoinGameRoom()

@@ -30,7 +30,7 @@ public class NetworkClientSendServer
         }
     }
 
-    internal static void Register(string login, string password, string username, Action<bool> registerCallback)
+    internal static void Register(string login, string password, string username, Action<bool, string> registerCallback)
     {
         using (var packet = new Packet((int)ClientToServer.registerUser))
         {
@@ -45,10 +45,12 @@ public class NetworkClientSendServer
             NetworkResponseService<PacketResponse>.Instance.SubscribeCallback(packetId, (response) =>
             {
                 var result = response.ReadBool();
+                var message = string.Empty;
 
-                Debug.Log(result);
+                if (!result)
+                    message = response.ReadString();
 
-                registerCallback(result);
+                registerCallback(result, message);
 
             }, null, false);
         }
@@ -81,10 +83,7 @@ public class NetworkClientSendServer
                 var message = string.Empty;
 
                 if (!result)
-                {
                     message = response.ReadString();
-                }
-                Debug.Log(result);
 
                 loginCallback(result, message);
 

@@ -15,13 +15,17 @@ public class RegisterUI : MonoBehaviour
 
     }
 
-    private void RegisterCallback(bool result)
+    private void RegisterCallback(bool result, string message)
     {
         if (!result)
         {
-            //retry here
+            UIManager.Instance.FailureUI.ShowMessage(message);
         }
-
-        RegisterMenu.SetActive(false);
+        else
+        {
+            UIManager.Instance.RoomListUI.Menu.SetActive(true);
+            UIManager.Instance.RoomListUI.enabled = true;
+            RegisterMenu.SetActive(false);
+        }
     }
 }
