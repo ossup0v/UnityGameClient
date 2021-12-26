@@ -31,7 +31,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     //Network
-    public int Id;
+    public Guid Id;
     public string Username;
 
     //health
@@ -43,7 +43,7 @@ public class PlayerManager : MonoBehaviour
     //player bools
     private bool _isAlive = true;
 
-    public virtual void Initialize(int id, string username, WeaponKind currentWeapon)
+    public virtual void Initialize(Guid id, string username, WeaponKind currentWeapon)
     {
         Id = id;
         Username = username;

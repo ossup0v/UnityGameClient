@@ -5,7 +5,7 @@ using System.Linq;
 public static class RatingManager
 {
     public static Action RatingChanged = delegate { };
-    public static Dictionary<int, RatingEntity> Rating = new Dictionary<int, RatingEntity>();
+    public static Dictionary<Guid, RatingEntity> Rating = new Dictionary<Guid, RatingEntity>();
 
     public static void Init(RatingEntity[] ratingEntities)
     {
@@ -21,7 +21,7 @@ public static class RatingManager
         RatingChanged();
     }
 
-    public static void UpdateKillAndDeath(int killer, int died)
+    public static void UpdateKillAndDeath(Guid killer, Guid died)
     {
         Rating[killer].Killed++;
         Rating[died].Died++;
@@ -29,14 +29,14 @@ public static class RatingManager
         RatingChanged();
     }
 
-    public static void UpdateDeath(int died)
+    public static void UpdateDeath(Guid died)
     {
         Rating[died].Died++;
 
         RatingChanged();
     }
 
-    public static void UpdateBotKills(int killerId, int killCount)
+    public static void UpdateBotKills(Guid killerId, int killCount)
     {
         Rating[killerId].KilledBots = killCount;
 

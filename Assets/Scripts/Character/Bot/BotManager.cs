@@ -1,17 +1,18 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class BotManager : MonoBehaviour
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
     public List<GameObject> AvailableWeapons;
     public Transform WeaponPosition;
     private HealthManager _healthManager = new HealthManager();
     private WeaponsController _weaponsController;
     public HealthbarScript Healthbar;
 
-    public void Initialize(int id, WeaponKind currentWeapon)
+    public void Initialize(Guid id, WeaponKind currentWeapon)
     {
         Id = id;
 
@@ -38,7 +39,7 @@ public class BotManager : MonoBehaviour
 
         if (_healthManager.IsDie)
         {
-            GameManager.Bots.Remove(Id);
+            GameManager.RemoveBot(Id);
             Destroy(gameObject);
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class OtherPlayerManager : PlayerManager
@@ -7,7 +8,7 @@ public class OtherPlayerManager : PlayerManager
     public HealthbarScript Healthbar;
     public MeshRenderer EyesRenderer;
 
-    public override void Initialize(int id, string username, WeaponKind currentWeapon)
+    public override void Initialize(Guid id, string username, WeaponKind currentWeapon)
     {
         PlayerDie += OnPlayerDie;
         PlayerRespawn += OnPlayerRespawn;

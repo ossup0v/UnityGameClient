@@ -7,20 +7,33 @@ public class NetworkClientHandler : MonoBehaviour
     {
         Debug.Log("Welcome received");
         var message = packet.ReadString();
-        var myId = packet.ReadInt();
+        var myId = packet.ReadGuid();
+        var from = packet.ReadInt();
 
         Debug.Log($"Message from server {message}");
-        NetworkClient.Instance.MyId = myId;
-        NetworkClientSend.WelcomeReceived();
+        NetworkManager.Instance.ServerClient.MyId = myId;
+        NetworkManager.Instance.RoomClient.MyId = myId;
+        Debug.Log($"Welcome received, in packet {myId}");
 
-        NetworkClient.Instance.Udp.Connect(((IPEndPoint)NetworkClient.Instance.Tcp.Socket.Client.LocalEndPoint).Port);
+        if (from == 1)
+        {
+            NetworkClientSendServer.WelcomeReceived();
+            NetworkManager.Instance.ServerClient.Udp.Connect(((IPEndPoint)NetworkManager.Instance.ServerClient.Tcp.Socket.Client.LocalEndPoint).Port);
+        }
+        else if (from == 2)
+        {
+            NetworkClientSendRoom.WelcomeReceived();
+            NetworkManager.Instance.RoomClient.Udp.Connect(((IPEndPoint)NetworkManager.Instance.RoomClient.Tcp.Socket.Client.LocalEndPoint).Port);
+        }
+        else
+            Debug.LogError($"unexcepected from - {from}, can't connect");
     }
 
     public static void SpawnPlayer(Packet packet)
     {
         Debug.Log("Spawn player called");
 
-        var id = packet.ReadInt();
+        var id = packet.ReadGuid();
         var username = packet.ReadString();
         var position = packet.ReadVector3();
         var rotation = packet.ReadQuaternion();
@@ -31,7 +44,7 @@ public class NetworkClientHandler : MonoBehaviour
 
     public static void PlayerPosition(Packet packet)
     {
-        var id = packet.ReadInt();
+        var id = packet.ReadGuid();
         var position = packet.ReadVector3();
         try
         {
@@ -45,7 +58,7 @@ public class NetworkClientHandler : MonoBehaviour
 
     public static void PlayerRotation(Packet packet)
     {
-        var id = packet.ReadInt();
+        var id = packet.ReadGuid();
         var rotation = packet.ReadQuaternion();
 
         GameManager.Players[id].transform.rotation = rotation;
@@ -53,7 +66,7 @@ public class NetworkClientHandler : MonoBehaviour
 
     public static void PlayerDisconnected(Packet packet)
     {
-        var id = packet.ReadInt();
+        var id = packet.ReadGuid();
 
         Destroy(GameManager.Players[id].gameObject);
         GameManager.Players.Remove(id);
@@ -61,7 +74,7 @@ public class NetworkClientHandler : MonoBehaviour
 
     public static void PlayerHealth(Packet packet)
     {
-        var id = packet.ReadInt();
+        var id = packet.ReadGuid();
         var health = packet.ReadFloat();
 
         GameManager.Players[id].SetHealth(health);
@@ -69,7 +82,7 @@ public class NetworkClientHandler : MonoBehaviour
 
     public static void PlayerRespawned(Packet packet)
     {
-        var id = packet.ReadInt();
+        var id = packet.ReadGuid();
 
         GameManager.Players[id].Respawn();
     }
@@ -131,31 +144,31 @@ public class NetworkClientHandler : MonoBehaviour
 
     public static void PlayerChooseWeapon(Packet packet)
     {
-        var playerId = packet.ReadInt();
+        var playerId = packet.ReadGuid();
         var weaponKind = packet.ReadInt();
 
-        GameManager.GetPlayer(playerId).ChooseWeapon((WeaponKind)weaponKind);
+        GameManager.GetPlayer(playerId)?.ChooseWeapon((WeaponKind)weaponKind);
     }
 
     public static void PlayerShoot(Packet packet)
     {
-        var playerId = packet.ReadInt();
+        var playerId = packet.ReadGuid();
 
-        GameManager.GetPlayer(playerId).Shoot();
+        GameManager.GetPlayer(playerId)?.Shoot();
     }
 
     public static void PlayerHit(Packet packet)
     {
-        var playerId = packet.ReadInt();
+        var playerId = packet.ReadGuid();
         var weaponKind = (WeaponKind)packet.ReadInt();
         var position = packet.ReadVector3();
 
-        GameManager.GetPlayer(playerId).Hit(weaponKind, position);
+        GameManager.GetPlayer(playerId)?.Hit(weaponKind, position);
     }
 
     public static void BotChooseWeapon(Packet packet)
     {
-        var botId = packet.ReadInt();
+        var botId = packet.ReadGuid();
         var weaponKind = packet.ReadInt();
 
         GameManager.GetBot(botId).ChooseWeapon((WeaponKind)weaponKind);
@@ -163,14 +176,14 @@ public class NetworkClientHandler : MonoBehaviour
 
     public static void BotShoot(Packet packet)
     {
-        var botId = packet.ReadInt();
+        var botId = packet.ReadGuid();
 
         GameManager.GetBot(botId).Shoot();
     }
 
     public static void BotHit(Packet packet)
     {
-        var botId = packet.ReadInt();
+        var botId = packet.ReadGuid();
         var weaponKind = (WeaponKind)packet.ReadInt();
         var position = packet.ReadVector3();
 
@@ -184,7 +197,7 @@ public class NetworkClientHandler : MonoBehaviour
         for (int i = 0; i < entities.Length; i++)
         {
             entities[i] = new RatingEntity();
-            entities[i].Id = packet.ReadInt();
+            entities[i].Id = packet.ReadGuid();
             entities[i].Username = packet.ReadString();
             entities[i].Killed = packet.ReadInt();
             entities[i].Died = packet.ReadInt();
@@ -195,15 +208,15 @@ public class NetworkClientHandler : MonoBehaviour
 
     public static void RatingTableUpdateKillAndDeath(Packet packet)
     {
-        var killerId = packet.ReadInt();
-        var diedId = packet.ReadInt();
+        var killerId = packet.ReadGuid();
+        var diedId = packet.ReadGuid();
 
         RatingManager.UpdateKillAndDeath(killerId, diedId);
     }
 
     public static void RatingTableUpdateDeath(Packet packet)
     {
-        var diedId = packet.ReadInt();
+        var diedId = packet.ReadGuid();
 
         RatingManager.UpdateDeath(diedId);
     }
@@ -212,7 +225,7 @@ public class NetworkClientHandler : MonoBehaviour
     {
         var entity = new RatingEntity();
 
-        entity.Id = packet.ReadInt();
+        entity.Id = packet.ReadGuid();
         entity.Username = packet.ReadString();
 
         RatingManager.Update(entity);
@@ -220,10 +233,14 @@ public class NetworkClientHandler : MonoBehaviour
 
     public static void PlayerGrenadeCount(Packet packet)
     {
-        var playerId = packet.ReadInt();
+        var playerId = packet.ReadGuid();
         var grenadeCount = packet.ReadInt();
 
-        GameManager.GetPlayer(playerId).GrenadeCount = grenadeCount;
+        var player = GameManager.GetPlayer(playerId);
+
+        if (player != null)
+            player.GrenadeCount = grenadeCount;
+
     }
 
     public static void InitMap(Packet packet)
@@ -233,7 +250,7 @@ public class NetworkClientHandler : MonoBehaviour
 
     internal static void SpawnBot(Packet packet)
     {
-        var botId = packet.ReadInt();
+        var botId = packet.ReadGuid();
         var botPosition = packet.ReadVector3();
         var botWeaponKind = packet.ReadInt();
 
@@ -242,31 +259,37 @@ public class NetworkClientHandler : MonoBehaviour
 
     internal static void BotPosition(Packet packet)
     {
-        var botId = packet.ReadInt();
+        var botId = packet.ReadGuid();
         var botPosition = packet.ReadVector3();
 
-        GameManager.Bots[botId].transform.position = botPosition;
+        var bot = GameManager.GetBot(botId);
+
+        if (bot != null)
+            bot.transform.position = botPosition;
     }
 
     internal static void BotRotation(Packet packet)
     {
-        var botId = packet.ReadInt();
+        var botId = packet.ReadGuid();
         var botRotation = packet.ReadQuaternion();
 
-        GameManager.Bots[botId].transform.rotation = botRotation;
+        var bot = GameManager.GetBot(botId);
+
+        if (bot != null)
+            bot.transform.rotation = botRotation;
     }
 
     internal static void BotHealth(Packet packet)
     {
-        var botId = packet.ReadInt();
+        var botId = packet.ReadGuid();
         var botHealth = packet.ReadFloat();
 
-        GameManager.Bots[botId].SetHealth(botHealth);
+        GameManager.GetBot(botId)?.SetHealth(botHealth);
     }
 
     public static void RatingTableKilledBots(Packet packet)
     {
-        var killerId = packet.ReadInt();
+        var killerId = packet.ReadGuid();
         var killCount = packet.ReadInt();
 
         RatingManager.UpdateBotKills(killerId, killCount);
@@ -275,7 +298,45 @@ public class NetworkClientHandler : MonoBehaviour
     public static void PlayerScale(Packet packet)
     {
         Vector3 scale = packet.ReadVector3();
-        int playerID = packet.ReadInt();
-        GameManager.GetPlayer(playerID).transform.lossyScale.Set(scale.x, scale.y, scale.z);
+        var playerId = packet.ReadGuid();
+        GameManager.GetPlayer(playerId)?.transform.lossyScale.Set(scale.x, scale.y, scale.z);
+    }
+
+    public static void ConnectToRoom(Packet packet)
+    {
+        string roomHost = packet.ReadString();
+        int roomPort = packet.ReadInt();
+
+        NetworkManager.Instance.RoomClient.ConnectToServer(roomHost, roomPort);
+    }
+
+    public static void RoomList(Packet packet)
+    {
+        int roomsCount = packet.ReadInt();
+        RoomListEntity[] rooms = new RoomListEntity[roomsCount];
+
+        for (int i = 0; i < rooms.Length; i++)
+        {
+            rooms[i] = new RoomListEntity
+            {
+                RoomId = packet.ReadGuid(),
+                Port = packet.ReadInt(),
+                UserOwner = packet.ReadString(),
+                Mode = packet.ReadString(),
+                Title = packet.ReadString(),
+                AvailableUserCount = packet.ReadInt(),
+                UserInRoomCount = packet.ReadInt(),
+            };
+        }
+
+        RoomManager.Instance.Fill(rooms);
+    }
+
+    public static void HandleResponce(Packet packet)
+    {
+        NetworkResponseService<PacketResponse>
+            .Instance
+            .OnReceivePacket(
+                PacketResponse.CreateFromPacket(packet));
     }
 }
