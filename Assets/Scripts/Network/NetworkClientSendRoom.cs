@@ -20,7 +20,7 @@ public class NetworkClientSendRoom
     #region Packets
     public static void WelcomeReceived()
     {
-        using (var packet = new Packet((int)ClientToServer.welcomeReceived))
+        using (var packet = new Packet((int)ToServerFromClient.welcomeReceived))
         {
             packet.Write(NetworkManager.Instance.RoomClient.MyId);
             packet.Write(NetworkManager.Instance.Username);
@@ -31,7 +31,7 @@ public class NetworkClientSendRoom
 
     internal static void PlayerChangeWeapon(int leftOrRight)
     {
-        using (var packet = new Packet((int)ClientToGameRoom.playerChangeWeapon))
+        using (var packet = new Packet((int)ToGameRoom.playerChangeWeapon))
         {
             packet.Write(leftOrRight);
 
@@ -41,7 +41,7 @@ public class NetworkClientSendRoom
 
     public static void PlayerMovement(bool[] input)
     {
-        using (var packet = new Packet((int)ClientToGameRoom.playerMovement))
+        using (var packet = new Packet((int)ToGameRoom.playerMovement))
         {
             packet.Write(input.Length);
             foreach (var duration in input)
@@ -57,7 +57,7 @@ public class NetworkClientSendRoom
     public static void PlayerShoot(Vector3 duraction)
     {
         Debug.Log($"Shoot duraction {duraction}");
-        using (var packet = new Packet(ClientToGameRoom.playerShooting))
+        using (var packet = new Packet(ToGameRoom.playerShooting))
         {
             packet.Write(duraction);
 
@@ -67,7 +67,7 @@ public class NetworkClientSendRoom
 
     public static void PlayerThrowItem(Vector3 duraction)
     {
-        using (var packet = new Packet(ClientToGameRoom.playerThrowItem))
+        using (var packet = new Packet(ToGameRoom.playerThrowItem))
         {
             packet.Write(duraction);
 
@@ -77,7 +77,7 @@ public class NetworkClientSendRoom
 
     public static void PlayerRespawn()
     {
-        using (var packet = new Packet(ClientToGameRoom.playerRespawn))
+        using (var packet = new Packet(ToGameRoom.playerRespawn))
         {
             SendTCPData(packet);
         }

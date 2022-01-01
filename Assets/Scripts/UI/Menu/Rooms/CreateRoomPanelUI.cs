@@ -11,7 +11,12 @@ public class CreateRoomPanelUI : MonoBehaviour
 
     public void CreateGameRoom()
     {
-        NetworkClientSendServer.CreateGameRoom(RoomMode.text, Title.text, MaxPlayerCount.text);
+        var maxPlayerCount = 0;
+        if (!int.TryParse(MaxPlayerCount.text, out maxPlayerCount))
+        {
+            maxPlayerCount = 16;
+        }
+        NetworkClientSendServer.CreateGameRoom(RoomMode.text, Title.text, maxPlayerCount);
         CreateRoomPerfab.SetActive(false);
         Source.SetActive(false);
         Destroy(this);

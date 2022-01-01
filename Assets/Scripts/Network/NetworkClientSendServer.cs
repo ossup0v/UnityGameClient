@@ -21,7 +21,7 @@ public class NetworkClientSendServer
     #region Packets
     public static void WelcomeReceived()
     {
-        using (var packet = new Packet((int)ClientToServer.welcomeReceived))
+        using (var packet = new Packet((int)ToServerFromClient.welcomeReceived))
         {
             packet.Write(NetworkManager.Instance.ServerClient.MyId);
             packet.Write(NetworkManager.Instance.Username ?? "DummyUserName");
@@ -32,7 +32,7 @@ public class NetworkClientSendServer
 
     internal static void Register(string login, string password, string username, Action<bool, string> registerCallback)
     {
-        using (var packet = new Packet((int)ClientToServer.registerUser))
+        using (var packet = new Packet((int)ToServerFromClient.registerUser))
         {
             var packetId = Guid.NewGuid();
             packet.Write(packetId);
@@ -58,7 +58,7 @@ public class NetworkClientSendServer
 
     internal static void JoinGameRoom(Guid roomId)
     {
-        using (var packet = new Packet((int)ClientToServer.joinGameRoom))
+        using (var packet = new Packet((int)ToServerFromClient.joinGameRoom))
         {
             packet.Write(roomId);
 
@@ -68,7 +68,7 @@ public class NetworkClientSendServer
 
     public static void Login(string login, string password, Action<bool, string> loginCallback)
     {
-        using (var packet = new Packet((int)ClientToServer.loginUser))
+        using (var packet = new Packet((int)ToServerFromClient.loginUser))
         {
             var packetId = Guid.NewGuid();
             packet.Write(packetId);
@@ -91,9 +91,9 @@ public class NetworkClientSendServer
         }
     }
 
-    public static void CreateGameRoom(string mode, string title, string maxPlayerCount)
+    public static void CreateGameRoom(string mode, string title, int maxPlayerCount)
     {
-        using (var packet = new Packet((int)ClientToServer.createGameRoom))
+        using (var packet = new Packet((int)ToServerFromClient.createGameRoom))
         {
             packet.Write(mode);
             packet.Write(title);
