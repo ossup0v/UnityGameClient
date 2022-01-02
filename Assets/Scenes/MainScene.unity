@@ -417,6 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01341829b1c97a249b56549ccb75eaae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _networkClientUpdater: {fileID: 1597238543}
   BotPrefab: {fileID: 6749448156999669390, guid: b030125e4b9c1b0439c1ff6ea644ca49, type: 3}
   LocalPlayerPrefab: {fileID: 4664053812698889927, guid: 531e930973a12b24eb20026b9ae733ff, type: 3}
   OtherPlayerPrefab: {fileID: 4664053812698889927, guid: c776bbd146ab00748b44e89f4c2bcd8f, type: 3}
@@ -604,6 +605,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9103b92638e5fbc46a11a6c8b32e6c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1597238542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1597238544}
+  - component: {fileID: 1597238543}
+  m_Layer: 0
+  m_Name: NetworkClientUpdater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1597238543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597238542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1c018c1aef928409a1b91059bd21ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _networkClientUpdateables:
+  - {fileID: 11400000, guid: 97f0129cadab1b24d9d789aefdad75a4, type: 2}
+--- !u!4 &1597238544
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597238542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1831153099
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     public static Dictionary<int, ItemSpawner> ItemSpawners = new Dictionary<int, ItemSpawner>();
     public static Dictionary<int, ProjectileManager> Proectiles = new Dictionary<int, ProjectileManager>();
 
+    //TODO: убрать потом отсюда
+    [SerializeField] private NetworkClientUpdater _networkClientUpdater;
+
     public PlayerManager CurrentPlayer => Players[NetworkManager.Instance.ServerClient.MyId];
     public static BotManager GetBot(Guid id)
     {
@@ -60,6 +63,8 @@ public class GameManager : MonoBehaviour
         playerManager.Initialize(id, username, currentWeapon);
 
         Players.Add(id, playerManager);
+        // TODO: это временно
+        _networkClientUpdater.Enable();
     }
 
     public void SpawnBot(Guid id, WeaponKind currentWeapon, Vector3 position)

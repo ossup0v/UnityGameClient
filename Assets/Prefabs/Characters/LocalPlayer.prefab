@@ -604,6 +604,7 @@ GameObject:
   - component: {fileID: 7664235132307041852}
   - component: {fileID: 783367698813862737}
   - component: {fileID: 9043456672269690737}
+  - component: {fileID: 1947491179380257338}
   m_Layer: 0
   m_Name: LocalPlayer
   m_TagString: Untagged
@@ -658,12 +659,24 @@ MonoBehaviour:
   WeaponPrefabs:
   - {fileID: 4490302565791019165, guid: f26add0b8561051438426890f3bd0f19, type: 3}
   - {fileID: 4243822520434059602, guid: 2a7b99d5c09f3b64a90570b193865576, type: 3}
-  Id: 0
   Username: 
   model: {fileID: 8725546136457947171}
   HPText: {fileID: 1761579708379991358}
   RatingText: {fileID: 4094985967934689112}
   ItemCountText: {fileID: 5226987444084806670}
+--- !u!114 &1947491179380257338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4664053812698889927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 608757f39ca0ffe41899c4acdf9f820b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _networkPlayerInputSender: {fileID: 11400000, guid: 97f0129cadab1b24d9d789aefdad75a4, type: 2}
 --- !u!1 &7584330002928080592
 GameObject:
   m_ObjectHideFlags: 0
