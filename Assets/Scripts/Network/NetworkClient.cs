@@ -19,8 +19,6 @@ public class NetworkClient : MonoBehaviour
     private delegate void PacketHandler(Packet packet);
     private static Dictionary<int, PacketHandler> PacketHandlers;
 
-    [SerializeField] private NetworkClientReceiver _networkClientReceiver;
-
     private void OnApplicationQuit()
     {
         Disconnect();
@@ -36,7 +34,6 @@ public class NetworkClient : MonoBehaviour
         Udp = new UDP(this);
         
         InitializeClientData();
-        _networkClientReceiver.Init();
 
         isConnected = true;
         Tcp.Connect();

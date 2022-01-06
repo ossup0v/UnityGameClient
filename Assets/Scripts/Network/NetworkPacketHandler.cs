@@ -21,6 +21,7 @@ namespace Tmp
 
             var qwe3 = qwe.GetPacketHandlerByPacketID<PlayerMovementPacketHandler>(PlayerMovementPacket.PacketNumber);
             Debug.Log(qwe3.GetType());
+            System.Console.Write("qweqw");
         }
 
         public void FindAllPacketHandlers()
