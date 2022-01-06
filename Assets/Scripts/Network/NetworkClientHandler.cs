@@ -48,7 +48,7 @@ public class NetworkClientHandler : MonoBehaviour
         var position = packet.ReadVector3();
         try
         {
-            GameManager.Players[id].transform.position = position;
+            GameManager.Players[id].GetComponent<CharacterMovementViaNetwork>().ForceUpdatePosition(position);
         }
         catch (System.Exception ex)
         {
@@ -60,8 +60,7 @@ public class NetworkClientHandler : MonoBehaviour
     {
         var id = packet.ReadGuid();
         var rotation = packet.ReadQuaternion();
-
-        GameManager.Players[id].transform.rotation = rotation;
+        GameManager.Players[id].GetComponent<CharacterMovementViaNetwork>().ForceUpdateRotation(rotation);
     }
 
     public static void PlayerDisconnected(Packet packet)

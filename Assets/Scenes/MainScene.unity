@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ip: 
   Port: 26954
+  _networkClientReceiver: {fileID: 0}
 --- !u!4 &41076281
 Transform:
   m_ObjectHideFlags: 0
@@ -199,6 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ip: 
   Port: 26950
+  _networkClientReceiver: {fileID: 11400000, guid: 39eaff0042c8e554ea6e34ed131870c5, type: 2}
 --- !u!4 &249130425
 Transform:
   m_ObjectHideFlags: 0

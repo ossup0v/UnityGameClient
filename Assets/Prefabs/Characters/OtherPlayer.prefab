@@ -106,6 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7664235132307041852}
   - component: {fileID: 6214590877369200991}
+  - component: {fileID: 2073719482443920903}
   m_Layer: 0
   m_Name: OtherPlayer
   m_TagString: Untagged
@@ -147,12 +148,23 @@ MonoBehaviour:
   WeaponPrefabs:
   - {fileID: 4490302565791019165, guid: f26add0b8561051438426890f3bd0f19, type: 3}
   - {fileID: 4243822520434059602, guid: 2a7b99d5c09f3b64a90570b193865576, type: 3}
-  Id: 0
   Username: 
   model: {fileID: 8725546136457947171}
   HealthbarPrefab: {fileID: 6976212469573840303}
   Healthbar: {fileID: 6976212469573840300}
   EyesRenderer: {fileID: 2310968124658580532}
+--- !u!114 &2073719482443920903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4664053812698889927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f905ef7191e06af438e4f8c2532b6a36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6498572062109169666
 GameObject:
   m_ObjectHideFlags: 0
