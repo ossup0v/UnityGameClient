@@ -7,12 +7,14 @@ public class StartUI : MonoBehaviour
     public InputField Localhost;
     public InputField LocalhostRoom;
     public InputField RemoteServer;
+    private const int _defaultPort = 26954;
 
     private void Awake()
     {
         StartMenu.SetActive(true);
         Localhost.text = "127.0.0.1";
         RemoteServer.text = "3.66.29.169";
+        LocalhostRoom.text = _defaultPort.ToString();
     }
 
     public void ConnectToServer()
@@ -34,9 +36,8 @@ public class StartUI : MonoBehaviour
         StartMenu.SetActive(false);
         SetUnActive();
 
-        var defaultPort = 26954;
         if (int.TryParse(LocalhostRoom.text, out var port))
-            port = defaultPort;
+            port = _defaultPort;
 
         NetworkManager.Instance.RoomClient.ConnectToServer("127.0.0.1", port);
     }
@@ -45,6 +46,7 @@ public class StartUI : MonoBehaviour
     {
         Localhost.interactable = false;
         RemoteServer.interactable = false;
+        LocalhostRoom.interactable = false;
     }
 }
 

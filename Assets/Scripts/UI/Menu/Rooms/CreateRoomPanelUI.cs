@@ -26,4 +26,11 @@ public class CreateRoomPanelUI : MonoBehaviour
     {
         CreateRoomPerfab.SetActive(false);
     }
+
+    public void DisableAll()
+    {
+        CreateRoomPerfab.SetActive(false);
+        Source.SetActive(false);
+        Destroy(this);
+    }
 }

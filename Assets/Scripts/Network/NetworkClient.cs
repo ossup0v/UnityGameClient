@@ -309,13 +309,14 @@ public class NetworkClient : MonoBehaviour
             [(int)ToClient.ratingTableUpdateKilledBots] = NetworkClientHandler.RatingTableKilledBots,
             [(int)ToClient.roomPortToConnect] = NetworkClientHandler.ConnectToRoom,
             [(int)ToClient.roomList] = NetworkClientHandler.RoomList,
+            [(int)ToClient.gameRoomSessionEnd] = NetworkClientHandler.GameRoomSessionEnd,
             [(int)ToClient.response] = NetworkClientHandler.HandleResponce,
         };
         Debug.Log($"{nameof(InitializeClientData)} was called");
     }
 
     /// <summary>Disconnects from the server and stops all network traffic.</summary>
-    private void Disconnect()
+    public void Disconnect()
     {
         if (isConnected)
         {

@@ -7,7 +7,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    private static Dictionary<Guid, BotManager> _bots = new Dictionary<Guid, BotManager>();
+    public static Dictionary<Guid, BotManager> Bots = new Dictionary<Guid, BotManager>();
     public static Dictionary<Guid, PlayerManager> Players = new Dictionary<Guid, PlayerManager>();
     public static Dictionary<int, ItemSpawner> ItemSpawners = new Dictionary<int, ItemSpawner>();
     public static Dictionary<int, ProjectileManager> Proectiles = new Dictionary<int, ProjectileManager>();
@@ -15,12 +15,12 @@ public class GameManager : MonoBehaviour
     public PlayerManager CurrentPlayer => Players[NetworkManager.Instance.ServerClient.MyId];
     public static BotManager GetBot(Guid id)
     {
-        _bots.TryGetValue(id, out var bot);
+        Bots.TryGetValue(id, out var bot);
         return bot;
     }
     public static void RemoveBot(Guid id)
     { 
-        _bots.Remove(id);
+        Bots.Remove(id);
     }
 
     public GameObject BotPrefab;
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         return player;
     }
 
-    public void SpawnPlayer(Guid id, string username, WeaponKind currentWeapon, Vector3 position, Quaternion rotation)
+    public void SpawnPlayer(Guid id, string username, int team, WeaponKind currentWeapon, Vector3 position, Quaternion rotation)
     {
         var player = NetworkManager.Instance.ServerClient.MyId == id ?
             Instantiate(LocalPlayerPrefab, position, rotation) :
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 
         var playerManager = player.GetComponent<PlayerManager>();
 
-        playerManager.Initialize(id, username, currentWeapon);
+        playerManager.Initialize(id, username, team, currentWeapon);
 
         Players.Add(id, playerManager);
     }
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
 
         botManager.Initialize(id, currentWeapon);
 
-        _bots.Add(id, botManager);
+        Bots.Add(id, botManager);
     }
 
     public void CreateItemSpawner(int spawnerId, bool hasItem, Vector3 position)

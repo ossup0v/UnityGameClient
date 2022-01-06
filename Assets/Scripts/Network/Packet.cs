@@ -36,7 +36,8 @@ public enum ToClient
     botChooseWeapon,
     botHit,
     ratingTableUpdateKilledBots,
-    playerScale,
+    playerScale, 
+    gameRoomSessionEnd,
 
     //server packets
     roomPortToConnect,
@@ -67,7 +68,9 @@ public enum ToServerFromClient
     registerUser,
     joinGameRoom,
     loginUser,
-    createGameRoom
+    createGameRoom,
+    startSearchGameRoom,
+    cancelSearchGameRoom
 }
 
 public enum ToServerFromGameRoom

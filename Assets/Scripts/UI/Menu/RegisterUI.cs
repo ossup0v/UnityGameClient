@@ -8,11 +8,17 @@ public class RegisterUI : MonoBehaviour
     public InputField PasswordField;
     public InputField UsernameField;
 
+    private void Awake()
+    {
+        PasswordField.text = "password" + Random.Range(1, 1000).ToString();
+        UsernameField.text = "username" + Random.Range(1, 1000).ToString();
+        LoginField.text = "login" + Random.Range(1, 1000).ToString();
+    }
+
     public void Register()
     {
         NetworkManager.Instance.Username = UsernameField.text;
         NetworkClientSendServer.Register(LoginField.text, PasswordField.text, UsernameField.text, RegisterCallback);
-
     }
 
     private void RegisterCallback(bool result, string message)
