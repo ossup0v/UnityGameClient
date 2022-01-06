@@ -8,8 +8,8 @@ namespace Refactor
         private TcpClient _tcpClient;
         private NetworkStream _networkStream;
         private byte[] _receiveBuffer;
-        private readonly int _bufferSize;
         private IBytesReadable _bytesReadable;
+        private readonly int _bufferSize;
 
         public TCPClient(int bufferSize, IBytesReadable bytesReadable)
         {
@@ -17,21 +17,41 @@ namespace Refactor
             _bytesReadable = bytesReadable;
         }
 
-        public void Connect(string host, int port)
+        public void Connect(string ip, int port)
         {
-            Logger.WriteLog(nameof(Connect), $"Trying connect to server {host}:{port}");
-            _tcpClient.BeginConnect(host, port, OnConnected, null);
+            _tcpClient = new TcpClient();
+            _tcpClient.ReceiveBufferSize = _bufferSize;
+            _tcpClient.SendBufferSize = _bufferSize;
+            Logger.WriteLog(nameof(Connect), $"Trying connect to server {ip}:{port}");
+            _tcpClient.BeginConnect(ip, port, OnConnected, null);
         }
 
         public void CloseConnection()
         {
             _networkStream.Close();
             _tcpClient.Close();
+            _tcpClient = null;
+        }
+
+        public void Send(byte[] bytes)
+        {
+            try
+            {
+                if (_tcpClient != null)
+                {
+                    _networkStream.BeginWrite(bytes, 0, bytes.Length, null, null);
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.WriteError(nameof(Send), exception.Message);
+            }
         }
 
         private void OnConnected(IAsyncResult asyncResult)
         {
             _tcpClient.EndConnect(asyncResult);
+            
             if (_tcpClient.Connected == false)
             {
                 Logger.WriteError(nameof(OnConnected), "Connection not established");
@@ -41,6 +61,11 @@ namespace Refactor
 
             _networkStream = _tcpClient.GetStream();
             BeginRead();
+        }
+
+        private void BeginRead()
+        {
+            _networkStream.BeginRead(_receiveBuffer, 0, _bufferSize, OnReaded, null);
         }
 
         private void OnReaded(IAsyncResult asyncResult)
@@ -67,11 +92,6 @@ namespace Refactor
                 Logger.WriteError(nameof(OnReaded), exception.Message);
                 CloseConnection();
             }
-        }
-
-        private void BeginRead()
-        {
-            _networkStream.BeginRead(_receiveBuffer, 0, _bufferSize, OnReaded, null);
         }
     }
 }
