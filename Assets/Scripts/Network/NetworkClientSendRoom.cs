@@ -40,7 +40,7 @@ public class NetworkClientSendRoom
         }
     }
 
-    public static void PlayerMovement(bool[] input)
+    public static void PlayerInput(bool[] input)
     {
         using (var packet = new Packet((int)ToGameRoom.playerMovement))
         {
