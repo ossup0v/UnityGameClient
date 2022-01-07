@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     private void SendInputToServer()
     {
-        bool[] input = new bool[]
+            bool[] input = new bool[]
             {
                 Input.GetKey(KeyCode.W),
                 Input.GetKey(KeyCode.S),

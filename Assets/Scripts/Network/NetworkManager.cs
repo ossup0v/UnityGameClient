@@ -14,6 +14,7 @@ public class NetworkManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            Instance.Team = Random.Range(1, 2);
         }
         else if (Instance != this)
         {
