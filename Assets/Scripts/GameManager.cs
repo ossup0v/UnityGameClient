@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject BotPrefab;
     public GameObject LocalPlayerPrefab;
+    public GameObject EnemyPlayerPrefab;
     public GameObject OtherPlayerPrefab;
     public GameObject ItemSpawnerPrefab;
     public GameObject ProjectilePrefab;
@@ -51,9 +52,26 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayer(Guid id, string username, int team, WeaponKind currentWeapon, Vector3 position, Quaternion rotation)
     {
-        var player = NetworkManager.Instance.ServerClient.MyId == id ?
-            Instantiate(LocalPlayerPrefab, position, rotation) :
-            Instantiate(OtherPlayerPrefab, position, rotation);
+        var itsMe = NetworkManager.Instance.ServerClient.MyId == id;
+        GameObject player;
+
+        if (itsMe)
+        {
+            player = Instantiate(LocalPlayerPrefab, position, rotation);
+        }
+        else
+        {
+            var itsEnemy = NetworkManager.Instance.Team != team;
+
+            if (itsEnemy)
+            {
+                player = Instantiate(EnemyPlayerPrefab, position, rotation);
+            }
+            else
+            { 
+                player = Instantiate(OtherPlayerPrefab, position, rotation);
+            }
+        }
 
         var playerManager = player.GetComponent<PlayerManager>();
 

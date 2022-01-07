@@ -53,7 +53,7 @@ public class NetworkClientHandler : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Debug.LogError(ex.Message);
+            //Debug.LogError(ex.Message);
         }
     }
 
@@ -62,7 +62,14 @@ public class NetworkClientHandler : MonoBehaviour
         var id = packet.ReadGuid();
         var rotation = packet.ReadQuaternion();
 
-        GameManager.Players[id].transform.rotation = rotation;
+        try
+        {
+            GameManager.Players[id].transform.rotation = rotation;
+        }
+        catch (System.Exception ex)
+        {
+            //Debug.LogError(ex.Message);
+        }
     }
 
     public static void PlayerDisconnected(Packet packet)
@@ -172,14 +179,14 @@ public class NetworkClientHandler : MonoBehaviour
         var botId = packet.ReadGuid();
         var weaponKind = packet.ReadInt();
 
-        GameManager.GetBot(botId).ChooseWeapon((WeaponKind)weaponKind);
+        GameManager.GetBot(botId)?.ChooseWeapon((WeaponKind)weaponKind);
     }
 
     public static void BotShoot(Packet packet)
     {
         var botId = packet.ReadGuid();
 
-        GameManager.GetBot(botId).Shoot();
+        GameManager.GetBot(botId)?.Shoot();
     }
 
     public static void BotHit(Packet packet)
@@ -188,7 +195,7 @@ public class NetworkClientHandler : MonoBehaviour
         var weaponKind = (WeaponKind)packet.ReadInt();
         var position = packet.ReadVector3();
 
-        GameManager.GetBot(botId).Hit(weaponKind, position);
+        GameManager.GetBot(botId)?.Hit(weaponKind, position);
     }
 
     public static void RatingTableInit(Packet packet)

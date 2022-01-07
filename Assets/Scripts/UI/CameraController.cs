@@ -29,7 +29,6 @@ public class CameraController : MonoBehaviour
         {
             Look();
         }
-        Debug.DrawRay(transform.position, transform.forward * 2, Color.red);
     }
 
     private void Look()
@@ -57,5 +56,11 @@ public class CameraController : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
+    }
+
+    private void OnDestroy()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

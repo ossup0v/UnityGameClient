@@ -20,4 +20,9 @@ public class JoinRoomPanelUI : MonoBehaviour
         NetworkClientSendServer.CancelSearchRoomGame();
         CancelButton.SetActive(false);
     }
+
+    private void OnEnable()
+    {
+        CancelButton.SetActive(false);
+    }
 }

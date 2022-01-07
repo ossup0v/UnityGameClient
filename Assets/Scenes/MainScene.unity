@@ -430,6 +430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BotPrefab: {fileID: 6749448156999669390, guid: b030125e4b9c1b0439c1ff6ea644ca49, type: 3}
   LocalPlayerPrefab: {fileID: 4664053812698889927, guid: 531e930973a12b24eb20026b9ae733ff, type: 3}
+  EnemyPlayerPrefab: {fileID: 3865058054430907389, guid: 3741920a97792fb448e9aab2fd9339b7, type: 3}
   OtherPlayerPrefab: {fileID: 4664053812698889927, guid: c776bbd146ab00748b44e89f4c2bcd8f, type: 3}
   ItemSpawnerPrefab: {fileID: 394259377705562903, guid: de891978e842ad04d9d97f63e56db6b7, type: 3}
   ProjectilePrefab: {fileID: 7624398102363614902, guid: f9b8ed65c077d3246af7711d7ba2eaeb, type: 3}
