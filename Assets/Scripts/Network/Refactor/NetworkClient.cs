@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Tmp;
 using UnityEngine;
 
 namespace Refactor
 {
     [CreateAssetMenu(fileName = "NetworkClient", menuName = "Network/NetworkClient", order = 0)]
-    public class NetworkClient : NetworkClientBase, IBytesReadable, INetworkPacketsHandler
+    public class NetworkClient : NetworkClientBase, IBytesReadable, IPacketHandlersHolder
     {
         private const int BufferSize = 1024;
         private UDPClient _udpClient;
@@ -28,7 +27,7 @@ namespace Refactor
             }
         }
 
-        public static void FindAllPacketHandlers<T>(Dictionary<int, IPacketHandleable> packetHandlersByPacketID) where T : class, INetworkPacketsHandler
+        public static void FindAllPacketHandlers<T>(Dictionary<int, IPacketHandleable> packetHandlersByPacketID) where T : class, IPacketHandlersHolder
         {
             Debug.Log("wqeqwe");
             var networkClientType = typeof(T);
@@ -40,7 +39,7 @@ namespace Refactor
                     var networkPacketAttribute = type.GetCustomAttribute(typeof(NetworkPacketAttribute), false) as NetworkPacketAttribute;
                     if (networkPacketAttribute != null)
                     {
-                        var isHasInterface = networkPacketAttribute.PacketHandler.GetInterfaces().Contains(typeof(INetworkPacketsHandler));
+                        var isHasInterface = networkPacketAttribute.PacketHandler.GetInterfaces().Contains(typeof(IPacketHandlersHolder));
                         if (isHasInterface)
                         {
                             if (networkPacketAttribute.PacketHandler == typeof(T))
@@ -63,6 +62,11 @@ namespace Refactor
         public void ReadBytes(byte[] bytes)
         {
             var packetNumber = 0;
+        }
+
+        public T GetPacketHandlerByPacketID<T>(int packetID) where T : class, IPacketHandleable
+        {
+            throw new NotImplementedException();
         }
     }
 }
