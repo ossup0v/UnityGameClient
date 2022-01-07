@@ -8,14 +8,14 @@ public class OtherPlayerManager : PlayerManager
     public HealthbarScript Healthbar;
     public MeshRenderer EyesRenderer;
 
-    public override void Initialize(Guid id, string username, WeaponKind currentWeapon)
+    public override void Initialize(Guid id, string username, int team, WeaponKind currentWeapon)
     {
         PlayerDie += OnPlayerDie;
         PlayerRespawn += OnPlayerRespawn;
         healthManager.HealthChanged += OnHealthChanged;
 
         Healthbar.SetMaxHealth(healthManager.MaxPlayerHealth);
-        base.Initialize(id, username, currentWeapon);
+        base.Initialize(id, username, team, currentWeapon);
     }
 
     private void OnHealthChanged(float hp)

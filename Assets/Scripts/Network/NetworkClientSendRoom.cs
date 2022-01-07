@@ -24,6 +24,7 @@ public class NetworkClientSendRoom
         {
             packet.Write(NetworkManager.Instance.RoomClient.MyId);
             packet.Write(NetworkManager.Instance.Username);
+            packet.Write(NetworkManager.Instance.Team);
 
             SendTCPData(packet);
         }

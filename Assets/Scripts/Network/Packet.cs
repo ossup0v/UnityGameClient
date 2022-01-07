@@ -41,6 +41,8 @@ public enum ToClient
     //server packets
     roomPortToConnect,
     roomList,
+    gameRoomSessionEnd,
+
     response
 }
 
@@ -67,7 +69,9 @@ public enum ToServerFromClient
     registerUser,
     joinGameRoom,
     loginUser,
-    createGameRoom
+    createGameRoom,
+    startSearchGameRoom,
+    cancelSearchGameRoom
 }
 
 public enum ToServerFromGameRoom

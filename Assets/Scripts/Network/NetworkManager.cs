@@ -5,6 +5,7 @@ public class NetworkManager : MonoBehaviour
     public static NetworkManager Instance;
 
     public string Username;
+    public int Team;
     public NetworkClient ServerClient;
     public NetworkClient RoomClient;
 

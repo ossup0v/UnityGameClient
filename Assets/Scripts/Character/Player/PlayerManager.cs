@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour
     public Action PlayerDie = delegate { };
     public Action PlayerRespawn = delegate { };
 
+    public int Team { get; private set; }
     //Weapons
     private WeaponsController weaponsController;
     public Transform WeaponPosition;
@@ -43,10 +44,11 @@ public class PlayerManager : MonoBehaviour
     //player bools
     private bool _isAlive = true;
 
-    public virtual void Initialize(Guid id, string username, WeaponKind currentWeapon)
+    public virtual void Initialize(Guid id, string username, int team, WeaponKind currentWeapon)
     {
         Id = id;
         Username = username;
+        Team = team;
 
         var weapons = WeaponPrefabs.Select(x => Instantiate(x, transform)).ToDictionary(x => x.GetComponent<WeaponBase>().Kind, x => x.GetComponent<WeaponBase>());
 

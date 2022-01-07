@@ -102,5 +102,21 @@ public class NetworkClientSendServer
             SendTCPData(packet);
         }
     }
+
+    public static void StartSearchRoomGame()
+    {
+        using (var packet = new Packet((int)ToServerFromClient.startSearchGameRoom))
+        {
+            SendTCPData(packet);
+        }
+    }
+
+    public static void CancelSearchRoomGame()
+    {
+        using (var packet = new Packet((int)ToServerFromClient.cancelSearchGameRoom))
+        {
+            SendTCPData(packet);
+        }
+    }
     #endregion
 }

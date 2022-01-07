@@ -35,11 +35,12 @@ public class NetworkClientHandler : MonoBehaviour
 
         var id = packet.ReadGuid();
         var username = packet.ReadString();
+        var team = packet.ReadInt();
         var position = packet.ReadVector3();
         var rotation = packet.ReadQuaternion();
         var currentWeaponKind = packet.ReadInt();
 
-        GameManager.Instance.SpawnPlayer(id, username, (WeaponKind)currentWeaponKind, position, rotation);
+        GameManager.Instance.SpawnPlayer(id, username, team, (WeaponKind)currentWeaponKind, position, rotation);
     }
 
     public static void PlayerPosition(Packet packet)
@@ -52,7 +53,7 @@ public class NetworkClientHandler : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Debug.LogError(ex.Message);
+            //Debug.LogError(ex.Message);
         }
     }
 
@@ -61,7 +62,14 @@ public class NetworkClientHandler : MonoBehaviour
         var id = packet.ReadGuid();
         var rotation = packet.ReadQuaternion();
 
-        GameManager.Players[id].transform.rotation = rotation;
+        try
+        {
+            GameManager.Players[id].transform.rotation = rotation;
+        }
+        catch (System.Exception ex)
+        {
+            //Debug.LogError(ex.Message);
+        }
     }
 
     public static void PlayerDisconnected(Packet packet)
@@ -171,14 +179,14 @@ public class NetworkClientHandler : MonoBehaviour
         var botId = packet.ReadGuid();
         var weaponKind = packet.ReadInt();
 
-        GameManager.GetBot(botId).ChooseWeapon((WeaponKind)weaponKind);
+        GameManager.GetBot(botId)?.ChooseWeapon((WeaponKind)weaponKind);
     }
 
     public static void BotShoot(Packet packet)
     {
         var botId = packet.ReadGuid();
 
-        GameManager.GetBot(botId).Shoot();
+        GameManager.GetBot(botId)?.Shoot();
     }
 
     public static void BotHit(Packet packet)
@@ -187,7 +195,7 @@ public class NetworkClientHandler : MonoBehaviour
         var weaponKind = (WeaponKind)packet.ReadInt();
         var position = packet.ReadVector3();
 
-        GameManager.GetBot(botId).Hit(weaponKind, position);
+        GameManager.GetBot(botId)?.Hit(weaponKind, position);
     }
 
     public static void RatingTableInit(Packet packet)
@@ -305,8 +313,11 @@ public class NetworkClientHandler : MonoBehaviour
     public static void ConnectToRoom(Packet packet)
     {
         string roomHost = packet.ReadString();
+        int team = packet.ReadInt();
         int roomPort = packet.ReadInt();
 
+        MetagameUI.Instance.DisableAll();
+        NetworkManager.Instance.Team = team;
         NetworkManager.Instance.RoomClient.ConnectToServer(roomHost, roomPort);
     }
 
@@ -330,6 +341,43 @@ public class NetworkClientHandler : MonoBehaviour
         }
 
         RoomManager.Instance.Fill(rooms);
+    }
+
+    public static void GameRoomSessionEnd(Packet packet)
+    {
+        MapManager.Instance.DestroyMap();
+        
+        foreach (var player in GameManager.Players)
+        {
+            Destroy(player.Value.gameObject);
+        }
+
+        GameManager.Players.Clear();
+
+        foreach (var bot in GameManager.Bots)
+        {
+            Destroy(bot.Value.gameObject);
+        }
+
+        GameManager.Bots.Clear();
+
+        foreach (var projectile in GameManager.Proectiles)
+        {
+            Destroy(projectile.Value.gameObject);
+        }
+
+        GameManager.Proectiles.Clear();
+
+        foreach (var spawner in GameManager.ItemSpawners)
+        {
+            Destroy(spawner.Value.gameObject);
+        }
+
+        GameManager.ItemSpawners.Clear();
+
+        MetagameUI.Instance.EnableAll();
+
+        NetworkManager.Instance.RoomClient.Disconnect();
     }
 
     public static void HandleResponce(Packet packet)

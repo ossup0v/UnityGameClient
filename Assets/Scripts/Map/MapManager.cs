@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ public class MapManager : MonoBehaviour
 {
     public GameObject MapEntityPrefab;
     public Material[] Materials;
-
+    private List<GameObject> _mapEntities = new List<GameObject>();
 
     public static MapManager Instance;
 
@@ -52,6 +53,9 @@ public class MapManager : MonoBehaviour
                 var scale = new Vector3(float.Parse(scaleText[0], ci), float.Parse(scaleText[1], ci), float.Parse(scaleText[2], ci));
 
                 var @object = Instantiate(MapEntityPrefab, position, rotation);
+
+                _mapEntities.Add(@object);
+                
                 @object.transform.localScale = scale;
 
                 var materialText = obj.Substring(indexOfMatirealId + 2);
@@ -65,6 +69,14 @@ public class MapManager : MonoBehaviour
             {
                 Debug.LogError(ex.Message);
             }
+        }
+    }
+
+    public void DestroyMap()
+    {
+        foreach (var entity in _mapEntities)
+        {
+            Destroy(entity);
         }
     }
 }

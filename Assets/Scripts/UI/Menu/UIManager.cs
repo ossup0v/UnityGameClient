@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public InterRoomPanelUI InterRoomPanelUI;
     public RoomListUI RoomListUI;
     public FailureUI FailureUI;
+    public MetagameUI MetagameUI;
 
     private void Awake()
     {
