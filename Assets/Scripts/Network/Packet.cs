@@ -37,6 +37,9 @@ public enum ToClient
     botHit,
     ratingTableUpdateKilledBots,
     playerScale,
+    itemSpawnedOnMap,
+    playerBulletAmount,
+    itemOnMapPickup,
 
     //server packets
     roomPortToConnect,
@@ -45,7 +48,6 @@ public enum ToClient
 
     response
 }
-
 public enum ToGameRoom
 {
     //client packets

@@ -6,10 +6,11 @@ internal class LocalPlayerManager : PlayerManager
     public Text HPText;
     public Text RatingText;
     public Text ItemCountText;
+    public Text BulletsText;
 
     private void Awake()
     {
-        Subscribe();
+        InitializePostprocess += AfterInitialize;
     }
 
     private void OnHealthChanged(float hp)
@@ -35,13 +36,24 @@ internal class LocalPlayerManager : PlayerManager
         RatingText.text = text.ToString();
     }
 
+    private void OnWeaponStateChanged(WeaponBase weapon)
+    {
+        BulletsText.text = $"  B: {weapon.CurrentBulletAmount}/{weapon.MaxBulletAmount}";
+    }
+
     private void OnGrenadeCountChanged(int count)
     {
         ItemCountText.text = $" G: {count}/3";
     }
 
+    private void AfterInitialize()
+    { 
+        Subscribe();
+    }
+
     private void Subscribe()
     {
+        weaponsController.WeaponStateChange += OnWeaponStateChanged;
         healthManager.HealthChanged += OnHealthChanged;
         GrenadeCountChanged += OnGrenadeCountChanged;
         RatingManager.RatingChanged += OnRatingChanged;
@@ -49,6 +61,7 @@ internal class LocalPlayerManager : PlayerManager
 
     private void Unsubcribe()
     {
+        weaponsController.WeaponStateChange -= OnWeaponStateChanged;
         healthManager.HealthChanged -= OnHealthChanged;
         GrenadeCountChanged -= OnGrenadeCountChanged;
         RatingManager.RatingChanged -= OnRatingChanged;

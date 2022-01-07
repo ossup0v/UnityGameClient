@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public Action<int> GrenadeCountChanged = delegate { };
-    public Action PlayerDie = delegate { };
-    public Action PlayerRespawn = delegate { };
+    public event Action<int> GrenadeCountChanged = delegate { };
+    public event Action PlayerDie = delegate { };
+    public event Action PlayerRespawn = delegate { };
+    public event Action InitializePostprocess = delegate { };
 
     public int Team { get; private set; }
     //Weapons
-    private WeaponsController weaponsController;
+    protected WeaponsController weaponsController;
     public Transform WeaponPosition;
     public List<GameObject> WeaponPrefabs;
     private int _grenadeCount = 0;
@@ -60,6 +61,8 @@ public class PlayerManager : MonoBehaviour
         weaponsController = new WeaponsController(weapons, currentWeapon);
 
         ChooseWeapon(currentWeapon);
+
+        InitializePostprocess();
     }
 
     public void ChooseWeapon(WeaponKind kind)
@@ -106,5 +109,10 @@ public class PlayerManager : MonoBehaviour
     public void Hit(WeaponKind weapon, Vector3 position)
     {
         weaponsController.GetSelectedWeapon().Hit(position);
+    }
+
+    public void SetBulletAmount(WeaponKind bullerFor, int maxBulletAmount, int currentBulletAmount)
+    {
+        weaponsController.SetBulletAmount(bullerFor, maxBulletAmount, currentBulletAmount);
     }
 }

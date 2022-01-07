@@ -7,6 +7,8 @@ public class RocketLauncherWeapon : WeaponBase
 
     private void Awake()
     {
+        MaxBulletAmount = 30;
+        CurrentBulletAmount = 30;
     }
 
     public override void Hit(Vector3 at)

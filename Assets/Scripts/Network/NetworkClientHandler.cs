@@ -346,7 +346,14 @@ public class NetworkClientHandler : MonoBehaviour
     public static void GameRoomSessionEnd(Packet packet)
     {
         MapManager.Instance.DestroyMap();
-        
+
+        foreach (var item in GameManager.ItemsOnMap)
+        {
+            Destroy(item.Value.gameObject);
+        }
+
+        GameManager.ItemsOnMap.Clear();
+
         foreach (var player in GameManager.Players)
         {
             Destroy(player.Value.gameObject);
@@ -380,6 +387,40 @@ public class NetworkClientHandler : MonoBehaviour
         NetworkManager.Instance.RoomClient.Disconnect();
     }
 
+    internal static void ItemOnMapPickup(Packet packet)
+    {
+        var itemId = packet.ReadInt();
+
+        if (GameManager.ItemsOnMap.TryGetValue(itemId, out var item))
+        {
+            Destroy(item.gameObject);
+            GameManager.ItemsOnMap.Remove(itemId);
+        }
+        else
+        {
+            Debug.LogError($"Can't find item with id {itemId}, all items is {string.Join(" ", GameManager.ItemsOnMap.Keys)}");
+        }
+    }
+
+    internal static void PlayerBulletAmount(Packet packet)
+    {
+        var playerId = packet.ReadGuid();
+        var bullerFor = (WeaponKind)packet.ReadInt();
+        var maxBulletAmount = packet.ReadInt();
+        var currentBulletAmount = packet.ReadInt();
+
+        GameManager.GetPlayer(playerId)?.SetBulletAmount(bullerFor, maxBulletAmount, currentBulletAmount);
+    }
+
+    internal static void ItemSpawnedOnMap(Packet packet)
+    {
+        var itemnId = packet.ReadInt();
+        var itemKind = (ItemOnMapKind)packet.ReadInt();
+        var position = packet.ReadVector3();
+
+        GameManager.Instance.SpawnBulletOnMapItem(itemnId, itemKind, position);
+    }
+
     public static void HandleResponce(Packet packet)
     {
         NetworkResponseService<PacketResponse>
@@ -387,4 +428,9 @@ public class NetworkClientHandler : MonoBehaviour
             .OnReceivePacket(
                 PacketResponse.CreateFromPacket(packet));
     }
+}
+
+public enum ItemOnMapKind
+{ 
+    bullets
 }

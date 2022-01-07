@@ -434,6 +434,7 @@ MonoBehaviour:
   OtherPlayerPrefab: {fileID: 4664053812698889927, guid: c776bbd146ab00748b44e89f4c2bcd8f, type: 3}
   ItemSpawnerPrefab: {fileID: 394259377705562903, guid: de891978e842ad04d9d97f63e56db6b7, type: 3}
   ProjectilePrefab: {fileID: 7624398102363614902, guid: f9b8ed65c077d3246af7711d7ba2eaeb, type: 3}
+  BulletOnMapItem: {fileID: 2383455887877925462, guid: 2938b312bf5441a43b7728fc4263000d, type: 3}
   WeaponFactory: {fileID: 5544789969151950111, guid: dcdfd34a81085f04480debcb8d965a43, type: 3}
 --- !u!4 &795680961
 Transform:

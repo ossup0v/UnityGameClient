@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-
 public abstract class WeaponBase : MonoBehaviour
 {
     public MeshRenderer WeaponPrefab;
@@ -11,6 +10,9 @@ public abstract class WeaponBase : MonoBehaviour
 
     private GameObject InstantiatedWeapon;
     private List<GameObject> InstantiatedBullets;
+
+    public int CurrentBulletAmount;
+    public int MaxBulletAmount;
 
     public abstract WeaponKind Kind { get; }
 

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static Dictionary<Guid, BotManager> Bots = new Dictionary<Guid, BotManager>();
     public static Dictionary<Guid, PlayerManager> Players = new Dictionary<Guid, PlayerManager>();
     public static Dictionary<int, ItemSpawner> ItemSpawners = new Dictionary<int, ItemSpawner>();
+    public static Dictionary<int, ItemOnMapManager> ItemsOnMap = new Dictionary<int, ItemOnMapManager>();
     public static Dictionary<int, ProjectileManager> Proectiles = new Dictionary<int, ProjectileManager>();
 
     public PlayerManager CurrentPlayer => Players[NetworkManager.Instance.ServerClient.MyId];
@@ -27,8 +28,11 @@ public class GameManager : MonoBehaviour
     public GameObject LocalPlayerPrefab;
     public GameObject EnemyPlayerPrefab;
     public GameObject OtherPlayerPrefab;
+
     public GameObject ItemSpawnerPrefab;
     public GameObject ProjectilePrefab;
+    public GameObject BulletOnMapItem;
+
     public WeaponFactory WeaponFactory;
 
     private void Awake()
@@ -105,6 +109,16 @@ public class GameManager : MonoBehaviour
         var projectile = Instantiate(ProjectilePrefab, position, Quaternion.identity);
         var projectileManager = projectile.GetComponent<ProjectileManager>();
         projectileManager.Initialize(id);
+        
         Proectiles.Add(id, projectileManager);
+    }
+
+    public void SpawnBulletOnMapItem(int itemId, ItemOnMapKind kind, Vector3 position)
+    {
+        var @object = Instantiate(BulletOnMapItem, position, Quaternion.identity);
+        var item = @object.GetComponent<BulletOnMapItem>();
+        item.Initialize(itemId, kind);
+
+        ItemsOnMap.Add(itemId, item);
     }
 }

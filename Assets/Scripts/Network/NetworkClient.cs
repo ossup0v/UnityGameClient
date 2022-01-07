@@ -310,6 +310,9 @@ public class NetworkClient : MonoBehaviour
             [(int)ToClient.roomPortToConnect] = NetworkClientHandler.ConnectToRoom,
             [(int)ToClient.roomList] = NetworkClientHandler.RoomList,
             [(int)ToClient.gameRoomSessionEnd] = NetworkClientHandler.GameRoomSessionEnd,
+            [(int)ToClient.itemSpawnedOnMap] = NetworkClientHandler.ItemSpawnedOnMap,
+            [(int)ToClient.playerBulletAmount] = NetworkClientHandler.PlayerBulletAmount,
+            [(int)ToClient.itemOnMapPickup] = NetworkClientHandler.ItemOnMapPickup,
             [(int)ToClient.response] = NetworkClientHandler.HandleResponce,
         };
         Debug.Log($"{nameof(InitializeClientData)} was called");
