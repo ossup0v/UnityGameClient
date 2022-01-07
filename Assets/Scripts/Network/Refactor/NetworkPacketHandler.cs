@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
+public interface INetworkPacketsHandler
+{
+}
+
 namespace Tmp
 {
+
     public sealed class ClientExample
     {
         private Dictionary<int, IPacketHandleable> packetHandlersByPacketID = new Dictionary<int, IPacketHandleable>();
@@ -14,32 +19,32 @@ namespace Tmp
         public static void Test()
         {
             var qwe = new ClientExample();
-            qwe.FindAllPacketHandlers();
+            // qwe.FindAllPacketHandlers();
 
             // var qwe2 = qwe.GetPacketHandlerByPacketID<SpawnPlayerPacketHandler>(SpawnPlayerPacket.PacketNumber);
             // Debug.Log(qwe2.GetType());
 
-            var qwe3 = qwe.GetPacketHandlerByPacketID<PlayerMovementPacketHandler>(PlayerMovementPacket.PacketNumber);
-            Debug.Log(qwe3.GetType());
+            // var qwe3 = qwe.GetPacketHandlerByPacketID<PlayerMovementPacketHandler>(PlayerMovementPacket.PacketNumber);
+            // Debug.Log(qwe3.GetType());
             System.Console.Write("qweqw");
         }
 
-        public void FindAllPacketHandlers()
-        {
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (Type type in assembly.GetTypes())
-                {
-                    var networkPacketAttribute = type.GetCustomAttribute(typeof(NetworkPacketAttribute), false) as NetworkPacketAttribute;
-                    if (networkPacketAttribute != null)
-                    {
-                        var packetNumber = networkPacketAttribute.PacketNumber;
-                        var packetHandler = Activator.CreateInstance(type) as IPacketHandleable;
-                        packetHandlersByPacketID.Add(packetNumber, packetHandler);
-                    }   
-                }
-            }
-        }
+        // public void FindAllPacketHandlers()
+        // {
+        //     foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+        //     {
+        //         foreach (Type type in assembly.GetTypes())
+        //         {
+        //             var networkPacketAttribute = type.GetCustomAttribute(typeof(NetworkPacketAttribute), false) as NetworkPacketAttribute;
+        //             if (networkPacketAttribute != null)
+        //             {
+        //                 var packetNumber = networkPacketAttribute.PacketNumber;
+        //                 var packetHandler = Activator.CreateInstance(type) as IPacketHandleable;
+        //                 packetHandlersByPacketID.Add(packetNumber, packetHandler);
+        //             }   
+        //         }
+        //     }
+        // }
 
         public T GetPacketHandlerByPacketID<T>(int packetNumber) where T : class, IPacketHandleable
         {
@@ -148,12 +153,12 @@ namespace Tmp
         }
     }
 
-    // [NetworkPacket(SpawnPlayerPacket.PacketNumber)]
+    [NetworkPacket(SpawnPlayerPacket.PacketNumber, typeof(GameManager))]
     public sealed class SpawnPlayerPacketHandler : NetworkPacketHandlerBase<SpawnPlayerPacket>
     {
     }
 
-    [NetworkPacket(PlayerMovementPacket.PacketNumber)]
+    [NetworkPacket(PlayerMovementPacket.PacketNumber, typeof(Refactor.NetworkClient))]
     public sealed class PlayerMovementPacketHandler : NetworkPacketHandlerBase<PlayerMovementPacket>
     {
     }
@@ -220,9 +225,12 @@ namespace Tmp
     public class NetworkPacketAttribute : Attribute
     {
         public int PacketNumber { get; private set; }
-        public NetworkPacketAttribute(int packetNumber)
+        public Type PacketHandler { get; private set; }
+        public NetworkPacketAttribute(int packetNumber, Type packetHandler)
         {
             PacketNumber = packetNumber;
+            PacketHandler = packetHandler;
+            Debug.Log(packetHandler + " azxczxc");
         }
     }
 

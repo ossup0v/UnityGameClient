@@ -83,7 +83,7 @@ namespace Refactor
                 var readedBytes = new byte[readedNumberOfBytes];
                 Array.Copy(_receiveBuffer, readedBytes, readedNumberOfBytes);
                 
-                _bytesReadable.Read(readedBytes);
+                _bytesReadable.ReadBytes(readedBytes);
 
                 BeginRead();
             }

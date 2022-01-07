@@ -58,7 +58,7 @@ namespace Refactor
                     return;    
                 }
 
-                _bytesReadable.Read(receivedBytes);
+                _bytesReadable.ReadBytes(receivedBytes);
             }
             catch (Exception exception)
             {
