@@ -36,12 +36,13 @@ public enum ToClient
     botChooseWeapon,
     botHit,
     ratingTableUpdateKilledBots,
-    playerScale, 
-    gameRoomSessionEnd,
+    playerScale,
 
     //server packets
     roomPortToConnect,
     roomList,
+    gameRoomSessionEnd,
+
     response
 }
 
