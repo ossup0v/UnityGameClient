@@ -14,13 +14,13 @@ public abstract class NetworkMonoBehaviour<T> : MonoBehaviour, IPacketReceivable
 
     protected virtual void SubscribeToPacketHandler()
     {
-        var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID<NetworkPacketHandlerBase<T>>(_packetID);
+        var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID(_packetID) as NetworkPacketHandler<T>;
         packetHandler.SubscribeToPacketHandler(this);
     }
 
     protected virtual void UnsubscribeFromPacketHandler()
     {
-        var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID<NetworkPacketHandlerBase<T>>(_packetID);
+        var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID(_packetID) as NetworkPacketHandler<T>;
         packetHandler.UnsubscribeFromPacketHandler(this);
     }
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public abstract class NetworkPacketHandlerBase<T> : IPacketHandleable where T : PacketBase, new()
+public abstract class NetworkPacketHandler<T> : IPacketHandleable where T : PacketBase, new()
 {
     protected List<IPacketReceivable<T>> packetReceivables = new List<IPacketReceivable<T>>();
 
