@@ -1,10 +1,11 @@
 ﻿using System.Text;
+using UnityEngine;
 using UnityEngine.UI;
 
 internal class LocalPlayerManager : PlayerManager
 {
+    [SerializeField] private RatingUI _ratingUI;
     public Text HPText;
-    public Text RatingText;
     public Text ItemCountText;
     public Text BulletsText;
 
@@ -20,20 +21,7 @@ internal class LocalPlayerManager : PlayerManager
 
     private void OnRatingChanged()
     {
-        var text = new StringBuilder();
-        int index = 1;
-        foreach (var item in RatingManager.Rating.Values)
-        {
-            if (item.Id == NetworkManager.Instance.ServerClient.MyId)
-                text.Append($"<color=red>{index}:{item.Username}:K:{item.Killed}:M:{item.KilledBots}:D:{item.Died}</color>");
-            else
-                text.Append($"{index}:{item.Username}:K:{item.Killed}:M:{item.KilledBots}:D:{item.Died}");
-
-            index++;
-
-            text.AppendLine();
-        }
-        RatingText.text = text.ToString();
+        _ratingUI.UpdateInfo();
     }
 
     private void OnWeaponStateChanged(WeaponBase weapon)
