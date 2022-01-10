@@ -11,11 +11,11 @@ public class RatingTeam : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _teamName;
 
     private List<PlayerInfo> _players = new List<PlayerInfo>();
-    public int ID { get; set; }
+    public int Id { get; set; }
 
     public void InitTeam(int id)
     {
-        ID = id;
+        Id = id;
         _teamName.text = "Team " + id.ToString();
 
     }
