@@ -313,6 +313,9 @@ public class NetworkClient : MonoBehaviour
             [(int)ToClient.itemSpawnedOnMap] = NetworkClientHandler.ItemSpawnedOnMap,
             [(int)ToClient.playerBulletAmount] = NetworkClientHandler.PlayerBulletAmount,
             [(int)ToClient.itemOnMapPickup] = NetworkClientHandler.ItemOnMapPickup,
+            [(int)ToClient.stageTime] = NetworkClientHandler.StageTime,
+            [(int)ToClient.stageChanged] = NetworkClientHandler.StageChanged,
+            [(int)ToClient.destroyMapItem] = NetworkClientHandler.DestroyMapItem,
             [(int)ToClient.response] = NetworkClientHandler.HandleResponce,
         };
         Debug.Log($"{nameof(InitializeClientData)} was called");
