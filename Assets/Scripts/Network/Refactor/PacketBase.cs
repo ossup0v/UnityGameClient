@@ -9,14 +9,19 @@ public abstract class PacketBase
         _packetBytes = packetBytes;
     }
 
+    public virtual byte[] GetBytes()
+    {
+        return _packetBytes;
+    }
+
     public virtual void SetReadWritePosition(int readWritePosition)
     {
         ReadWritePosition = readWritePosition;
     }
 
-    public virtual byte[] GetBytes()
+    public virtual void Reset()
     {
-        return _packetBytes;
+        ReadWritePosition = 0;
     }
 
     public abstract void SerializePacket();

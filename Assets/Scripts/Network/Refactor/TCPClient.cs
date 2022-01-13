@@ -3,7 +3,7 @@ using System.Net.Sockets;
 
 namespace Refactor
 {
-    public class TCPClient
+    public sealed class TCPClient
     {
         private TcpClient _tcpClient;
         private NetworkStream _networkStream;
@@ -22,14 +22,18 @@ namespace Refactor
             _tcpClient = new TcpClient();
             _tcpClient.ReceiveBufferSize = _bufferSize;
             _tcpClient.SendBufferSize = _bufferSize;
-            Logger.WriteLog(nameof(Connect), $"Trying connect to server {ip}:{port}");
+            _receiveBuffer = new byte[_bufferSize];
+            Logger.WriteLog(nameof(Connect), $"TCP Trying connect to server {ip}:{port}");
             _tcpClient.BeginConnect(ip, port, OnConnected, null);
         }
 
         public void CloseConnection()
         {
             _networkStream.Close();
+            _networkStream.Dispose();
+            _networkStream = null;
             _tcpClient.Close();
+            _tcpClient.Dispose();
             _tcpClient = null;
         }
 
@@ -59,20 +63,35 @@ namespace Refactor
                 return;
             }
 
+            var remoteEndPoint = ((System.Net.IPEndPoint)_tcpClient.Client.RemoteEndPoint);
+            Logger.WriteLog(nameof(OnConnected), $"TCP Connected to {remoteEndPoint.Address} {remoteEndPoint.Port}");
+
             _networkStream = _tcpClient.GetStream();
             BeginRead();
         }
 
         private void BeginRead()
         {
-            _networkStream.BeginRead(_receiveBuffer, 0, _bufferSize, OnReaded, null);
+            try
+            {
+                _networkStream.BeginRead(_receiveBuffer, 0, _bufferSize, OnReaded, null);
+            }
+            catch (Exception exception)
+            {
+                Logger.WriteError(nameof(BeginRead), exception.Message);
+            }
         }
 
         private void OnReaded(IAsyncResult asyncResult)
         {
             try
             {
-                var readedNumberOfBytes = _networkStream.EndRead(asyncResult);
+                if (_networkStream == null)
+                {
+                    return;
+                }
+                var readedNumberOfBytes = _networkStream.EndRead(asyncResult);                
+                // UnityEngine.Debug.Log(System.Threading.Thread.CurrentThread.ManagedThreadId + " thread ID " + _receiveBuffer.GetHashCode());
                 if (readedNumberOfBytes <= 0)
                 {
                     Logger.WriteError(nameof(OnReaded), $"Readed {readedNumberOfBytes} bytes.");
@@ -83,7 +102,9 @@ namespace Refactor
                 var readedBytes = new byte[readedNumberOfBytes];
                 Array.Copy(_receiveBuffer, readedBytes, readedNumberOfBytes);
                 
-                _bytesReadable.ReadBytes(readedBytes);
+                Logger.WriteLog(nameof(OnReaded), $"TCP Received {readedNumberOfBytes} bytes");
+                var socketData = new SocketData(_tcpClient, null, true);
+                _bytesReadable.ReadBytes(ref socketData, readedBytes);
 
                 BeginRead();
             }

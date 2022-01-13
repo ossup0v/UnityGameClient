@@ -4,7 +4,7 @@ using System.Net.Sockets;
 
 namespace Refactor
 {
-    public class UDPClient
+    public sealed class UDPClient
     {
         private UdpClient _udpClient;
         private IPEndPoint _endPoint;
@@ -13,7 +13,7 @@ namespace Refactor
 
         public UDPClient(int bufferSize, IBytesReadable bytesReadable)
         {
-            _bufferSize = bufferSize;
+            _bufferSize = bufferSize;            
             _bytesReadable = bytesReadable;
         }
 
@@ -21,13 +21,17 @@ namespace Refactor
         {
             _endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
             _udpClient = new UdpClient();
+            _udpClient.Client.ReceiveBufferSize = _bufferSize;
+            _udpClient.Client.SendBufferSize = _bufferSize;
             _udpClient.Connect(_endPoint);
+            Logger.WriteLog(nameof(Connect), $"UDP Connected connect to server {ip}:{port}");
             BeginReceive();
         }
 
         public void CloseConnection()
         {
-            _udpClient.Close();       
+            _udpClient.Close();      
+            _udpClient.Dispose(); 
             _udpClient = null;     
         }
 
@@ -48,8 +52,11 @@ namespace Refactor
         {
             try
             {
+                if (_udpClient == null)
+                {
+                    return;
+                }
                 var receivedBytes = _udpClient.EndReceive(asyncResult, ref _endPoint);
-                BeginReceive();
 
                 if (receivedBytes.Length == 0)
                 {
@@ -57,12 +64,16 @@ namespace Refactor
                     CloseConnection();
                     return;    
                 }
+                Logger.WriteLog(nameof(OnReceived), $"UDP Received {receivedBytes.Length} bytes");
+                BeginReceive();
 
-                _bytesReadable.ReadBytes(receivedBytes);
+                var socketData = new SocketData(null, _endPoint, false);
+                _bytesReadable.ReadBytes(ref socketData, receivedBytes);
             }
             catch (Exception exception)
             {
                 Logger.WriteError(nameof(OnReceived), exception.Message);
+                CloseConnection();
             }
         }
     }

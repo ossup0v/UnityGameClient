@@ -7,6 +7,7 @@ public class StartUI : MonoBehaviour
     public InputField Localhost;
     public InputField LocalhostRoom;
     public InputField RemoteServer;
+    [SerializeField] private Refactor.NetworkClientProvider _networkClientProvider;
 
     private void Awake()
     {
@@ -34,17 +35,25 @@ public class StartUI : MonoBehaviour
         StartMenu.SetActive(false);
         SetUnActive();
 
-        var defaultPort = 26954;
-        if (int.TryParse(LocalhostRoom.text, out var port))
-            port = defaultPort;
+        // var defaultPort = 26954;
+        // if (int.TryParse(LocalhostRoom.text, out var port))
+        //     port = defaultPort;
 
-        NetworkManager.Instance.RoomClient.ConnectToServer("127.0.0.1", port);
+        var port = 26954;
+
+        // NetworkManager.Instance.RoomClient.ConnectToServer("127.0.0.1", port);
+        _networkClientProvider.NetworkClient.Connect("127.0.0.1", port);
     }
 
     private void SetUnActive()
     {
         Localhost.interactable = false;
         RemoteServer.interactable = false;
+    }
+
+    private void OnDestroy()
+    {
+        _networkClientProvider.NetworkClient.Disconnect();
     }
 }
 
