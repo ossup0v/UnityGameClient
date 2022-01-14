@@ -22,18 +22,6 @@ namespace Refactor
         [NonSerialized]
         private bool inited = false; // TODO: переделать
 
-        internal void Send(PacketBase packetBase)
-        {
-            packetBase.SerializePacket();
-            var bytesList = new List<byte>(packetBase.GetBytes());
-            var bytesToSend = new byte[packetBase.ReadWritePosition + 4];
-            bytesList.InsertRange(0, BitConverter.GetBytes(packetBase.ReadWritePosition));
-            var bytes = bytesList.ToArray();
-            Array.Copy(bytes, 0, bytesToSend, 0, packetBase.ReadWritePosition);
-            _tcpClient.Send(bytesToSend);
-            Debug.Log("sending " + bytesToSend.Length);
-        }
-
         public NetworkClientReceiver NetworkClientReceiver => _networkClientReceiver;
         public NetworkClientSender NetworkClientSender => _networkClientSender;
 
@@ -43,6 +31,7 @@ namespace Refactor
             _networkClientReceiver.Init();
             _udpClient = new UDPClient(BufferSize, _networkClientReceiver.ClientRoomNetworkPacketReceiver);
             _tcpClient = new TCPClient(BufferSize, _networkClientReceiver.ClientRoomNetworkPacketReceiver);
+            _networkClientSender.Init(_udpClient, _tcpClient);
             // TODO переделать
             var qwe = new GameObject("test").AddComponent<WelcomeNetworkMono>();
         }

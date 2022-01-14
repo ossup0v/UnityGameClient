@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[NetworkPacket(WelcomePacket.PacketID1, typeof(Refactor.ClientRoomNetworkPacketReceiver))]
+[NetworkPacket(WelcomePacket.PacketID1, typeof(Refactor.ClientRoomNetworkPacketsReceiver))]
 public sealed class WelcomePacketHandler : NetworkPacketHandler<WelcomePacket>
 {
     protected override WelcomePacket CreatePacketInstance()

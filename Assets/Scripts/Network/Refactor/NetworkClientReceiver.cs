@@ -7,12 +7,12 @@ namespace Refactor
     [CreateAssetMenu(fileName = "NetworkClientReceiver", menuName = "Network/NetworkClientReceiver", order = 0)]
     public class NetworkClientReceiver : ScriptableObject
     {
-        [System.NonSerialized] private ClientRoomNetworkPacketReceiver _clientRoomNetworkPacketReceiver;
-        public ClientRoomNetworkPacketReceiver ClientRoomNetworkPacketReceiver => _clientRoomNetworkPacketReceiver;
+        [System.NonSerialized] private ClientRoomNetworkPacketsReceiver _clientRoomNetworkPacketReceiver;
+        public ClientRoomNetworkPacketsReceiver ClientRoomNetworkPacketReceiver => _clientRoomNetworkPacketReceiver;
         
         public void Init()
         {
-            _clientRoomNetworkPacketReceiver = new ClientRoomNetworkPacketReceiver();
+            _clientRoomNetworkPacketReceiver = new ClientRoomNetworkPacketsReceiver();
         }
     }
 }

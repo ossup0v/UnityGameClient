@@ -14,7 +14,7 @@ public class WelcomeNetworkMono : NetworkMonoBehaviour<WelcomePacket>
         {
             var responsePacket = new WelcomePacket();       
             responsePacket.SetBytes(new byte[1024]); // TODO: переделать 
-            Refactor.NetworkClient.S_NetworkClient.Send(responsePacket);
+            Refactor.NetworkClient.S_NetworkClient.NetworkClientSender.NetworkClientPacketsSender.SendTCP(responsePacket);
         });
     }
 }
