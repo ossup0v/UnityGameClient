@@ -1,5 +1,8 @@
+using Refactor;
+
 public abstract class PacketBase
 {
+    protected SocketData _socketData;
     protected byte[] _packetBytes;
     
     public virtual int ReadWritePosition { get; protected set; }
@@ -7,6 +10,11 @@ public abstract class PacketBase
     public virtual void SetBytes(byte[] packetBytes)
     {
         _packetBytes = packetBytes;
+    }
+
+    public virtual void SetSocketData(ref SocketData socketData)
+    {
+        _socketData = socketData;
     }
 
     public virtual byte[] GetBytes()

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Refactor;
 
-public abstract class NetworkPacketHandler<T> : IPacketHandleable where T : PacketBase, new()
+public abstract class NetworkPacketHandler<T> : IPacketHandleable where T : PacketBase
 {
     protected List<IPacketReceivable<T>> packetReceivables = new List<IPacketReceivable<T>>();
 
@@ -17,10 +18,11 @@ public abstract class NetworkPacketHandler<T> : IPacketHandleable where T : Pack
         }
     }
 
-    public virtual void HandleBytes(byte[] packetBytes, int readOffset)
+    public void HandleBytes(ref SocketData socketData, byte[] packetBytes, int readOffset)
     {
-        var packet = new T();
+        var packet = CreatePacketInstance();
         packet.SetReadWritePosition(readOffset);
+        packet.SetSocketData(ref socketData);
         packet.SetBytes(packetBytes);
         packet.DeserializePacket();
         NotifySubscribers(packet);
@@ -33,4 +35,6 @@ public abstract class NetworkPacketHandler<T> : IPacketHandleable where T : Pack
             packetReceivable.ReceivePacket(packet);
         }
     }
+
+    protected abstract T CreatePacketInstance();
 }

@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[NetworkPacket(InitMapPacket.PacketID22, typeof(Refactor.NetworkClientReceiver))]
+[NetworkPacket(InitMapPacket.PacketID22, typeof(Refactor.ClientRoomNetworkPacketReceiver))]
 public sealed class InitMapPacketHandler : NetworkPacketHandler<InitMapPacket>
 {
-
+    protected override InitMapPacket CreatePacketInstance()
+    {
+        return new InitMapPacket();
+    }
 }
 
 public sealed class InitMapPacket : PacketBase

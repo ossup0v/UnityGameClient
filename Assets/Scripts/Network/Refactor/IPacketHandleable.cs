@@ -1,4 +1,6 @@
+using Refactor;
+
 public interface IPacketHandleable
 {
-    void HandleBytes(byte[] packetBytes, int readOffset);
+    void HandleBytes(ref SocketData socketData, byte[] packetBytes, int readOffset);
 }

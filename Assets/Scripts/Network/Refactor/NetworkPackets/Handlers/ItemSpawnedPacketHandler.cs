@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[NetworkPacket(ItemSpawnedPacket.PacketID9, typeof(Refactor.NetworkClientReceiver))]
+[NetworkPacket(ItemSpawnedPacket.PacketID9, typeof(Refactor.ClientRoomNetworkPacketReceiver))]
 public sealed class ItemSpawnedPacketHandler : NetworkPacketHandler<ItemSpawnedPacket>
 {
-
+    protected override ItemSpawnedPacket CreatePacketInstance()
+    {
+        return new ItemSpawnedPacket();
+    }
 }
 
 public sealed class ItemSpawnedPacket : PacketBase
