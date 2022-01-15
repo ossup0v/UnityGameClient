@@ -10,7 +10,6 @@ internal class LocalPlayerManager : PlayerManager
     [SerializeField] private Text ItemCountText;
     [SerializeField] private Text BulletsText;
     [SerializeField] private Text StageDuration;
-    [SerializeField] private Text StageText;
 
     private void Awake()
     {
@@ -49,7 +48,7 @@ internal class LocalPlayerManager : PlayerManager
 
     public void OnStageIdChanged()
     {
-        StageText.text = "Stage: " + (StageId == 1 ? "PVE" : "PVP");
+        _ratingUI.SetStage("Stage: " + (StageId == 1 ? "PVE" : "PVP"));
     }
 
     private void Subscribe()
