@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [NetworkPacket(InitMapPacket.PacketID22, typeof(Refactor.ClientRoomNetworkPacketsReceiver))]
-public sealed class InitMapPacketHandler : NetworkPacketHandler<InitMapPacket>
+public sealed class InitMapPacketHandler : NetworkReadPacketHandler<InitMapPacket>
 {
     protected override InitMapPacket CreatePacketInstance()
     {
@@ -12,7 +12,7 @@ public sealed class InitMapPacketHandler : NetworkPacketHandler<InitMapPacket>
     }
 }
 
-public sealed class InitMapPacket : PacketBase
+public sealed class InitMapPacket : ReadPacketBase
 {
     public const int PacketID22 = 22;
     
@@ -24,9 +24,5 @@ public sealed class InitMapPacket : PacketBase
         {
             MapManager.Instance.InitializeMap(mapData);
         });
-    }
-
-    public override void SerializePacket()
-    {
     }
 }

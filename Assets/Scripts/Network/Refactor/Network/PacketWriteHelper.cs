@@ -3,18 +3,18 @@ using System.Text;
 
 public static class PacketWriteHelper
 {
-    public static void Write(this PacketBase packetBase, int value)
+    public static void Write(this WritePacketBase packetBase, int value)
     {
         var buffer = packetBase.GetBytes();
-        var writePosition = packetBase.ReadWritePosition;
+        var writePosition = packetBase.WritePosition;
         var bytes = BitConverter.GetBytes(value);
         Array.Copy(bytes, 0, buffer, writePosition, bytes.Length);
         writePosition += bytes.Length;
-        packetBase.SetReadWritePosition(writePosition);
+        packetBase.SetWritePosition(writePosition);
         packetBase.SetBytes(buffer);
     }
 
-    public static void Write(this PacketBase packetBase, Guid value)
+    public static void Write(this WritePacketBase packetBase, Guid value)
     {
         foreach (var @int in Guid2Int(value))
         {
@@ -22,11 +22,11 @@ public static class PacketWriteHelper
         }
     }
 
-    public static void Write(this PacketBase packetBase, string value)
+    public static void Write(this WritePacketBase packetBase, string value)
     {
         Write(packetBase, value.Length);
         var buffer = packetBase.GetBytes();
-        var writePosition = packetBase.ReadWritePosition;
+        var writePosition = packetBase.WritePosition;
         var bytes = Encoding.ASCII.GetBytes(value);
         Array.Copy(bytes, 0, buffer, writePosition, bytes.Length);
     }

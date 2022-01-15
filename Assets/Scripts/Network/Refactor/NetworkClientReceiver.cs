@@ -8,7 +8,8 @@ namespace Refactor
     public class NetworkClientReceiver : ScriptableObject
     {
         [System.NonSerialized] private ClientRoomNetworkPacketsReceiver _clientRoomNetworkPacketReceiver;
-        public ClientRoomNetworkPacketsReceiver ClientRoomNetworkPacketReceiver => _clientRoomNetworkPacketReceiver;
+        public IPacketHandlersHolder PacketHandlersHolder => _clientRoomNetworkPacketReceiver;
+        public IBytesReadable BytesReader => _clientRoomNetworkPacketReceiver;
         
         public void Init()
         {

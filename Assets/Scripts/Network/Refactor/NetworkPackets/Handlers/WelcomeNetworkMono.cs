@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WelcomeNetworkMono : NetworkMonoBehaviour<WelcomePacket>
 {
-    protected override IPacketHandlersHolder _packetHandlersHolder => Refactor.NetworkClient.S_NetworkClient.NetworkClientReceiver.ClientRoomNetworkPacketReceiver;
+    protected override IPacketHandlersHolder _packetHandlersHolder => Refactor.NetworkClient.S_NetworkClient.NetworkClientReceiver.PacketHandlersHolder;
 
     protected override int _packetID => WelcomePacket.PacketID1;
 
@@ -14,7 +14,7 @@ public class WelcomeNetworkMono : NetworkMonoBehaviour<WelcomePacket>
         {
             var responsePacket = new WelcomePacket();       
             responsePacket.SetBytes(new byte[1024]); // TODO: переделать 
-            Refactor.NetworkClient.S_NetworkClient.NetworkClientSender.NetworkClientPacketsSender.SendTCP(responsePacket);
+            // Refactor.NetworkClient.S_NetworkClient.NetworkClientSender.NetworkClientPacketsSender.SendTCP(responsePacket);
         });
     }
 }

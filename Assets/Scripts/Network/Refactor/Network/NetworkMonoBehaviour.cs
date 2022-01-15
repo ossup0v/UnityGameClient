@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class NetworkMonoBehaviour<T> : MonoBehaviour, IPacketReceivable<T> where T : PacketBase, new()
+public abstract class NetworkMonoBehaviour<T> : MonoBehaviour, IPacketReceivable<T> where T : ReadPacketBase
 {
     protected abstract IPacketHandlersHolder _packetHandlersHolder { get; }
     protected abstract int _packetID { get; }
@@ -14,13 +14,13 @@ public abstract class NetworkMonoBehaviour<T> : MonoBehaviour, IPacketReceivable
 
     protected virtual void SubscribeToPacketHandler()
     {
-        var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID(_packetID) as NetworkPacketHandler<T>;
+        var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID(_packetID) as NetworkReadPacketHandler<T>;
         packetHandler.SubscribeToPacketHandler(this);
     }
 
     protected virtual void UnsubscribeFromPacketHandler()
     {
-        var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID(_packetID) as NetworkPacketHandler<T>;
+        var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID(_packetID) as NetworkReadPacketHandler<T>;
         packetHandler.UnsubscribeFromPacketHandler(this);
     }
 

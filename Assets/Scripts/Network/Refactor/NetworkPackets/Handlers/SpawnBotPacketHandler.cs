@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [NetworkPacket(SpawnBotPacket.PacketID23, typeof(Refactor.ClientRoomNetworkPacketsReceiver))]
-public sealed class SpawnBotPacketHandler : NetworkPacketHandler<SpawnBotPacket>
+public sealed class SpawnBotPacketHandler : NetworkReadPacketHandler<SpawnBotPacket>
 {
     protected override SpawnBotPacket CreatePacketInstance()
     {
@@ -12,7 +12,7 @@ public sealed class SpawnBotPacketHandler : NetworkPacketHandler<SpawnBotPacket>
     }
 }
 
-public sealed class SpawnBotPacket : PacketBase
+public sealed class SpawnBotPacket : ReadPacketBase
 {
     public const int PacketID23 = 23;
     public Guid BotID { get; private set; }
@@ -29,10 +29,5 @@ public sealed class SpawnBotPacket : PacketBase
         {
             GameManager.Instance.SpawnBot(BotID, (WeaponKind)BotWeaponKind, BotPosition);
         });
-    }
-
-    public override void SerializePacket()
-    {
-        
     }
 }

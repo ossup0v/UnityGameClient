@@ -4,16 +4,16 @@ using UnityEngine;
 
 public static class PacketReadHelper
 {
-    public static string ReadString(this PacketBase packetBase)
+    public static string ReadString(this ReadPacketBase packetBase)
     {
         var stringLenght = ReadInt(packetBase);
         var buffer = packetBase.GetBytes();
-        var readPosition = packetBase.ReadWritePosition;
+        var readPosition = packetBase.ReadPosition;
         if (readPosition + stringLenght <= buffer.Length)
         {
             var stringValue = Encoding.ASCII.GetString(buffer, readPosition, stringLenght);
             readPosition += stringLenght;
-            packetBase.SetReadWritePosition(readPosition);
+            packetBase.SetReadPosition(readPosition);
             return stringValue;
         }
         else
@@ -23,16 +23,16 @@ public static class PacketReadHelper
         }
     }
 
-    public static int ReadInt(this PacketBase packetBase)
+    public static int ReadInt(this ReadPacketBase packetBase)
     {
         var buffer = packetBase.GetBytes();
         var typeSize = 4;
-        var readPosition = packetBase.ReadWritePosition;
+        var readPosition = packetBase.ReadPosition;
         if (readPosition + typeSize <= buffer.Length)
         {
             var value = BitConverter.ToInt32(buffer, readPosition);
             readPosition += typeSize;
-            packetBase.SetReadWritePosition(readPosition);
+            packetBase.SetReadPosition(readPosition);
             return value;
         }
         else
@@ -42,7 +42,7 @@ public static class PacketReadHelper
         }
     }
 
-    public static Guid ReadGuid(this PacketBase packetBase)
+    public static Guid ReadGuid(this ReadPacketBase packetBase)
     {
         var value = ReadInt(packetBase);
         var value1 = ReadInt(packetBase);
@@ -61,7 +61,7 @@ public static class PacketReadHelper
         return new Guid(bytes);
     }
 
-    public static Vector3 ReadVector3(this PacketBase packetBase)
+    public static Vector3 ReadVector3(this ReadPacketBase packetBase)
     {
         var x = ReadFloat(packetBase);
         var y = ReadFloat(packetBase);
@@ -69,16 +69,16 @@ public static class PacketReadHelper
         return new Vector3(x, y, z);
     }
 
-    public static float ReadFloat(this PacketBase packetBase)
+    public static float ReadFloat(this ReadPacketBase packetBase)
     {
         var buffer = packetBase.GetBytes();
         var typeSize = 4;
-        var readPosition = packetBase.ReadWritePosition;
+        var readPosition = packetBase.ReadPosition;
         if (readPosition + typeSize <= buffer.Length)
         {
             var value = BitConverter.ToSingle(buffer, readPosition);
             readPosition += typeSize;
-            packetBase.SetReadWritePosition(readPosition);
+            packetBase.SetReadPosition(readPosition);
             return value;
         }
         else

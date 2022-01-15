@@ -7,7 +7,7 @@ namespace Refactor
     public class NetworkClientSender : ScriptableObject
     {
         [System.NonSerialized] private NetworkClientPacketsSender _networkClientPacketsSender;
-        public NetworkClientPacketsSender NetworkClientPacketsSender => _networkClientPacketsSender;
+        public INetworkClientPacketsSender NetworkClientPacketsSender => _networkClientPacketsSender;
 
         public void Init(UDPClient udpClient, TCPClient tcpClient)
         {

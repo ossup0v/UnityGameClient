@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [NetworkPacket(ItemSpawnedPacket.PacketID9, typeof(Refactor.ClientRoomNetworkPacketsReceiver))]
-public sealed class ItemSpawnedPacketHandler : NetworkPacketHandler<ItemSpawnedPacket>
+public sealed class ItemSpawnedPacketHandler : NetworkReadPacketHandler<ItemSpawnedPacket>
 {
     protected override ItemSpawnedPacket CreatePacketInstance()
     {
@@ -12,7 +12,7 @@ public sealed class ItemSpawnedPacketHandler : NetworkPacketHandler<ItemSpawnedP
     }
 }
 
-public sealed class ItemSpawnedPacket : PacketBase
+public sealed class ItemSpawnedPacket : ReadPacketBase
 {
     public const int PacketID9 = 9;
     public int SpawnerID { get; private set; }
@@ -25,10 +25,5 @@ public sealed class ItemSpawnedPacket : PacketBase
             GameManager.ItemSpawners[SpawnerID].ItemSpawned();
         });
         Debug.Log(SpawnerID);
-    }
-
-    public override void SerializePacket()
-    {
-        
     }
 }

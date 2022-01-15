@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Refactor;
 
-public abstract class NetworkPacketHandler<T> : IPacketHandleable where T : PacketBase
+public abstract class NetworkReadPacketHandler<T> : IPacketHandleable where T : ReadPacketBase
 {
     protected List<IPacketReceivable<T>> packetReceivables = new List<IPacketReceivable<T>>();
 
@@ -21,7 +21,7 @@ public abstract class NetworkPacketHandler<T> : IPacketHandleable where T : Pack
     public void HandleBytes(ref SocketData socketData, byte[] packetBytes, int readOffset)
     {
         var packet = CreatePacketInstance();
-        packet.SetReadWritePosition(readOffset);
+        packet.SetReadPosition(readOffset);
         packet.SetSocketData(ref socketData);
         packet.SetBytes(packetBytes);
         packet.DeserializePacket();
