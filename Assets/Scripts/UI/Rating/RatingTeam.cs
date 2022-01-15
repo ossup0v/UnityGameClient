@@ -32,4 +32,9 @@ public class RatingTeam : MonoBehaviour
         PlayerInfo playerInfo = _players.Find(currentPlayer => currentPlayer.Id == player.Id);
         playerInfo.UpdateInfo(player);
     }
+
+    public void SetTeamAsMine()
+    {
+        _teamName.text = "My team";
+    }
 }

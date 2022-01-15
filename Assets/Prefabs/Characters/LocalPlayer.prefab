@@ -1177,6 +1177,7 @@ GameObject:
   - component: {fileID: 8933399785779531843}
   - component: {fileID: 3868515039730322520}
   - component: {fileID: 1655992453376560990}
+  - component: {fileID: 6876729516166729775}
   m_Layer: 0
   m_Name: StageName
   m_TagString: Untagged
@@ -1262,6 +1263,19 @@ MonoBehaviour:
   m_FlexibleWidth: 5
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &6876729516166729775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4487532896380180987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71ea11e2180b877499f99dc84e48343c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stageName: {fileID: 5724585563297993924}
 --- !u!1 &4664053812698889927
 GameObject:
   m_ObjectHideFlags: 0
@@ -2026,7 +2040,7 @@ MonoBehaviour:
   _teamsParent: {fileID: 7236523003934121194}
   _teamPrefab: {fileID: 4680232993133590342, guid: a895f1b99b96f3a4ba0aa434b3c02b21, type: 3}
   _ratingPanel: {fileID: 5117529570691765486}
-  _ratingText: {fileID: 4094985967934689112}
+  _stageInfo: {fileID: 6876729516166729775}
 --- !u!1 &7680811209818896474
 GameObject:
   m_ObjectHideFlags: 0
