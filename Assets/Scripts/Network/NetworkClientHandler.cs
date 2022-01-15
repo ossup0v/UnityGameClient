@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using UnityEngine;
 
@@ -209,8 +210,11 @@ public class NetworkClientHandler : MonoBehaviour
             entities[i].Username = packet.ReadString();
             entities[i].Killed = packet.ReadInt();
             entities[i].Died = packet.ReadInt();
+            entities[i].Team = packet.ReadInt();
         }
 
+        Debug.Log("received raint table");
+        Debug.Log(string.Join(" ", entities.Select(x => $"username {x.Username}; team {x.Team}")));
         RatingManager.Init(entities);
     }
 
@@ -387,7 +391,28 @@ public class NetworkClientHandler : MonoBehaviour
         NetworkManager.Instance.RoomClient.Disconnect();
     }
 
-    internal static void ItemOnMapPickup(Packet packet)
+    public static void StageTime(Packet packet)
+    {
+        var stageDurationTicks = packet.ReadLong();
+
+        GameManager.Instance.CurrentPlayer.SetStageDurationTicks(stageDurationTicks);
+    }
+
+    public static void StageChanged(Packet packet)
+    {
+        var stageId = packet.ReadInt();
+
+        GameManager.Instance.CurrentPlayer.SetStage(stageId);
+    }
+
+    public static void DestroyMapItem(Packet packet)
+    {
+        var itemId = packet.ReadInt();
+
+        MapManager.Instance.DestroyById(itemId);
+    }
+
+    public static void ItemOnMapPickup(Packet packet)
     {
         var itemId = packet.ReadInt();
 

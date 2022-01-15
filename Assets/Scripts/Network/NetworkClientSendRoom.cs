@@ -20,7 +20,7 @@ public class NetworkClientSendRoom
     #region Packets
     public static void WelcomeReceived()
     {
-        using (var packet = new Packet((int)ToServerFromClient.welcomeReceived))
+        using (var packet = new Packet((int)ToGameRoom.welcomeReceived))
         {
             packet.Write(NetworkManager.Instance.RoomClient.MyId);
             packet.Write(NetworkManager.Instance.Username);

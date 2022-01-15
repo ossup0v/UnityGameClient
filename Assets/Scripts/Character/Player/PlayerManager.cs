@@ -9,6 +9,8 @@ public class PlayerManager : MonoBehaviour
     public event Action PlayerDie = delegate { };
     public event Action PlayerRespawn = delegate { };
     public event Action InitializePostprocess = delegate { };
+    public event Action StageDurationChanged = delegate { };
+    public event Action StageIdChanged = delegate { };
 
     public int Team { get; private set; }
     //Weapons
@@ -42,6 +44,10 @@ public class PlayerManager : MonoBehaviour
     //model
     public MeshRenderer model;
 
+    public int StageId;
+
+    public long StageDurationTicks;
+    
     //player bools
     private bool _isAlive = true;
 
@@ -114,5 +120,17 @@ public class PlayerManager : MonoBehaviour
     public void SetBulletAmount(WeaponKind bullerFor, int maxBulletAmount, int currentBulletAmount)
     {
         weaponsController.SetBulletAmount(bullerFor, maxBulletAmount, currentBulletAmount);
+    }
+
+    public void SetStage(int stageId)
+    {
+        StageId = stageId;
+        StageIdChanged();
+    }
+
+    internal void SetStageDurationTicks(long stageDurationTicks)
+    {
+        StageDurationTicks = stageDurationTicks;
+        StageDurationChanged();
     }
 }

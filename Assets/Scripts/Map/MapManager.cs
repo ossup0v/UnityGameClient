@@ -8,6 +8,7 @@ public class MapManager : MonoBehaviour
     public GameObject MapEntityPrefab;
     public Material[] Materials;
     private List<GameObject> _mapEntities = new List<GameObject>();
+    private Dictionary<int, GameObject> _destroyMapEntities = new Dictionary<int, GameObject>();
 
     public static MapManager Instance;
 
@@ -40,6 +41,14 @@ public class MapManager : MonoBehaviour
                 var indexOfScale = obj.IndexOf("S:");
                 var indexOfMatirealId = obj.IndexOf("M:");
 
+                var id = 0;
+                if (obj.Contains("Id:"))
+                {
+                    var indexOfId = obj.IndexOf("Id:");
+                    var idText = obj.Substring(indexOfId + 3, indexOfPosition - indexOfId - 3);
+                    id = int.Parse(idText);
+                }
+
                 var positionText = obj.Substring(indexOfPosition + 2, indexOfRotation - indexOfPosition - 2).Split('!');
 
                 var position = new Vector3(float.Parse(positionText[0], ci), float.Parse(positionText[1], ci), float.Parse(positionText[2], ci));
@@ -54,6 +63,11 @@ public class MapManager : MonoBehaviour
 
                 var @object = Instantiate(MapEntityPrefab, position, rotation);
 
+                if (id != 0)
+                {
+                    _destroyMapEntities.Add(id, @object);
+                }
+                
                 _mapEntities.Add(@object);
                 
                 @object.transform.localScale = scale;
@@ -72,11 +86,23 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    public void DestroyById(int id)
+    {
+        Destroy(_destroyMapEntities[id].gameObject);
+        _destroyMapEntities.Remove(id);
+    }
+
     public void DestroyMap()
     {
         foreach (var entity in _mapEntities)
         {
             Destroy(entity);
         }
+        _mapEntities.Clear();
+        foreach (var entity in _destroyMapEntities.Values)
+        {
+            Destroy(entity);
+        }
+        _destroyMapEntities.Clear();
     }
 }
