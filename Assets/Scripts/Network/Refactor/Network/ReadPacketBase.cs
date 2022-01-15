@@ -6,36 +6,39 @@ public abstract class ReadPacketBase
     protected byte[] _packetBytes;
 
     public System.Guid GUID { get; set; }
-    public virtual int ReadPosition { get; protected set; }
+    public int ReadPosition { get; protected set; }
 
-    public virtual void SetSocketData(ref SocketData socketData)
+    public void SetSocketData(ref SocketData socketData)
     {
         _socketData = socketData;
     }
 
-    public virtual void SetBytes(byte[] packetBytes)
+    public void SetBytes(byte[] packetBytes)
     {
         _packetBytes = packetBytes;
     }
 
-    public virtual byte[] GetBytes()
+    public byte[] GetBytes()
     {
         return _packetBytes;
     }
 
-    public virtual void SetReadPosition(int readPosition)
+    public void SetReadPosition(int readPosition)
     {
         ReadPosition = readPosition;
     }
 
-    public virtual void Reset()
+    public void Reset()
     {
         ReadPosition = 0;
     }
 
-    public virtual void DeserializePacket()
+    public void ReadGUIDAndDeserializePacket()
     {
         Reset();
         GUID = this.ReadGuid();
+        DeserializePacket();
     }
+
+    public abstract void DeserializePacket();
 }

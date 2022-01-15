@@ -9,9 +9,9 @@ namespace Refactor
         [System.NonSerialized] private NetworkClientPacketsSender _networkClientPacketsSender;
         public INetworkClientPacketsSender NetworkClientPacketsSender => _networkClientPacketsSender;
 
-        public void Init(UDPClient udpClient, TCPClient tcpClient)
+        public void Init(int bufferSize, UDPClient udpClient, TCPClient tcpClient)
         {
-            _networkClientPacketsSender = new NetworkClientPacketsSender(udpClient, tcpClient);
+            _networkClientPacketsSender = new NetworkClientPacketsSender(bufferSize, udpClient, tcpClient);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Refactor
 
         public static NetworkClient S_NetworkClient; // TODO убрать
 
-        private const int BufferSize = 1024;
+        public int BufferSize { get; } = 1024;
         private UDPClient _udpClient;
         private TCPClient _tcpClient;
 
@@ -31,7 +31,7 @@ namespace Refactor
             _networkClientReceiver.Init();
             _udpClient = new UDPClient(BufferSize, _networkClientReceiver.BytesReader);
             _tcpClient = new TCPClient(BufferSize, _networkClientReceiver.BytesReader);
-            _networkClientSender.Init(_udpClient, _tcpClient);
+            _networkClientSender.Init(BufferSize, _udpClient, _tcpClient);
             // TODO переделать
             var qwe = new GameObject("test").AddComponent<WelcomeNetworkMono>();
         }

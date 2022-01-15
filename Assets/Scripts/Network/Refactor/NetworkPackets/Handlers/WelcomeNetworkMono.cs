@@ -12,9 +12,18 @@ public class WelcomeNetworkMono : NetworkMonoBehaviour<WelcomePacket>
     {
         ThreadManager.ExecuteOnMainThread(() =>
         {
-            var responsePacket = new WelcomePacket();       
-            responsePacket.SetBytes(new byte[1024]); // TODO: переделать 
+            var welcomeWritePacket = new WelcomeWritePacket();
+            // var responsePacket = new WelcomePacket();       
+            // responsePacket.SetBytes(new byte[1024]); // TODO: переделать 
             // Refactor.NetworkClient.S_NetworkClient.NetworkClientSender.NetworkClientPacketsSender.SendTCP(responsePacket);
         });
+    }
+}
+
+public sealed class WelcomeWritePacket : WritePacketBase
+{
+    public override void SerializePacket()
+    {
+        
     }
 }

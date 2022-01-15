@@ -2,46 +2,45 @@ using Refactor;
 
 public abstract class WritePacketBase
 {
-    protected SocketData _socketData;
     protected byte[] _packetBytes;
-
-    public System.Guid GUID { get; set; }
-    public virtual int WritePosition { get; protected set; }
+    
+    public SocketData SocketData { get; protected set; }
+    public int WritePosition { get; protected set; }
     public int Lenght => WritePosition;
 
-    public WritePacketBase(int bufferSize)
+    public System.Guid GUID { get; set; }
+
+    public void SetSocketData(ref SocketData socketData)
     {
-        _packetBytes = new byte[bufferSize];
+        SocketData = socketData;
     }
 
-    public virtual void SetSocketData(ref SocketData socketData)
-    {
-        _socketData = socketData;
-    }
-
-    public virtual void SetBytes(byte[] packetBytes)
+    public void SetBytes(byte[] packetBytes)
     {
         _packetBytes = packetBytes;
     }
 
-    public virtual byte[] GetBytes()
+    public byte[] GetBytes()
     {
         return _packetBytes;
     }
 
-    public virtual void SetWritePosition(int readPosition)
+    public void SetWritePosition(int readPosition)
     {
         WritePosition = readPosition;
     }
 
-    public virtual void Reset()
+    public void Reset()
     {
         WritePosition = 0;
     }
 
-    public virtual void SerializePacket()
+    public void WriteGUIDAndSerializePacket()
     {
         Reset();
         this.Write(GUID);
+        SerializePacket();
     }
+
+    public abstract void SerializePacket();
 }
