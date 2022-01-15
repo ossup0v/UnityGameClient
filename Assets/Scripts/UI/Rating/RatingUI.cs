@@ -8,22 +8,16 @@ public class RatingUI : MonoBehaviour
 {
     [SerializeField] private RectTransform _teamsParent;
     [SerializeField] private RatingTeam _teamPrefab;
-    [SerializeField] private Image _ratingPanel;
-    [SerializeField] private Text _ratingText;
+    [SerializeField] private RectTransform _ratingPanel;
+    [SerializeField] private StageInfo _stageInfo;
 
     private List<RatingTeam> _teamsList = new List<RatingTeam>();
 
-    private int _playersCount;
+    private bool _teamsListInited;
 
     private void Awake()
     {
        Hide();
-       
-    }
-
-    private void Start()
-    {
-        InitTeamsList();
     }
 
     private void Update()
@@ -36,12 +30,19 @@ public class RatingUI : MonoBehaviour
 
     public void UpdateInfo()
     {
-        _playersCount = RatingManager.Rating.Values.Count;
+        if (!_teamsListInited)
+        {
+            InitTeamsList();
+            _teamsListInited = true;
+        }
+            
         foreach(var item in RatingManager.Rating.Values)
         {
-            var itemTeam = _teamsList.Find(team => team.ID == item.Team);
-            if(itemTeam != null)
+            var itemTeam = _teamsList.Find(team => team.Id == item.Team);
+            if (itemTeam != null)
                 itemTeam.UpdatePlayerInfo(item);
+            else
+                Debug.Log("Cannot update info: player team is null");
         }
     }
 
@@ -49,17 +50,16 @@ public class RatingUI : MonoBehaviour
     {
         foreach (var item in RatingManager.Rating.Values)
         {
-            RatingTeam itemTeam = _teamsList.Find(team => team.ID == item.Team);
-            if (itemTeam != null)
-            {
-                itemTeam.AddPlayer(item);
-            }
-            else
-            {
-                itemTeam = AddTeam(item.Team);
-                itemTeam.AddPlayer(item);
-            }
+            RatingTeam itemTeam = _teamsList.Find(team => team.Id == item.Team);
+            AddPlayerToTeam(item, itemTeam);
         }
+
+        _teamsList.Sort((firstTeam, secondTeam) => firstTeam.Id.CompareTo(secondTeam.Id));
+    }
+
+    public void SetStage(string stage)
+    {
+        _stageInfo.SetStage(stage);
     }
 
     private RatingTeam AddTeam(int teamID)
@@ -68,6 +68,18 @@ public class RatingUI : MonoBehaviour
         newTeam.InitTeam(teamID);
         _teamsList.Add(newTeam);
         return newTeam;
+    }
+
+    private void AddPlayerToTeam(RatingEntity player, RatingTeam team)
+    {
+        if(team == null)
+        {
+            team = AddTeam(player.Team);
+        }
+        team.AddPlayer(player);
+
+        if (player.Id == NetworkManager.Instance.ServerClient.MyId)
+            team.SetTeamAsMine();
     }
 
     private void Show()
