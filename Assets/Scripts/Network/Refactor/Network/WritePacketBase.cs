@@ -7,6 +7,7 @@ public abstract class WritePacketBase
     public SocketData SocketData { get; protected set; }
     public int WritePosition { get; protected set; }
     public int Lenght => WritePosition;
+    public abstract int PacketID { get; }
 
     public System.Guid GUID { get; set; }
 
@@ -35,9 +36,10 @@ public abstract class WritePacketBase
         WritePosition = 0;
     }
 
-    public void WriteGUIDAndSerializePacket()
+    public void WriteBasePacketDataAndSerializePacket()
     {
         Reset();
+        this.Write(PacketID);
         this.Write(GUID);
         SerializePacket();
     }

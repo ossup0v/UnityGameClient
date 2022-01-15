@@ -11,6 +11,8 @@ namespace Refactor
         private IBytesReadable _bytesReadable;
         private readonly int _bufferSize;
 
+        public event Action ConnectedToServer;
+
         public UDPClient(int bufferSize, IBytesReadable bytesReadable)
         {
             _bufferSize = bufferSize;            
@@ -24,8 +26,9 @@ namespace Refactor
             _udpClient.Client.ReceiveBufferSize = _bufferSize;
             _udpClient.Client.SendBufferSize = _bufferSize;
             _udpClient.Connect(_endPoint);
-            Logger.WriteLog(nameof(Connect), $"UDP Connected connect to server {ip}:{port}");
+            Logger.WriteLog(nameof(Connect), $"UDP connecting to server {ip}:{port}");
             BeginReceive();
+            ConnectedToServer?.Invoke();
         }
 
         public void CloseConnection()

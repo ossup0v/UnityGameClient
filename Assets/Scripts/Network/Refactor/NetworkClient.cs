@@ -7,42 +7,34 @@ using UnityEngine;
 
 namespace Refactor
 {
+    // TODO вынесли куда-то, не делать ScriptableObject возможно для этого
     [CreateAssetMenu(fileName = "NetworkClient", menuName = "Network/NetworkClient", order = 0)]
     public class NetworkClient : ScriptableObject
     {
         [SerializeField] private NetworkClientReceiver _networkClientReceiver;
         [SerializeField] private NetworkClientSender _networkClientSender;
 
-        public static NetworkClient S_NetworkClient; // TODO убрать
+        [NonSerialized] private UDPClient _udpClient;
+        [NonSerialized] private TCPClient _tcpClient;
 
+        [field: NonSerialized]
         public int BufferSize { get; } = 1024;
-        private UDPClient _udpClient;
-        private TCPClient _tcpClient;
-
-        [NonSerialized]
-        private bool inited = false; // TODO: переделать
-
         public NetworkClientReceiver NetworkClientReceiver => _networkClientReceiver;
         public NetworkClientSender NetworkClientSender => _networkClientSender;
 
+        public UDPClient UDPClient => _udpClient;
+        public TCPClient TCPClient => _tcpClient;
+
         public void Init()
         {
-            S_NetworkClient = this;
             _networkClientReceiver.Init();
             _udpClient = new UDPClient(BufferSize, _networkClientReceiver.BytesReader);
             _tcpClient = new TCPClient(BufferSize, _networkClientReceiver.BytesReader);
             _networkClientSender.Init(BufferSize, _udpClient, _tcpClient);
-            // TODO переделать
-            var qwe = new GameObject("test").AddComponent<WelcomeNetworkMono>();
         }
 
         public void Connect(string ip, int port)
         {
-            if (inited == false)
-            {
-                Init();
-                inited = true;
-            }
             _udpClient.Connect(ip, port);
             _tcpClient.Connect(ip, port);
         }
