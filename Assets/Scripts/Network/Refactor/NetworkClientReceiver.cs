@@ -7,13 +7,13 @@ namespace Refactor
     [CreateAssetMenu(fileName = "NetworkClientReceiver", menuName = "Network/NetworkClientReceiver", order = 0)]
     public class NetworkClientReceiver : ScriptableObject
     {
-        [System.NonSerialized] private ClientRoomNetworkPacketsReceiver _clientRoomNetworkPacketReceiver;
-        public IPacketHandlersHolder PacketHandlersHolder => _clientRoomNetworkPacketReceiver;
-        public IBytesReadable BytesReader => _clientRoomNetworkPacketReceiver;
+        [System.NonSerialized] private ClientRoomNetworkBytesReader _clientRoomNetworkBytesReader;
+        public IPacketHandlersHolder PacketHandlersHolder => _clientRoomNetworkBytesReader;
+        public IBytesReadable BytesReader => _clientRoomNetworkBytesReader;
         
         public void Init()
         {
-            _clientRoomNetworkPacketReceiver = new ClientRoomNetworkPacketsReceiver();
+            _clientRoomNetworkBytesReader = new ClientRoomNetworkBytesReader();
         }
     }
 }
