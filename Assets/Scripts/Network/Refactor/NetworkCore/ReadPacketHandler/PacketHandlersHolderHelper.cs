@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Refactor;
 
 public static class PacketHandlersHolderHelper
 {
@@ -12,16 +13,16 @@ public static class PacketHandlersHolderHelper
         {
             foreach (var assemblyType in assembly.GetTypes())
             {
-                var networkPacketAttribute = assemblyType.GetCustomAttribute(typeof(NetworkPacketAttribute), false) as NetworkPacketAttribute;
-                if (networkPacketAttribute != null)
+                var initReadPacketHandler = assemblyType.GetCustomAttribute(typeof(InitReadPacketHandler), false) as InitReadPacketHandler;
+                if (initReadPacketHandler != null)
                 {
-                    var isHasInterface = networkPacketAttribute.PacketHandler.GetInterfaces().Contains(typeof(IPacketHandlersHolder));
+                    var isHasInterface = initReadPacketHandler.PacketHandlerType.GetInterfaces().Contains(typeof(IPacketHandlersHolder));
                     if (isHasInterface)
                     {
-                        if (networkPacketAttribute.PacketHandler == packetHandlersHolderType)
+                        if (initReadPacketHandler.PacketHandlerType == packetHandlersHolderType)
                         {
-                            var packetID = networkPacketAttribute.PacketID;
                             var packetHandler = Activator.CreateInstance(assemblyType) as IPacketHandleable;
+                            var packetID = packetHandler.PacketID;;
                             Logger.WriteLog(nameof(FindAllPacketHandlersFor), $"Found {assemblyType} with packetID {packetID} for {packetHandlersHolderType}");
                             packetHandlersByPacketID.Add(packetID, packetHandler);
                         }

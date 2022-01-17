@@ -58,5 +58,10 @@ namespace Refactor
         {
             return _packetHandlersByPacketID.ContainsKey(packetID);
         }
+
+        public void Dispose()
+        {
+            // TODO
+        }
     }
 }
