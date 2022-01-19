@@ -1,31 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class NetworkMonoBehaviour<T> : MonoBehaviour, IPacketReceivable<T> where T : ReadPacketBase
+namespace Refactor
 {
-    protected abstract IPacketHandlersHolder _packetHandlersHolder { get; }
-    protected abstract int _packetID { get; }
-
-    public abstract void ReceivePacket(T packet);
-
-    protected virtual void Awake()
+    public abstract class NetworkMonoBehaviour : MonoBehaviour
     {
-        SubscribeToPacketHandler();
-    }
+        [SerializeField] private NetworkRoomClientProvider _networkRoomClientProvider;
 
-    protected virtual void SubscribeToPacketHandler()
-    {
-        var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID(_packetID) as NetworkReadPacketHandler<T>;
-        packetHandler.SubscribeToPacketHandler(this);
-    }
+        protected INetworkClient _networkClient => _networkRoomClientProvider.NetworkRoomClient;
 
-    protected virtual void UnsubscribeFromPacketHandler()
-    {
-        var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID(_packetID) as NetworkReadPacketHandler<T>;
-        packetHandler.UnsubscribeFromPacketHandler(this);
-    }
-
-    protected virtual void OnDestroy()
-    {
-        UnsubscribeFromPacketHandler();
+#if UNITY_EDITOR
+        protected virtual void OnValidate()
+        {
+            if (_networkRoomClientProvider == null)
+            {
+                _networkRoomClientProvider = Resources.Load<NetworkRoomClientProvider>(nameof(NetworkRoomClientProvider));
+            }
+        }
+#endif
     }
 }

@@ -20,6 +20,7 @@ namespace Refactor
 
         protected virtual void SubscribeToPacketHandler()
         {
+            UnityEngine.Debug.Log("qwewqeqwe");
             var packetHandler = _packetHandlersHolder.GetPacketHandlerByPacketID(_packetID) as NetworkReadPacketHandler<T>;
             packetHandler.SubscribeToPacketHandler(this);
         }
