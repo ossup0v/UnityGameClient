@@ -12,16 +12,17 @@ public class NetworkClientHandler : MonoBehaviour
         var from = packet.ReadInt();
 
         Debug.Log($"Message from server {message}");
-        NetworkManager.Instance.ServerClient.MyId = myId;
-        NetworkManager.Instance.RoomClient.MyId = myId;
-        Debug.Log($"Welcome received, in packet {myId}");
-
-        if (from == 1)
+        
+        if (from == 1)//from server
         {
+            NetworkManager.Instance.ServerClient.MyId = myId;
+            NetworkManager.Instance.RoomClient.MyId = myId;
+            Debug.Log($"Welcome received, in packet {myId}");
+
             NetworkClientSendServer.WelcomeReceived();
             NetworkManager.Instance.ServerClient.Udp.Connect(((IPEndPoint)NetworkManager.Instance.ServerClient.Tcp.Socket.Client.LocalEndPoint).Port);
         }
-        else if (from == 2)
+        else if (from == 2)//from room
         {
             NetworkClientSendRoom.WelcomeReceived();
             NetworkManager.Instance.RoomClient.Udp.Connect(((IPEndPoint)NetworkManager.Instance.RoomClient.Tcp.Socket.Client.LocalEndPoint).Port);

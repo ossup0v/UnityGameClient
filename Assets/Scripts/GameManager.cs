@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public static Dictionary<int, ItemOnMapManager> ItemsOnMap = new Dictionary<int, ItemOnMapManager>();
     public static Dictionary<int, ProjectileManager> Proectiles = new Dictionary<int, ProjectileManager>();
 
-    public PlayerManager CurrentPlayer => Players[NetworkManager.Instance.ServerClient.MyId];
+    public PlayerManager CurrentPlayer => Players[NetworkManager.Instance.RoomClient.MyId];
     public static BotManager GetBot(Guid id)
     {
         Bots.TryGetValue(id, out var bot);

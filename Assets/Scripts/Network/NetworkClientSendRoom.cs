@@ -23,8 +23,6 @@ public class NetworkClientSendRoom
         using (var packet = new Packet((int)ToGameRoom.welcomeReceived))
         {
             packet.Write(NetworkManager.Instance.RoomClient.MyId);
-            packet.Write(NetworkManager.Instance.Username);
-            packet.Write(NetworkManager.Instance.Team);
 
             SendTCPData(packet);
         }

@@ -66,6 +66,7 @@ public enum ToGameRoom
 
     //server packets
     gameRoomData,
+    playersData
 }
 
 public enum ToServerFromClient
@@ -82,7 +83,9 @@ public enum ToServerFromClient
 
 public enum ToServerFromGameRoom
 {
-    gameRoomLaunched = 1
+    gameRoomLaunched = 1,
+    gameRoomReadyForConnectPlayers,
+    gameSessionEnded
 }
 
 public class Packet : IDisposable
