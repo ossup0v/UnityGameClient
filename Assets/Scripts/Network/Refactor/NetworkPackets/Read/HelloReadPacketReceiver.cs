@@ -14,6 +14,7 @@ namespace Refactor
 
         protected override void ReceivePacketMainThread(HelloReadPacket packet)
         {
+            _networkClientPacketsSender.SetClientID(packet.ClientID);
             Logger.WriteLog("", "received hello packet in main thread GUID " + packet.ClientID);
             PacketReceived?.Invoke();
         }

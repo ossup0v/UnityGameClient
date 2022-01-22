@@ -15,7 +15,7 @@ namespace Refactor
 
         [System.NonSerialized] private bool _connected;
 
-        protected INetworkClient _networkClient => _networkRoomClientProvider.NetworkRoomClient;
+        protected INetworkClient _networkClient => _networkRoomClientProvider.NetworkClient;
 
         public bool TryConnectAndEnterRoom()
         {
@@ -54,6 +54,7 @@ namespace Refactor
 
         private void GetClientCharacterData()
         {
+            Debug.Log("send");
             var getClientCharacterDataPacket = new GetClientCharacterDataWritePacket();
             _networkClient.NetworkClientPacketsSender.SendTCP(getClientCharacterDataPacket);
         }

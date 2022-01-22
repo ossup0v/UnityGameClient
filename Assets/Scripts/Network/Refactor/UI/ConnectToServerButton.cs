@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Refactor
 {
-    public class ConnectToServerButton : NetworkMonoBehaviour
+    public class ConnectToServerButton : MonoBehaviour
     {
         [SerializeField] private Button _connectToServerButton;
         [SerializeField] private ClientRoomEnterRoom _clientRoomEnterRoom;
@@ -28,9 +28,8 @@ namespace Refactor
             _connectToRoomWindow.gameObject.SetActive(false); // TODO: переделать на систему окон
         }
 #if UNITY_EDITOR
-        protected override void OnValidate()
+        protected void OnValidate()
         {
-            base.OnValidate();
             if (_connectToServerButton == null)
             {
                 _connectToServerButton = GetComponent<Button>();

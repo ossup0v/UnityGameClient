@@ -14,6 +14,6 @@ public class NetworkRoomClientIniter : MonoBehaviour
 
     private void OnDestroy()
     {
-        _networkRoomClientProvider.NetworkRoomClient.CloseConnection();
+        _networkRoomClientProvider.NetworkClient.CloseConnection();
     }
 }
