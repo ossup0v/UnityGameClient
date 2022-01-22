@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +7,8 @@ namespace Refactor
     public class ConnectToServerButton : NetworkMonoBehaviour
     {
         [SerializeField] private Button _connectToServerButton;
-        private HelloReadPacketReceiver _helloReadPacketReceiver; // TODO: убрать это отсюда
+        [SerializeField] private ClientRoomEnterRoom _clientRoomEnterRoom;
+        [SerializeField] private GameObject _connectToRoomWindow; // TODO: переделать
 
         private void Awake()
         {
@@ -18,28 +17,16 @@ namespace Refactor
 
         private void OnConnectToServerButtonClicked()
         {
-            var ip = "127.0.0.1"; // TODO: вынести в другой объект подключение
-            var port = 29000;
-            _helloReadPacketReceiver = new HelloReadPacketReceiver(_networkClient.NetworkClientPacketsSender, _networkClient.PacketHandlersHolder);
-            _networkClient.Connect(ip, port, OnConnectedToUDPServer, OnConnectedToTcpServer);
-
-            void OnConnectedToUDPServer()
+            if (_clientRoomEnterRoom.TryConnectAndEnterRoom())
             {
-
-            }
-
-            void OnConnectedToTcpServer()
-            {
-                var helloPacket = new HelloWritePacket();
-                _networkClient.NetworkClientPacketsSender.SendTCP(helloPacket);
+                _clientRoomEnterRoom.EnteredRoom += OnEnteredRoom;
             }
         }
 
-        private void OnDestroy()
+        private void OnEnteredRoom()
         {
-            _helloReadPacketReceiver.Dispose();
+            _connectToRoomWindow.gameObject.SetActive(false); // TODO: переделать на систему окон
         }
-
 #if UNITY_EDITOR
         protected override void OnValidate()
         {
